@@ -1,0 +1,9 @@
+npm init -y
+
+= front =
+npm install react redux react-redux
+npm install pg sequelize
+
+= backend =
+npm i express express-validator bcryptjs config gravatar jsonwebtoken sequelize request
+npm i -D nodemon
