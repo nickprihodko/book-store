@@ -6,4 +6,4 @@ npm install pg sequelize
 
 = backend =
 npm i express express-validator bcryptjs config gravatar jsonwebtoken sequelize request
-npm i -D nodemon
+npm i -D nodemon concurrently

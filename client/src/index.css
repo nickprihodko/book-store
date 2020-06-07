@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "Oxygen Regular";
+  font-weight: 400;
+  src: url("./assets/fonts/Oxygen-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Oxygen Bold";
+  font-weight: 700;
+  src: url("./assets/fonts/Oxygen-Bold.ttf") format("truetype");
+}
+
+body {
+  font-family: "Oxygen Regular";
+  font-size: 18px;
+  line-height: 24px;
+
+  background: url("./assets/img/bg-light.jpg") repeat top center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}

@@ -1,0 +1,6 @@
+{
+  "database": "bookstore",
+  "login": "postgres",
+  "password": "sys123",
+  "jwtSecret": "mySecretToken"
+}
