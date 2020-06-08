@@ -1,27 +1,7 @@
-import { ACTION_TYPES } from "../data/types";
+import { combineReducers } from "redux";
+import alert from "./alert";
+import books from "./books";
+import auth from "./auth";
+import profile from "./profile";
 
-const initialState = {
-  books: [],
-  loading: true,
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ACTION_TYPES.booksRequested:
-      return {
-        books: [],
-        loading: true,
-      };
-
-    case ACTION_TYPES.booksLoaded:
-      return {
-        books: action.payload,
-        loading: false,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export default reducer;
+export default combineReducers({ alert, books, auth, profile });
