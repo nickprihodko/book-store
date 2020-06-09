@@ -37,7 +37,7 @@ const RegisterPage = ({ setAlert, register, isAuthenticated }) => {
     // learn more RegExp
     const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     if (!emailValid) {
-      setAlert("Please include a valid email");
+      setAlert("Please include a valid email", "danger");
       isValid = false;
     }
 
@@ -70,40 +70,40 @@ const RegisterPage = ({ setAlert, register, isAuthenticated }) => {
 
   return (
     <Container>
-      <Headline title={"Sign Up"} />
-      <p className="register__title">Create Your Account</p>
+      <Headline title="Sign Up" />
+      <p>Create Your Account</p>
       <Form onSubmit={(e) => onSubmit(e)}>
         <Input
-          placeholder={"Name"}
-          name={"name"}
+          placeholder="Name"
+          name="name"
           value={name}
           onChange={(e) => onChange(e)}
           autoFocus
         />
         <Input
-          placeholder={"Email Address"}
-          name={"email"}
+          placeholder="Email Address"
+          name="email"
           value={email}
           onChange={(e) => onChange(e)}
         />
         <Input
-          type={"password"}
-          placeholder={"Password"}
-          name={"password"}
+          type="password"
+          placeholder="Password"
+          name="password"
           value={password}
           onChange={(e) => onChange(e)}
         />
         <Input
-          type={"password"}
-          placeholder={"Confirm Password"}
-          name={"password2"}
+          type="password"
+          placeholder="Confirm Password"
+          name="password2"
           value={password2}
           onChange={(e) => onChange(e)}
         />
 
-        <Button type={"submit"} value={"Register"} />
+        <Button type="submit" value="Register" />
       </Form>
-      <p className="register__signin">
+      <p>
         Already have an account?{" "}
         <RouteStyledLink to={"/login"} value={"Sign In"} />
       </p>

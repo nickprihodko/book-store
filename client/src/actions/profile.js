@@ -5,7 +5,7 @@ import { ACTION_TYPES } from "./types";
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/profile"); // me ???
+    const res = await axios.get("/api/profile");
 
     dispatch({
       type: ACTION_TYPES.getProfile,

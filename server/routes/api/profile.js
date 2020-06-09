@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
+
 const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../models/Profile");
-const User = require("../../models/User");
 
 // @route GET api/profile/me
 // @desc Get current users profile
@@ -13,9 +13,8 @@ const User = require("../../models/User");
 router.get("/", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user_id,
       where: {
-        user_id,
+        user_id: req.user.id,
       },
     });
 
@@ -25,7 +24,6 @@ router.get("/", auth, async (req, res) => {
 
     res.json(profile);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send("Server error");
   }
 });

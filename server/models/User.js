@@ -25,10 +25,6 @@ const User = sequelize.define("users", {
     allowNull: false,
   },
 
-  avatar: {
-    type: Sequelize.STRING,
-  },
-
   date: {
     type: Sequelize.DATE,
   },

@@ -57,27 +57,28 @@ const LoginPage = ({ login, isAuthenticated, setAlert }) => {
 
   return (
     <Container>
-      <Headline title={"Sign In"} />
-      <p className="login__title">Sign into Your Account</p>
+      <Headline title="Sign In" as="h2" />
+      <p>Sign into Your Account</p>
       <Form onSubmit={(e) => onSubmit(e)}>
         <Input
-          placeholder={"Email Address"}
-          name={"email"}
+          placeholder="Email Address"
+          name="email"
           value={email}
           onChange={(e) => onChange(e)}
           autoFocus
         />
         <Input
-          placeholder={"Password"}
-          name={"password"}
+          type="password"
+          placeholder="Password"
+          name="password"
           value={password}
           onChange={(e) => onChange(e)}
         />
-        <Button type={"submit"} value={"Login"} />
+        <Button type="submit" value="Login" />
       </Form>
-      <p className="login__signup">
+      <p>
         Don't have an account?{" "}
-        <RouteStyledLink to={"/register"} value={"Sign Up"} />
+        <RouteStyledLink to="/register" value="Sign Up" />
       </p>
     </Container>
   );

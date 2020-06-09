@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 import { getCurrentProfile } from "../actions/profile";
 
-const ProfilePage = ({ getCurrentProfile, auth, profile }) => {
+const ProfilePage = ({ getCurrentProfile }) => {
   useEffect(() => {
     getCurrentProfile();
-  });
+  }, []);
 
   return <div>Profile</div>;
 };

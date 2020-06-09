@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Headline = ({ title }) => {
-  return <StyledHeader>{title}</StyledHeader>;
+const Headline = ({ title, as }) => {
+  return <StyledHeader as={as}>{title}</StyledHeader>;
 };
 
 const StyledHeader = styled.h1`
