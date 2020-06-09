@@ -22,6 +22,7 @@ export default function (state = initialState, action) {
     case ACTION_TYPES.registerSuccess:
     case ACTION_TYPES.loginSuccess:
       localStorage.setItem("token", payload.token);
+      // learn more
       return { ...state, ...payload, isAuthenticated: true, loading: false };
 
     case ACTION_TYPES.authError:

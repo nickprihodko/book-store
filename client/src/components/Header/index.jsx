@@ -2,26 +2,26 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { logout } from "../../actions/auth";
 
-import "./header.css";
 import logo from "../../assets/img/logo.png";
 
 const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul className="navigation__list">
-      <li className="navigation__item">
+      <li>
         <Link to="/favourites">
           <div className="navigation__link">Favourites</div>
         </Link>
       </li>
-      <li className="navigation__item">
+      <li>
         <Link to="/profile">
           <div className="navigation__link">User</div>
         </Link>
       </li>
-      <li className="navigation__item">
+      <li>
         <a href="#!" onClick={logout}>
           <div className="navigation__link">Logout</div>
         </a>
@@ -31,12 +31,12 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const guestLinks = (
     <ul className="navigation__list">
-      <li className="navigation__item">
+      <li>
         <Link to="/register">
           <div className="navigation__link">Register</div>
         </Link>
       </li>
-      <li className="navigation__item">
+      <li>
         <Link to="login">
           <div className="navigation__link">Log in</div>
         </Link>
@@ -45,27 +45,85 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <header className="header">
+    <HeaderContainer>
       <Link to="/">
-        <div className="header__logo-link">
-          <img
-            className="header__logo"
-            src={logo}
-            alt="Logotype of book store"
-            width="50"
-            height="50"
-          />
-        </div>
+        <img
+          className="header__logo"
+          src={logo}
+          alt="Logotype of Book Store"
+          width="50"
+          height="50"
+        />
       </Link>
       <span className="header__description">Book store</span>
-      <nav className="navigation">
+      <Nav className="navigation">
         {!loading && (
           <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
         )}
-      </nav>
-    </header>
+      </Nav>
+    </HeaderContainer>
   );
 };
+
+const HeaderContainer = styled.header`
+  display: flex;
+  align-items: center;
+  height: 60px;
+
+  color: #ffffff;
+
+  background-color: #1a237e;
+  border-radius: 4px;
+
+  .header {
+    &__logo-link {
+      padding: 0 10px;
+    }
+
+    &__logo {
+      padding: 0 10px;
+
+      vertical-align: middle;
+    }
+
+    &__description {
+      font-family: "Oxygen Bold";
+      font-size: 28px;
+      color: #ffffff;
+    }
+  }
+`;
+
+const Nav = styled.nav`
+  margin-left: auto;
+
+  .navigation {
+    &__list {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__link {
+      padding: 18px 10px;
+
+      font-family: "Oxygen Bold";
+      font-size: 20px;
+      color: #ffffff;
+
+      border-radius: 4px;
+
+      &:hover,
+      &:focus {
+        background-color: #303f9f;
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      &:active {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+`;
 
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
@@ -76,4 +134,5 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
+// learn more {logout}
 export default connect(mapStateToProps, { logout })(Header);

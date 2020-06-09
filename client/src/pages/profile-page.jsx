@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getCurrentProfile } from "../../actions/profile";
+import { getCurrentProfile } from "../actions/profile";
 
 const ProfilePage = ({ getCurrentProfile, auth, profile }) => {
   useEffect(() => {

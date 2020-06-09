@@ -7,7 +7,9 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case ACTION_TYPES.booksRequested:
       return {
         books: [],
@@ -17,7 +19,7 @@ export default function (state = initialState, action) {
 
     case ACTION_TYPES.booksLoaded:
       return {
-        books: action.payload,
+        books: payload,
         loading: false,
         error: null,
       };
@@ -26,7 +28,7 @@ export default function (state = initialState, action) {
       return {
         books: [],
         loading: false,
-        error: action.payload,
+        error: payload,
       };
 
     default:

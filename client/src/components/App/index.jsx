@@ -13,13 +13,14 @@ import {
   RegisterPage,
   BookPage,
   FavouritesPage,
-} from "../pages";
+  ProfilePage,
+} from "../../pages";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const App = (props) => {
+const App = () => {
   // learn more
   useEffect(() => {
     store.dispatch(loadUser());
@@ -30,9 +31,10 @@ const App = (props) => {
       <Alert />
       <Switch>
         <Route path="/" component={HomePage} exact></Route>
+        <Route path="/book" component={BookPage}></Route>
         <Route path="/login" component={LoginPage}></Route>
         <Route path="/register" component={RegisterPage}></Route>
-        <Route path="/book" component={BookPage}></Route>
+        <PrivateRoute path="/profile" component={ProfilePage}></PrivateRoute>
         <PrivateRoute
           path="/favourites"
           component={FavouritesPage}

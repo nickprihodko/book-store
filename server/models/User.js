@@ -1,15 +1,7 @@
+const sequelize = require("../config/db");
 const Sequelize = require("sequelize");
 
-const sequelizeUser = new Sequelize("bookstore", "postgres", "sys123", {
-  dialect: "postgres",
-  host: "localhost",
-  scheme: "bookstore",
-  define: {
-    timestamps: false,
-  },
-});
-
-const User = sequelizeUser.define("users", {
+const User = sequelize.define("users", {
   id: {
     type: Sequelize.BIGINT,
     autoIncrement: true,
@@ -41,12 +33,5 @@ const User = sequelizeUser.define("users", {
     type: Sequelize.DATE,
   },
 });
-
-sequelizeUser
-  .sync()
-  .then((result) => {
-    // console.log(result);
-  })
-  .catch((err) => console.log(err));
 
 module.exports = User;

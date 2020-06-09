@@ -14,9 +14,4 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize.sequelize
-  .sync()
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => console.log(err));
+module.exports = sequelize;
