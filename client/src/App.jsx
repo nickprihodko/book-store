@@ -1,11 +1,14 @@
 import React, { useEffect, Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
-import store from "../../store";
 
-import Alert from "../Alert";
-import setAuthToken from "../../utils/setAuthToken";
-import { loadUser } from "../../actions/auth";
-import PrivateRoute from "../routing/PrivateRoute";
+import store from "./store";
+
+import { loadUser } from "./actions/auth";
+
+import Alert from "./components/Alert";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 import {
   HomePage,
@@ -14,21 +17,20 @@ import {
   BookPage,
   FavouritesPage,
   ProfilePage,
-} from "../../pages";
-
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
+} from "./pages";
 
 const App = () => {
   // learn more
   useEffect(() => {
-    store.dispatch(loadUser());
+    if (localStorage.token) {
+      store.dispatch(loadUser());
+    }
   }, []); // run once
 
   return (
     <Fragment>
       <Alert />
+      <Header />
       <Switch>
         <Route path="/" component={HomePage} exact></Route>
         <Route path="/book" component={BookPage}></Route>
@@ -40,6 +42,7 @@ const App = () => {
           component={FavouritesPage}
         ></PrivateRoute>
       </Switch>
+      <Footer />
     </Fragment>
   );
 };

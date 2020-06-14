@@ -2,47 +2,19 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 
-const { check, validationResult } = require("express-validator");
+const {
+  getProfile,
+  createProfile,
+} = require("../../controllers/profileController");
 
-const Profile = require("../../models/Profile");
-
-// @route GET api/profile/me
+// @route GET api/profile
 // @desc Get current users profile
 // @access Private
-
-router.get("/", auth, async (req, res) => {
-  try {
-    const profile = await Profile.findOne({
-      where: {
-        user_id: req.user.id,
-      },
-    });
-
-    if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
-    }
-
-    res.json(profile);
-  } catch (err) {
-    res.status(500).send("Server error");
-  }
-});
+router.get("/", auth, getProfile);
 
 // @route POST api/profile
 // @desc Create or update user profile
 // @access Private
-router.post(
-  "/",
-  [auth, [check("status", "Status is required").not().isEmpty()]],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { avatar, about } = req.body;
-    // Build profile object
-  }
-);
+router.post("/", auth, createProfile);
 
 module.exports = router;

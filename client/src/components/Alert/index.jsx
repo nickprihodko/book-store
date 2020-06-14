@@ -6,10 +6,8 @@ import styled from "styled-components";
 const Alert = ({ alerts }) => {
   if (alerts !== null && alerts.length > 0) {
     return alerts.map((alert) => (
-      <AlertWrapper>
-        <div key={alert.id} className={`alert alert--${alert.alertType}`}>
-          {alert.msg}
-        </div>
+      <AlertWrapper key={alert.id}>
+        <div className={`alert alert--${alert.alertType}`}>{alert.msg}</div>
       </AlertWrapper>
     ));
   }

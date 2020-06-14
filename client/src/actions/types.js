@@ -16,4 +16,7 @@ export const ACTION_TYPES = {
 
   getProfile: "GET_PROFILE/Profile",
   profileError: "PROFILE_ERROR/Profile",
+  clearProfile: "PROFILE_CLEAR/Profile",
+  createProfile: "CREATE_PROFILE/Profile",
+  updateProfile: "UPDATE_PROFILE/Profile",
 };

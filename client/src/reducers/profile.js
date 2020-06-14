@@ -2,9 +2,7 @@ import { ACTION_TYPES } from "../actions/types";
 
 const initialState = {
   profile: null,
-  profiles: [],
-  repos: [],
-  loading: true,
+  loading: false,
   error: {},
 };
 
@@ -16,7 +14,10 @@ export default function (state = initialState, action) {
       return { ...state, profile: payload, loading: false };
 
     case ACTION_TYPES.profileError:
-      return { ...state, error: payload, loading: false };
+      return { ...state, error: payload, loading: true };
+
+    case ACTION_TYPES.clearProfile:
+      return { ...state, profile: null, loading: false };
 
     default:
       return state;

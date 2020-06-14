@@ -59,12 +59,12 @@ const LoginPage = ({ login, isAuthenticated, setAlert }) => {
     <Container>
       <Headline title="Sign In" as="h2" />
       <p>Sign into Your Account</p>
-      <Form onSubmit={(e) => onSubmit(e)}>
+      <Form onSubmit={onSubmit}>
         <Input
           placeholder="Email Address"
           name="email"
           value={email}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           autoFocus
         />
         <Input
@@ -72,9 +72,9 @@ const LoginPage = ({ login, isAuthenticated, setAlert }) => {
           placeholder="Password"
           name="password"
           value={password}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
         />
-        <Button type="submit" value="Login" />
+        <Button type="submit">Login</Button>
       </Form>
       <p>
         Don't have an account?{" "}

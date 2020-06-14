@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Button = ({ type, value }) => {
+const Button = ({ type, children }) => {
   return (
-    <StyledButton type={type} value={value}>
-      <span>{value}</span>
+    <StyledButton type={type}>
+      <span>{children}</span>
     </StyledButton>
   );
 };
@@ -45,7 +45,6 @@ Button.defaultProps = {
 
 Button.propTypes = {
   type: PropTypes.string,
-  value: PropTypes.string.isRequired,
 };
 
 export default Button;

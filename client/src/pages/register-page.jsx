@@ -72,36 +72,36 @@ const RegisterPage = ({ setAlert, register, isAuthenticated }) => {
     <Container>
       <Headline title="Sign Up" />
       <p>Create Your Account</p>
-      <Form onSubmit={(e) => onSubmit(e)}>
+      <Form onSubmit={onSubmit}>
         <Input
           placeholder="Name"
           name="name"
           value={name}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           autoFocus
         />
         <Input
           placeholder="Email Address"
           name="email"
           value={email}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
         />
         <Input
           type="password"
           placeholder="Password"
           name="password"
           value={password}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
         />
         <Input
           type="password"
           placeholder="Confirm Password"
           name="password2"
           value={password2}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
         />
 
-        <Button type="submit" value="Register" />
+        <Button type="submit">Register</Button>
       </Form>
       <p>
         Already have an account?{" "}

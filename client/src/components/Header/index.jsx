@@ -22,9 +22,9 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </li>
       <li>
-        <a href="#!" onClick={logout}>
+        <Link to="/" onClick={logout}>
           <div className="navigation__link">Logout</div>
-        </a>
+        </Link>
       </li>
     </ul>
   );
@@ -57,9 +57,7 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
       </Link>
       <span className="header__description">Book store</span>
       <Nav className="navigation">
-        {!loading && (
-          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-        )}
+        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       </Nav>
     </HeaderContainer>
   );
@@ -68,6 +66,7 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
+  margin: 10px;
   height: 60px;
 
   color: #ffffff;
