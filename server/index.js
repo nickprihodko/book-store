@@ -9,6 +9,9 @@ app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("API Running"));
 
 // Define routes
+app.use("/api/posts", require("./routes/api/posts"));
+app.use("/api/categories", require("./routes/api/categories"));
+app.use("/api/book", require("./routes/api/book"));
 app.use("/api/books", require("./routes/api/books"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));

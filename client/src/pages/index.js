@@ -1,7 +1,8 @@
-import HomePage from "./home-page";
-import LoginPage from "./login-page";
-import RegisterPage from "./register-page";
-import BookPage from "./book-page";
+import HomePage from "./Home";
+import LoginPage from "./Login";
+import RegisterPage from "./Register";
+import BookPage from "./Book";
+import BookAdd from "./BookAdd";
 import FavouritesPage from "./favourites-page";
 import ProfilePage from "./Profile";
 
@@ -10,6 +11,7 @@ export {
   LoginPage,
   RegisterPage,
   BookPage,
+  BookAdd,
   FavouritesPage,
   ProfilePage,
 };

@@ -1,8 +1,4 @@
 export const ACTION_TYPES = {
-  booksLoaded: "FETCH_BOOKS_SUCCESS/Books",
-  booksRequested: "FETCH_BOOKS_REQUEST/Books",
-  booksError: "FETCH_BOOKS_FAILURE/Books",
-
   setAlert: "SET_ALERT/Alerts",
   removeAlert: "REMOVE_ALERT/Alerts",
 
@@ -19,4 +15,22 @@ export const ACTION_TYPES = {
   clearProfile: "PROFILE_CLEAR/Profile",
   createProfile: "CREATE_PROFILE/Profile",
   updateProfile: "UPDATE_PROFILE/Profile",
+
+  booksLoaded: "FETCH_BOOKS_SUCCESS/Books",
+  booksRequested: "FETCH_BOOKS_REQUEST/Books",
+  booksError: "FETCH_BOOKS_FAILURE/Books",
+
+  bookRequest: "FETCH_BOOK_REQUEST/Books",
+  bookLoaded: "FETCH_BOOK_LOADED/Books",
+  bookError: "FETCH_BOOK_ERROR/Books",
+
+  setSort: "SET_SORT/Books",
+  setCategory: "SET_CATEGORY/Books",
+  loadCategories: "FETCH_CATEGORIES/Books",
+
+  postsRequest: "FETCH_POST_REQUEST/Posts",
+  postsLoaded: "FETCH_POSTS/Posts",
+  postError: "POST_ERROR/Posts",
+  addPost: "ADD_POST/ Posts",
+  deletePost: "DELETE_POST/Posts",
 };

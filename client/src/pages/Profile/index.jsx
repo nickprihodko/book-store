@@ -1,35 +1,44 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { getCurrentProfile } from "../../actions/profile";
 import { createProfile } from "../../actions/profile";
 
+import Container from "../../components/UI/Container";
+import Headline from "../../components/UI/Headline";
 import Spinner from "../../components/Spinner";
-
-import Form from "./components/ProfileForm";
+import ProfileForm from "./components/ProfileForm";
 
 const ProfilePage = ({
   getCurrentProfile,
   createProfile,
   auth: { user },
-  profile: { profile, loading },
+  profile: { profile },
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
-  const handleSubmit = (data) => {
+  const onProfileSubmit = (data) => {
     createProfile(data);
   };
 
-  // here is problem
   return profile === null ? (
     <Spinner />
   ) : (
-    <Form profile={profile} onSubmit={handleSubmit} user={user} />
+    <Container>
+      <Headline title="User Profile" as="h2" />
+      <Paragraph>Welcome, {user && user.name}!</Paragraph>
+      <ProfileForm onSubmit={onProfileSubmit} profile={profile} />
+    </Container>
   );
 };
+
+const Paragraph = styled.p`
+  text-align: center;
+`;
 
 ProfilePage.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,

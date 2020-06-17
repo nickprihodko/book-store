@@ -1,28 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import bookCover from "../../assets/img/garry.jpg";
+import bookCover from "../../../../assets/img/garry.jpg";
 
-const BookListItem = ({ children }) => {
+const BookListItem = ({ book }) => {
+  const { id, title, author, price, rate } = book;
+
   return (
     <Item>
-      <a href="">
+      <Rating>{rate}</Rating>
+      <BookLink to={`/book/${id}`}>
         <Image src={bookCover} alt="" width="165" height="185" />
         <Info>
-          <Title>{children}</Title>
-          <Author>Joanne Rowling</Author>
+          <Title>{title}</Title>
+          <Author>{author}</Author>
         </Info>
-      </a>
-      <Price>10.25$</Price>
+      </BookLink>
+      <Price>{price} $</Price>
     </Item>
   );
 };
 
 const Item = styled.li`
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   padding: 20px;
+  width: 230px;
+  height: 360px;
   box-sizing: border-box;
 
   background-color: #ffffff;
@@ -35,8 +43,31 @@ const Item = styled.li`
   }
 `;
 
+const BookLink = styled(Link)`
+  flex-grow: 1;
+`;
+
+const Rating = styled.span`
+  position: absolute;
+  top: 25px;
+  left: 25px;
+
+  display: block;
+  width: 30px;
+  height: 30px;
+
+  font-family: "Oxygen Bold";
+  font-size: 13px;
+  line-height: 30px;
+  text-align: center;
+  color: #ffd740;
+
+  background-color: #7986cb;
+  border-radius: 50%;
+`;
+
 const Image = styled.img`
-  margin-botom: 10px;
+  margin-bottom: 10px;
 `;
 
 const Info = styled.h3`

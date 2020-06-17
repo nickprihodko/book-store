@@ -1,4 +1,5 @@
 import React, { useEffect, Fragment } from "react";
+
 import { Route, Switch } from "react-router-dom";
 
 import store from "./store";
@@ -15,6 +16,7 @@ import {
   LoginPage,
   RegisterPage,
   BookPage,
+  BookAdd,
   FavouritesPage,
   ProfilePage,
 } from "./pages";
@@ -32,8 +34,9 @@ const App = () => {
       <Alert />
       <Header />
       <Switch>
-        <Route path="/" component={HomePage} exact></Route>
-        <Route path="/book" component={BookPage}></Route>
+        <Route path="/" component={HomePage} exact />
+        <Route path="/book/:id" component={BookPage}></Route>
+        {/* <Route path="/addbook" component={BookAdd}></Route> */}
         <Route path="/login" component={LoginPage}></Route>
         <Route path="/register" component={RegisterPage}></Route>
         <PrivateRoute path="/profile" component={ProfilePage}></PrivateRoute>

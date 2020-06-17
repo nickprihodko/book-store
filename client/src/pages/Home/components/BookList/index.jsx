@@ -3,19 +3,19 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { booksLoaded } from "../../actions/books";
+import { booksLoaded } from "../../../../actions/books";
 
 import BookListItem from "../BookListItem";
 
-const BookList = ({ books, booksLoaded }) => {
+const BookList = ({ books, filter, booksLoaded }) => {
   useEffect(() => {
-    booksLoaded();
-  }, []);
+    booksLoaded(filter);
+  }, [booksLoaded, filter]);
 
   return (
     <List>
       {books.map((book) => {
-        return <BookListItem key={book.id}>{book.title}</BookListItem>;
+        return <BookListItem key={book.id} book={book}></BookListItem>;
       })}
     </List>
   );
@@ -33,6 +33,7 @@ BookList.propTypes = {
 
 const mapStateToProps = ({ books }) => ({
   books: books.books,
+  filter: books.filter,
 });
 
 export default connect(mapStateToProps, { booksLoaded })(BookList);

@@ -33,6 +33,28 @@ module.exports = {
         comment: "description",
       },
 
+      rate: {
+        type: Sequelize.FLOAT,
+        comment: "books's rating",
+      },
+
+      fragment: {
+        type: Sequelize.TEXT,
+        comment: "fragment of a book",
+      },
+
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: "categories.id",
+        references: {
+          model: {
+            tableName: "books",
+          },
+          key: "id",
+        },
+      },
+
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),

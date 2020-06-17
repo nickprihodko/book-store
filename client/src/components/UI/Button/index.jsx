@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Button = ({ type, children }) => {
+const Button = ({ type, children, ...props }) => {
   return (
-    <StyledButton type={type}>
+    <StyledButton type={type} {...props}>
+      <span></span>
       <span>{children}</span>
     </StyledButton>
   );

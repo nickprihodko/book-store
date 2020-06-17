@@ -32,6 +32,16 @@ const Book = sequelize.define("books", {
     comment: "description",
   },
 
+  rate: {
+    type: Sequelize.FLOAT,
+    comment: "book's rating",
+  },
+
+  fragment: {
+    type: Sequelize.TEXT,
+    comment: "fragment of a book",
+  },
+
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.fn("now"),
