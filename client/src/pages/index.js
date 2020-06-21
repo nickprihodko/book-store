@@ -4,7 +4,7 @@ import RegisterPage from "./Register";
 import BookPage from "./Book";
 import BookAdd from "./BookAdd";
 import FavouritesPage from "./favourites-page";
-import ProfilePage from "./Profile";
+import UserPage from "./User";
 
 export {
   HomePage,
@@ -13,5 +13,5 @@ export {
   BookPage,
   BookAdd,
   FavouritesPage,
-  ProfilePage,
+  UserPage,
 };

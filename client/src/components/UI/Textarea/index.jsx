@@ -4,6 +4,7 @@ const Textarea = styled.textarea`
   padding: 0 10px;
   width: 100%;
   height: 80px;
+  margin-bottom: 10px;
   padding: 10px;
   box-sizing: border-box;
 

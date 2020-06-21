@@ -4,32 +4,34 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("categories", [
       {
-        name: "Suspense",
+        name: "---",
       },
       {
-        name: "Fantasy",
+        name: "Action and adventure",
       },
       {
         name: "Classic ",
       },
       {
-        name: "Western",
+        name: "Comic Book",
       },
       {
         name: "Crime",
       },
       {
-        name: "Poetry",
+        name: "Fantasy",
       },
-
       {
-        name: "Comic Book",
+        name: "Poetry",
       },
       {
         name: "Science fiction",
       },
       {
-        name: "Action and adventure",
+        name: "Suspense",
+      },
+      {
+        name: "Western",
       },
     ]);
   },

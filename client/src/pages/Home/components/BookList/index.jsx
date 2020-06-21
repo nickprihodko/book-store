@@ -7,10 +7,10 @@ import { booksLoaded } from "../../../../actions/books";
 
 import BookListItem from "../BookListItem";
 
-const BookList = ({ books, filter, booksLoaded }) => {
+const BookList = ({ queryParams, books, booksLoaded }) => {
   useEffect(() => {
-    booksLoaded(filter);
-  }, [booksLoaded, filter]);
+    booksLoaded(queryParams);
+  }, [booksLoaded, queryParams]);
 
   return (
     <List>
@@ -28,12 +28,13 @@ const List = styled.ul`
 `;
 
 BookList.propTypes = {
+  queryParams: PropTypes.string,
   books: PropTypes.array,
+  booksLoaded: PropTypes.func,
 };
 
 const mapStateToProps = ({ books }) => ({
-  books: books.books,
-  filter: books.filter,
+  books: books.data,
 });
 
 export default connect(mapStateToProps, { booksLoaded })(BookList);

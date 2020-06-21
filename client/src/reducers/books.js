@@ -1,13 +1,10 @@
 import { ACTION_TYPES } from "../actions/types";
 
 const initialState = {
-  books: [],
+  data: [],
   loading: true,
   error: null,
   categories: [],
-  filter: { sort: "", category: null },
-
-  // sort: "",
 };
 
 export default function (state = initialState, action) {
@@ -17,28 +14,24 @@ export default function (state = initialState, action) {
     case ACTION_TYPES.booksRequested:
       return {
         ...state,
-        books: [],
+        data: [],
         loading: true,
         error: null,
       };
 
     case ACTION_TYPES.booksLoaded:
-      return { ...state, books: payload, loading: false, error: null };
+      return { ...state, data: payload, loading: false, error: null };
 
     case ACTION_TYPES.booksError:
       return {
         ...state,
-        books: [],
+        data: [],
         loading: false,
         error: payload,
       };
 
-    // filter
-    case ACTION_TYPES.setSort:
-      return { ...state, filter: { ...state.filter, sort: payload } };
-
-    case ACTION_TYPES.setCategory:
-      return { ...state, filter: { ...state.filter, category: payload } };
+    case ACTION_TYPES.addBook:
+      return { ...state, data: [...state.data, payload] };
 
     case ACTION_TYPES.loadCategories:
       return {

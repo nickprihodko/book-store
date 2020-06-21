@@ -8,7 +8,7 @@ import { setAlert } from "../../../../actions/alert";
 import Input from "../../../../components/UI/Input";
 import Button from "../../../../components/UI/Button";
 
-const RegisterForm = ({ setAlert, onSubmit }) => {
+const RegisterForm = ({ onSubmit, setAlert }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -88,19 +88,20 @@ const RegisterForm = ({ setAlert, onSubmit }) => {
         onChange={handleChange}
       />
 
-      <Button type="submit" name="register">
-        Register
-      </Button>
+      <Button type="submit">Register</Button>
     </Form>
   );
 };
 
 const Form = styled.form`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  setAlert: PropTypes.func,
 };
 
 export default connect(null, { setAlert })(RegisterForm);

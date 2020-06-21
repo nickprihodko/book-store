@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import bookCover from "../../../../assets/img/garry.jpg";
@@ -27,10 +28,10 @@ const Item = styled.li`
 
   display: flex;
   flex-direction: column;
-  margin-bottom: 25px;
+  margin-right: 15px;
+  margin-bottom: 15px;
   padding: 20px;
-  width: 230px;
-  height: 360px;
+  width: 220px;
   box-sizing: border-box;
 
   background-color: #ffffff;
@@ -45,6 +46,8 @@ const Item = styled.li`
 
 const BookLink = styled(Link)`
   flex-grow: 1;
+
+  text-align: center;
 `;
 
 const Rating = styled.span`
@@ -74,6 +77,8 @@ const Info = styled.h3`
   margin-bottom: 10px;
   padding-left: 5px;
   width: 205px;
+
+  text-align: left;
 `;
 
 const Title = styled.span`
@@ -97,5 +102,9 @@ const Price = styled.span`
   font-family: "Oxygen Bold";
   font-size: 20px;
 `;
+
+BookListItem.propTypes = {
+  book: PropTypes.object.isRequired,
+};
 
 export default BookListItem;

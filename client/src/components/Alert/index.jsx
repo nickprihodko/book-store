@@ -14,14 +14,6 @@ const Alert = ({ alerts }) => {
   return null;
 };
 
-Alert.propTypes = {
-  alerts: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  alerts: state.alert,
-});
-
 const AlertWrapper = styled.div`
   .alert {
     margin-bottom: 10px;
@@ -36,9 +28,24 @@ const AlertWrapper = styled.div`
 
     &--danger {
       color: #b71c1c;
+
       background-color: #ef9a9a;
+    }
+
+    &--success {
+      color: #1b5e20;
+
+      background-color: #a5d6a7;
     }
   }
 `;
+
+Alert.propTypes = {
+  alerts: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  alerts: state.alert,
+});
 
 export default connect(mapStateToProps)(Alert);

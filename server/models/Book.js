@@ -1,6 +1,8 @@
 const sequelize = require("../config/db");
 const Sequelize = require("sequelize");
 
+const Category = require("../models/Category");
+
 const Book = sequelize.define("books", {
   id: {
     type: Sequelize.BIGINT,
@@ -52,5 +54,7 @@ const Book = sequelize.define("books", {
     defaultValue: Sequelize.fn("now"),
   },
 });
+
+Book.belongsTo(Category);
 
 module.exports = Book;

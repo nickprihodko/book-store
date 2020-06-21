@@ -30,6 +30,16 @@ module.exports = {
         comment: "password",
       },
 
+      avatar: {
+        type: Sequelize.STRING,
+        comment: "user's avatar",
+      },
+
+      about: {
+        type: Sequelize.TEXT,
+        comment: "about",
+      },
+
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),

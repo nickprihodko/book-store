@@ -1,33 +1,44 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import Rating from "react-rating-stars-component";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { loadBook } from "../../actions/books";
-import { createPost } from "../../actions/post";
+import { createReview } from "../../actions/reviews";
 
-import AddPost from "./components/AddPost";
-import Posts from "./components/Posts";
+import AddReview from "./components/AddReview";
+import Reviews from "./components/Reviews";
 
 import BookCover from "../../assets/img/garry.jpg";
 
-const BookPage = ({ loading, book, loadBook, createPost }) => {
+const BookPage = ({
+  loading,
+  book,
+  loadBook,
+  createReview,
+  isAuthenticated,
+}) => {
   const { id } = useParams();
 
   const { title, author, rate, price, description, fragment } = book;
 
   useEffect(() => {
     loadBook(id);
-  }, []);
+  }, [loadBook, id]);
 
   const onSubmit = (data) => {
-    const newPost = {
-      post: data,
+    const newReview = {
+      review: data,
       bookid: id,
     };
 
-    createPost(newPost);
+    createReview(newReview);
+  };
+
+  const setRating = (rate) => {
+    console.log(rate);
   };
 
   return loading ? (
@@ -51,11 +62,15 @@ const BookPage = ({ loading, book, loadBook, createPost }) => {
       </ImageList>
       <BookInfo>
         <RateContainer>
-          <RateView>
-            <span>RATE</span>
-            <span>{rate}</span>
-          </RateView>
-          <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <RateView title="book rating">{rate}</RateView>
+          {isAuthenticated ? (
+            <StyledRating
+              size={30}
+              onChange={(newRating) => {
+                setRating(newRating);
+              }}
+            />
+          ) : null}
         </RateContainer>
         <BookTitle>{title}</BookTitle>
         <BookAuthor>{author}</BookAuthor>
@@ -64,11 +79,15 @@ const BookPage = ({ loading, book, loadBook, createPost }) => {
       </BookInfo>
       <BookFragment>{fragment}</BookFragment>
 
-      <AddPost onSubmit={onSubmit}></AddPost>
-      <Posts bookId={+id}></Posts>
+      {isAuthenticated ? <AddReview onSubmit={onSubmit}></AddReview> : null}
+      <Reviews bookId={+id}></Reviews>
     </BookSection>
   );
 };
+
+const StyledRating = styled(Rating)`
+  outline: none;
+`;
 
 const BookSection = styled.section`
   display: flex;
@@ -100,25 +119,23 @@ const BookInfo = styled.div`
 
 const RateContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 `;
 
 const RateView = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-right: 10px;
   padding: 10px;
 
   font-family: "Oxygen Bold";
-  font-size: 13px;
+  font-size: 15px;
   line-height: 18px;
   text-align: center;
   color: #ffd740;
 
-  background-color: #7986cb;
-  border: 2px solid #ffd740;
+  background-color: #1a237e;
+
+  border: 1px solid #ffffff;
   border-radius: 4px;
 `;
 
@@ -154,16 +171,17 @@ const BookFragment = styled.div`
   text-indent: 10px;
 `;
 
-const mapStateToProps = ({ book }) => ({
-  loading: book.loading,
-  book: book.book,
-});
-
 BookPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   book: PropTypes.object.isRequired,
   loadBook: PropTypes.func.isRequired,
-  createPost: PropTypes.func.isRequired,
+  createReview: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { loadBook, createPost })(BookPage);
+const mapStateToProps = ({ book, auth }) => ({
+  loading: book.loading,
+  book: book.book,
+  isAuthenticated: auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { loadBook, createReview })(BookPage);

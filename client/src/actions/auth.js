@@ -1,28 +1,8 @@
 import { setAlert } from "./alert";
 import { ACTION_TYPES } from "./types";
 
-import { getUser, registerUser, loginUser } from "../api/auth";
+import { registerUser, loginUser, getUser, editUser } from "../api/auth";
 import setAuthToken from "../utils/setAuthToken";
-
-// Load User
-export const loadUser = () => async (dispatch) => {
-  setAuthToken(localStorage.token); // add token to headers
-
-  getUser()
-    .then((res) => {
-      dispatch({
-        type: ACTION_TYPES.userLoaded,
-        payload: res.data,
-      });
-    })
-    .catch((err) => {
-      localStorage.removeItem("token");
-
-      dispatch({
-        type: ACTION_TYPES.authError,
-      });
-    });
-};
 
 // Register User
 export const register = ({ name, email, password }) => async (dispatch) => {
@@ -37,15 +17,14 @@ export const register = ({ name, email, password }) => async (dispatch) => {
         payload: res.data,
       });
 
+      dispatch(setAlert("Registration success!", "success"));
       dispatch(loadUser()); // load User after registration
     })
     .catch((err) => {
       const errors = err.response.data.errors;
-
       if (errors) {
         errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
       }
-
       localStorage.removeItem("token");
 
       dispatch({
@@ -55,7 +34,7 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 };
 
 // Login User
-export const login = (email, password) => async (dispatch) => {
+export const login = ({ email, password }) => async (dispatch) => {
   const body = JSON.stringify({ email, password });
 
   loginUser(body)
@@ -67,15 +46,14 @@ export const login = (email, password) => async (dispatch) => {
         payload: res.data,
       });
 
+      dispatch(setAlert("Login success!", "success"));
       dispatch(loadUser()); // load User after login
     })
     .catch((err) => {
       const errors = err.response.data.errors;
-
       if (errors) {
         errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
       }
-
       localStorage.removeItem("token");
 
       dispatch({
@@ -84,10 +62,61 @@ export const login = (email, password) => async (dispatch) => {
     });
 };
 
-// Logout / Clear Profile
+// Load User
+export const loadUser = () => async (dispatch) => {
+  setAuthToken(localStorage.token); // add token to headers
+
+  getUser()
+    .then((res) => {
+      dispatch({
+        type: ACTION_TYPES.userLoaded,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      }
+
+      localStorage.removeItem("token");
+
+      dispatch({
+        type: ACTION_TYPES.authError,
+      });
+    });
+};
+
+// Logout
 export const logout = () => (dispatch) => {
   localStorage.removeItem("token");
-
-  dispatch({ type: ACTION_TYPES.clearProfile });
   dispatch({ type: ACTION_TYPES.logOut });
+};
+
+// Update User
+export const updateUser = (data) => async (dispatch) => {
+  setAuthToken(localStorage.token); // add token to headers
+
+  const formData = new FormData();
+
+  formData.append("about", data.about);
+  if (data.avatar) {
+    formData.append("avatar", data.avatar);
+  }
+
+  editUser(formData)
+    .then((res) => {
+      dispatch({
+        type: ACTION_TYPES.updateUser,
+        payload: res.data,
+      });
+
+      dispatch(setAlert("User updated"));
+    })
+    .catch((err) => {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      }
+    });
 };

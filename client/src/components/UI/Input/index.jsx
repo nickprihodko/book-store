@@ -1,21 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Input = ({ type, placeholder, name, value, onChange, autoFocus }) => {
-  return (
-    <StyledInput
-      type={type}
-      placeholder={placeholder}
-      name={name}
-      value={value}
-      onChange={onChange}
-      autoFocus={autoFocus}
-    ></StyledInput>
-  );
-};
-
-const StyledInput = styled.input`
+const Input = styled.input`
   margin-bottom: 15px;
   padding: 0 10px;
   width: 300px;

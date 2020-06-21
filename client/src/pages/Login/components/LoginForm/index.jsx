@@ -8,7 +8,7 @@ import { setAlert } from "../../../../actions/alert";
 import Input from "../../../../components/UI/Input";
 import Button from "../../../../components/UI/Button";
 
-const LoginForm = ({ setAlert, onSubmit }) => {
+const LoginForm = ({ onSubmit, setAlert }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,7 +38,6 @@ const LoginForm = ({ setAlert, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const isAllValid = checkFields();
     if (isAllValid) {
       const credentials = { email, password };
@@ -62,19 +61,20 @@ const LoginForm = ({ setAlert, onSubmit }) => {
         value={password}
         onChange={handleChange}
       />
-      <Button type="submit" name="login">
-        Login
-      </Button>
+      <Button type="submit">Login</Button>
     </Form>
   );
 };
 
 const Form = styled.form`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  setAlert: PropTypes.func,
 };
 
 export default connect(null, { setAlert })(LoginForm);

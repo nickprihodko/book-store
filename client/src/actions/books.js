@@ -1,10 +1,11 @@
+import { setAlert } from "./alert";
 import { ACTION_TYPES } from "./types";
 
-import { getBooks, getBook, getCategories } from "../api/books";
+import { getBooks, getBook, getCategories, createBook } from "../api/books";
 
 // load books
-export const booksLoaded = (filter) => async (dispatch) => {
-  getBooks(filter)
+export const booksLoaded = (queryParams) => async (dispatch) => {
+  getBooks(queryParams)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.booksLoaded,
@@ -34,12 +35,20 @@ export const loadBook = (id) => async (dispatch) => {
     });
 };
 
-// set sort
-export const setSort = (sort) => async (dispatch) => {
-  dispatch({
-    type: ACTION_TYPES.setSort,
-    payload: sort,
-  });
+// add book
+export const addBook = (data) => async (dispatch) => {
+  const body = JSON.stringify({ data });
+
+  createBook(body)
+    .then((res) => {
+      dispatch({
+        type: ACTION_TYPES.bookAdd,
+        payload: res.data,
+      });
+
+      dispatch(setAlert("Book created"));
+    })
+    .catch((err) => {});
 };
 
 // get categories
@@ -52,12 +61,4 @@ export const loadCategories = () => async (dispatch) => {
       });
     })
     .catch((err) => {});
-};
-
-// set category
-export const setCategory = (category) => async (dispatch) => {
-  dispatch({
-    type: ACTION_TYPES.setCategory,
-    payload: category,
-  });
 };

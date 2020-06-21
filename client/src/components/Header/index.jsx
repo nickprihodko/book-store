@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -8,16 +8,21 @@ import { logout } from "../../actions/auth";
 
 import logo from "../../assets/img/logo.png";
 
-const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Header = ({ isAuthenticated, logout }) => {
   const authLinks = (
     <ul className="navigation__list">
+      <li>
+        <Link to="/addbook">
+          <div className="navigation__link">Add book</div>
+        </Link>
+      </li>
       <li>
         <Link to="/favourites">
           <div className="navigation__link">Favourites</div>
         </Link>
       </li>
       <li>
-        <Link to="/profile">
+        <Link to="/user">
           <div className="navigation__link">User</div>
         </Link>
       </li>
@@ -37,7 +42,7 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </li>
       <li>
-        <Link to="login">
+        <Link to="/login">
           <div className="navigation__link">Log in</div>
         </Link>
       </li>
@@ -47,15 +52,16 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
   return (
     <HeaderContainer>
       <Link to="/">
-        <img
-          className="header__logo"
+        <HeaderLogo
           src={logo}
           alt="Logotype of Book Store"
           width="50"
           height="50"
         />
       </Link>
-      <span className="header__description">Book store</span>
+      <HeaderDescription className="header__description">
+        Book store
+      </HeaderDescription>
       <Nav className="navigation">
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       </Nav>
@@ -73,24 +79,18 @@ const HeaderContainer = styled.header`
 
   background-color: #1a237e;
   border-radius: 4px;
+`;
 
-  .header {
-    &__logo-link {
-      padding: 0 10px;
-    }
+const HeaderLogo = styled.img`
+  padding: 0 10px;
 
-    &__logo {
-      padding: 0 10px;
+  vertical-align: middle;
+`;
 
-      vertical-align: middle;
-    }
-
-    &__description {
-      font-family: "Oxygen Bold";
-      font-size: 28px;
-      color: #ffffff;
-    }
-  }
+const HeaderDescription = styled.span`
+  font-family: "Oxygen Bold";
+  font-size: 28px;
+  color: #ffffff;
 `;
 
 const Nav = styled.nav`
@@ -100,6 +100,10 @@ const Nav = styled.nav`
     &__list {
       display: flex;
       justify-content: space-between;
+
+      & > li:first-child {
+        border-right: 2px solid #ffffff;
+      }
     }
 
     &__link {
@@ -125,13 +129,12 @@ const Nav = styled.nav`
 `;
 
 Header.propTypes = {
+  isAuthenticated: PropTypes.bool,
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated,
 });
 
-// learn more {logout}
 export default connect(mapStateToProps, { logout })(Header);

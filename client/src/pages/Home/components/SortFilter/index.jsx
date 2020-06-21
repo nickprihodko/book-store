@@ -1,51 +1,49 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
+
 import styled from "styled-components";
-
-import { setSort } from "../../../../actions/books";
-
-import getSearchString from "../../../../utils/getSearchString";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const SortFilter = ({ setSort }) => {
+const SortFilter = () => {
   let query = useQuery();
   const sort = query.get("sort");
   const category = query.get("category");
+  const priceFrom = query.get("pricefrom");
+  const priceTo = query.get("priceto");
+  const rateFrom = query.get("ratefrom");
+  const rateTo = query.get("rateto");
 
-  const substr = category ? `&category=${category}` : "";
-
-  if (sort) {
-    setSort(sort);
+  let queryString = "";
+  if (category) {
+    queryString += `&category=${category}`;
   }
-
-  const handleClick = (e) => {
-    setSort(e.target.innerText);
-  };
+  if (priceFrom) {
+    queryString += `&pricefrom=${priceFrom}&priceto=${priceTo}`;
+  }
+  if (rateFrom) {
+    queryString += `&ratefrom=${rateFrom}&rateto=${rateTo}`;
+  }
 
   return (
     <Headline>
       <SortLabel>Sort:</SortLabel>
       <StyledSortLink
-        to={`/?sort=price${substr}`}
-        onClick={handleClick}
+        to={`/?sort=price${queryString}`}
         className={sort === "price" ? "active" : ""}
       >
         price
       </StyledSortLink>
       <StyledSortLink
-        to={`/?sort=rate${substr}`}
-        onClick={handleClick}
+        to={`/?sort=rate${queryString}`}
         className={sort === "rate" ? "active" : ""}
       >
         rate
       </StyledSortLink>
       <StyledSortLink
-        to={`/?sort=title${substr}`}
-        onClick={handleClick}
+        to={`/?sort=title${queryString}`}
         className={sort === "title" ? "active" : ""}
       >
         title
@@ -105,8 +103,4 @@ const StyledSortLink = styled(Link)`
   }
 `;
 
-// const mapStateToProps = ({ books }) => ({
-//   filter: books.filter,
-// });
-
-export default connect(null, { setSort })(SortFilter);
+export default SortFilter;

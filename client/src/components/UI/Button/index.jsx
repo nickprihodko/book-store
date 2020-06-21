@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 const Button = ({ type, children, ...props }) => {
   return (
     <StyledButton type={type} {...props}>
-      <span></span>
       <span>{children}</span>
     </StyledButton>
   );
 };
 
 const StyledButton = styled.button`
+  margin-bottom: 15px;
   width: 120px;
   height: 35px;
 

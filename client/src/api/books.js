@@ -1,19 +1,19 @@
 import api from "./index";
 
-import getSearchString from "../utils/getSearchString";
-
-export const getBooks = async (filter) => {
-  if (filter) {
-    const searchString = getSearchString(filter, null);
-
-    return await api.get(`/api/books?${searchString}`);
+export const getBooks = async (queryParams) => {
+  if (queryParams) {
+    return await api.get(`/api/books${queryParams}`);
   } else {
     return await api.get("/api/books");
   }
 };
 
 export const getBook = async (id) => {
-  return await api.get(`/api/book/${id}`);
+  return await api.get(`/api/books/${id}`);
+};
+
+export const createBook = async (body) => {
+  return await api.post(`/api/books`, body);
 };
 
 export const getCategories = async () => {

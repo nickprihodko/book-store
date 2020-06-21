@@ -1,39 +1,38 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import ASide from "./components/ASide";
 import SortFilter from "./components/SortFilter";
 import BookList from "./components/BookList";
 
-const HomePage = () => {
-  // const id= this.props.match.params.id;
-
+const HomePage = ({ location }) => {
   return (
     <Main>
-      <Container>
-        <ASide />
-        <ContentContainer>
-          <SortFilter />
-          <BookList />
-        </ContentContainer>
-      </Container>
+      <ASide />
+      <ContentContainer>
+        <SortFilter />
+        <BookList queryParams={location.search} />
+      </ContentContainer>
     </Main>
   );
 };
 
 const Main = styled.main`
-  margin: 0 auto;
+  display: flex;
+  margin: 10px auto;
+
   padding: 0 20px;
   width: 1160px;
-`;
-
-const Container = styled.div`
-  display: flex;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+HomePage.propTypes = {
+  location: PropTypes.object.isRequired,
+};
 
 export default HomePage;
