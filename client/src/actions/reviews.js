@@ -1,7 +1,6 @@
 import { getReviews, removeReview, addReview } from "../api/reviews";
 
 import { ACTION_TYPES } from "./types";
-import setAuthToken from "../utils/setAuthToken";
 
 // get reviews
 export const loadReviews = (bookId) => async (dispatch) => {
@@ -26,7 +25,6 @@ export const loadReviews = (bookId) => async (dispatch) => {
 
 // create review
 export const createReview = (review) => async (dispatch) => {
-  setAuthToken(localStorage.token); // add token to headers
   const body = JSON.stringify(review);
 
   addReview(body)

@@ -43,7 +43,7 @@ const App = () => {
         <Route path="/register" component={RegisterPage}></Route>
         <PrivateRoute path="/user" component={UserPage}></PrivateRoute>
         <PrivateRoute
-          path="/favourites"
+          path="/favorites"
           component={FavoritesPage}
         ></PrivateRoute>
       </Switch>

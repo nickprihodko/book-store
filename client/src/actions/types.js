@@ -23,6 +23,7 @@ export const ACTION_TYPES = {
   loadCategories: "FETCH_CATEGORIES/Books",
   loadAuthors: "FETCH_AUTHORS/Books",
   setRating: "SET_RATING/Books",
+  loadUserFavoritesBooks: "FETCH_USER_FAVORITES_BOOKS/Books",
   loadFavorites: "FETCH_FAVORITES/Books",
   setFavorite: "SET_FAVORITE/Books",
 

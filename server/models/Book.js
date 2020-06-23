@@ -2,6 +2,7 @@ const sequelize = require("../config/db");
 const Sequelize = require("sequelize");
 
 const Category = require("../models/Category");
+const Rate = require("../models/Rate");
 
 const Book = sequelize.define("books", {
   id: {
@@ -56,5 +57,6 @@ const Book = sequelize.define("books", {
 });
 
 Book.belongsTo(Category);
+Book.hasMany(Rate);
 
 module.exports = Book;

@@ -51,7 +51,7 @@ const UserForm = ({ onSubmit, user }) => {
             }
             name="avatar"
           />
-          <FileContainer className="select-file">
+          <FileContainer>
             <SelectAvatarContainer>
               <SelectAvatar
                 style={{
@@ -87,6 +87,20 @@ const UserForm = ({ onSubmit, user }) => {
   );
 };
 
+const FileContainer = styled.div`
+  position: absolute;
+  top: 0;
+
+  display: none;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border: 2px solid #1a237e;
+  border-radius: 50%;
+`;
+
 const AvatarContainer = styled.div`
   position: relative;
 
@@ -94,10 +108,12 @@ const AvatarContainer = styled.div`
   width: 104px;
   height: 104px;
 
-  &:hover .select-file {
-    display: block;
+  &:hover {
+    ${FileContainer} {
+      display: block;
 
-    background-color: #f5f5f5;
+      background-color: #f5f5f5;
+    }
   }
 `;
 
@@ -130,21 +146,6 @@ const SelectAvatar = styled.div`
   &:hover {
     opacity: 1;
   }
-`;
-
-const FileContainer = styled.div`
-  position: absolute;
-  top: 0;
-
-  display: none;
-  width: 100px;
-  height: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  background-color: red;
-  border: 2px solid #1a237e;
-  border-radius: 50%;
 `;
 
 const Form = styled.form`

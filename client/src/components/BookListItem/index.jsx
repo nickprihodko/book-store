@@ -8,20 +8,23 @@ import { setFavorite } from "../../actions/books";
 
 import bookCover from "../../assets/img/garry.jpg";
 
-const BookListItem = ({ book, isFavorite, isAuthenticated, setFavorite }) => {
+const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
   const { id, title, author, price, rate } = book;
 
-  const [like, setLike] = useState(isFavorite);
+  const [loading, setLoading] = useState(false);
+  const isFavorite = favorites.includes(book.id);
 
   const heartClick = () => {
-    setLike(!like);
+    if (!loading) {
+      setLoading(true);
 
-    const data = {
-      like: !like,
-      bookId: id,
-    };
+      const data = {
+        isFavorite: !isFavorite,
+        bookId: id,
+      };
 
-    setFavorite(data);
+      setFavorite(data).then(() => setLoading(false));
+    }
   };
 
   return (
@@ -38,7 +41,11 @@ const BookListItem = ({ book, isFavorite, isAuthenticated, setFavorite }) => {
         <Price>{price} $</Price>
 
         {isAuthenticated ? (
-          <Heart like={like} onClick={heartClick} viewBox="0 0 32 29.6">
+          <Heart
+            isFavorite={isFavorite}
+            onClick={heartClick}
+            viewBox="0 0 32 29.6"
+          >
             <path
               d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
@@ -143,16 +150,23 @@ const Heart = styled.svg`
   fill: lightgray;
   cursor: pointer;
 
-  ${({ like }) => (like ? `fill: red;` : `fill: gray`)}
+  ${({ isFavorite }) => (isFavorite ? `fill: red;` : `fill: gray`)}
 `;
+
+BookListItem.defaultProps = {
+  isAuthenticated: false,
+};
 
 BookListItem.propTypes = {
   book: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
+  favorites: PropTypes.array.isRequired,
   setFavorite: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, books }) => ({
   isAuthenticated: auth.isAuthenticated,
+  favorites: books.favorites,
 });
 
 export default connect(mapStateToProps, { setFavorite })(BookListItem);

@@ -21,6 +21,7 @@ app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/categories", require("./routes/api/categories"));
 app.use("/api/authors", require("./routes/api/authors"));
 app.use("/api/favorites", require("./routes/api/favorites"));
+app.use("/api/userfavoritesbooks", require("./routes/api/userfavoritesbooks"));
 
 sequelize.authenticate().then(
   () => {

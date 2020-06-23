@@ -54,6 +54,14 @@ export default function (state = initialState, action) {
         favorites: payload,
       };
 
+    case ACTION_TYPES.loadUserFavoritesBooks:
+      return {
+        ...state,
+        data: payload,
+        loading: false,
+        error: null,
+      };
+
     default:
       return state;
   }

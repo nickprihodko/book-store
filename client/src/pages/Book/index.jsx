@@ -23,20 +23,18 @@ const BookPage = ({
 }) => {
   const { id } = useParams();
 
-  const { title, author, rate, price, description, fragment } = book;
-
   useEffect(() => {
     loadBook(id);
   }, [loadBook, id]);
 
-  const onSubmit = (data) => {
-    const newReview = {
-      review: data,
-      bookid: id,
-    };
+  const { title, author, rate, price, description, fragment, rates } = book;
 
-    createReview(newReview);
-  };
+  let userRate = 0;
+  if (rates !== undefined) {
+    if (rates.length) {
+      userRate = rates[0].userrate;
+    }
+  }
 
   const handleRating = (rate) => {
     const data = {
@@ -47,31 +45,33 @@ const BookPage = ({
     setRating(data);
   };
 
-  return loading ? (
-    <div>Loading...</div>
-  ) : (
+  const addReview = (data) => {
+    const newReview = {
+      review: data,
+      bookid: id,
+    };
+
+    createReview(newReview);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
     <BookSection>
-      <h2 className="visually-hidden">Карточка книги</h2>
-      <ImageList>
-        <ImageItem>
-          <img src={BookCover} alt="" width="460" height="500" />
-        </ImageItem>
-        <ImageItem>
-          <img src={BookCover} alt="" width="140" height="149" />
-        </ImageItem>
-        <ImageItem>
-          <img src={BookCover} alt="" width="140" height="149" />
-        </ImageItem>
-        <ImageItem>
-          <img src={BookCover} alt="" width="140" height="149" />
-        </ImageItem>
-      </ImageList>
+      <h2 className="visually-hidden">Book info</h2>
+
+      <BookImage src={BookCover} alt="book cover" width="460" height="500" />
+      <BookImageSelect className="select-file" />
+
       <BookInfo>
         <RateContainer>
           <RateView title="book rating">{rate}</RateView>
           {isAuthenticated ? (
             <StyledRating
               size={30}
+              value={userRate}
               onChange={(newRating) => {
                 handleRating(newRating);
               }}
@@ -85,7 +85,7 @@ const BookPage = ({
       </BookInfo>
       <BookFragment>{fragment}</BookFragment>
 
-      {isAuthenticated ? <AddReview onSubmit={onSubmit}></AddReview> : null}
+      {isAuthenticated ? <AddReview onSubmit={addReview}></AddReview> : null}
       <Reviews bookId={+id}></Reviews>
     </BookSection>
   );
@@ -96,24 +96,40 @@ const StyledRating = styled(Rating)`
 `;
 
 const BookSection = styled.section`
+  position: relative;
+
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
   max-width: 960px;
 `;
 
-const ImageList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  width: 50%;
+const BookImage = styled.img`
+  margin-right: 10px;
+
+  &:hover .select-file {
+    display: block;
+  }
 `;
 
-const ImageItem = styled.li`
-  margin: 0 20px 20px 0;
+const BookImageSelect = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 
-  &:first-child,
-  &:last-child {
-    margin-right: 0;
+  display: block;
+  width: 50px;
+  height: 50px;
+
+  background-color: transparent;
+  background: url("/images/select-file.png") no-repeat center center;
+  border: 2px solid #1a237e;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
   }
 `;
 
@@ -173,7 +189,7 @@ const BookPrice = styled.span`
 `;
 
 const BookFragment = styled.div`
-  margin-bottom: 20px;
+  margin: 20px 0;
   width: 100%;
 
   text-indent: 10px;
@@ -189,7 +205,7 @@ BookPage.propTypes = {
 
 const mapStateToProps = ({ book, auth }) => ({
   loading: book.loading,
-  book: book.book,
+  book: book.data,
   isAuthenticated: auth.isAuthenticated,
 });
 

@@ -3,27 +3,23 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { booksLoaded } from "../../actions/books";
+import { booksLoaded, loadUserFavoritesBooks } from "../../actions/books";
 
 import BookListItem from "../BookListItem";
 
-const BookList = ({ queryParams, books, favorites, booksLoaded }) => {
+const BookList = ({ location, books, booksLoaded, loadUserFavoritesBooks }) => {
   useEffect(() => {
-    booksLoaded(queryParams);
-  }, [booksLoaded, queryParams]);
+    if (location.pathname === "/favorites") {
+      loadUserFavoritesBooks();
+    } else {
+      booksLoaded(location.search);
+    }
+  }, [booksLoaded, location.search]);
 
   return (
     <List>
       {books.map((book) => {
-        return (
-          <BookListItem
-            key={book.id}
-            book={book}
-            isFavorite={
-              favorites.filter((item) => item.bookId === book.id).length
-            }
-          ></BookListItem>
-        );
+        return <BookListItem key={book.id} book={book}></BookListItem>;
       })}
     </List>
   );
@@ -35,15 +31,17 @@ const List = styled.ul`
 `;
 
 BookList.propTypes = {
-  queryParams: PropTypes.string,
+  location: PropTypes.object,
   books: PropTypes.array,
   booksLoaded: PropTypes.func,
-  favorites: PropTypes.array,
+  loadUserFavoritesBooks: PropTypes.func,
 };
 
 const mapStateToProps = ({ books }) => ({
   books: books.data,
-  favorites: books.favorites,
 });
 
-export default connect(mapStateToProps, { booksLoaded })(BookList);
+export default connect(mapStateToProps, {
+  booksLoaded,
+  loadUserFavoritesBooks,
+})(BookList);

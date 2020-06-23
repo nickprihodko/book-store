@@ -1,8 +1,8 @@
 import { ACTION_TYPES } from "../actions/types";
 
 const initialState = {
-  book: {},
-  loading: false,
+  data: {},
+  loading: true,
   error: null,
 };
 
@@ -13,18 +13,23 @@ export default function (state = initialState, action) {
     case ACTION_TYPES.bookRequest:
       return {
         ...state,
-        book: {},
+        data: {},
         loading: true,
         error: null,
       };
 
     case ACTION_TYPES.bookLoaded:
-      return { ...state, book: payload, loading: false, error: null };
+      return {
+        ...state,
+        data: payload,
+        loading: false,
+        error: null,
+      };
 
     case ACTION_TYPES.bookError:
       return {
         ...state,
-        book: {},
+        data: {},
         loading: false,
         error: payload,
       };
@@ -32,7 +37,7 @@ export default function (state = initialState, action) {
     case ACTION_TYPES.setRating:
       return {
         ...state,
-        book: { ...state.book, rate: payload },
+        data: payload,
         loading: false,
         error: null,
       };

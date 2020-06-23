@@ -17,8 +17,8 @@ const Header = ({ isAuthenticated, logout }) => {
         </Link>
       </li>
       <li>
-        <Link to="/favourites">
-          <div className="navigation__link">Favourites</div>
+        <Link to="/favorites">
+          <div className="navigation__link">Favorites</div>
         </Link>
       </li>
       <li>

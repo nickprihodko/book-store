@@ -97,8 +97,6 @@ export const logout = () => (dispatch) => {
 
 // Update User
 export const updateUser = (data) => async (dispatch) => {
-  setAuthToken(localStorage.token); // add token to headers
-
   const formData = new FormData();
 
   formData.append("about", data.about);

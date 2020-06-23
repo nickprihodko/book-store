@@ -32,6 +32,10 @@ export const getFavorites = async () => {
   return await api.get("/api/favorites");
 };
 
+export const getUserFavoritesBooks = async () => {
+  return await api.get("/api/userfavoritesbooks");
+};
+
 export const addFavorite = async (body) => {
   return await api.patch("/api/books/favorite", body);
 };

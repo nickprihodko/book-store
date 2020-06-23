@@ -7,7 +7,7 @@ const Headline = ({ title, as }) => {
 };
 
 const StyledHeader = styled.h1`
-  margin: 50px 0 20px;
+  margin: 30px 0 20px;
 
   font-family: "Oxygen Bold";
   font-size: 30px;

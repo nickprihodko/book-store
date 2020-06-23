@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const auth = require("../../middleware/auth");
+const setUser = require("../../middleware/setUser");
 
 const {
   getBooks,
@@ -18,8 +19,8 @@ router.get("/", [], getBooks);
 
 // @route GET /
 // @desc Get one book
-// @access Public
-router.get("/:id", [], getBook);
+// @access Public/Private
+router.get("/:id", setUser, getBook);
 
 // @route POST /
 // @desc Add new book
@@ -29,7 +30,7 @@ router.post("/", [], addBook);
 // @route PATCH /
 // @desc Create update rating
 // @access Private
-router.patch("/rating", [], setRating);
+router.patch("/rating", auth, setRating);
 
 // @route PATCH /
 // @desc Set favorite

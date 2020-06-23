@@ -8,6 +8,7 @@ import {
   getAuthors,
   createBook,
   createUpdateRating,
+  getUserFavoritesBooks,
   getFavorites,
   addFavorite,
 } from "../api/books";
@@ -30,7 +31,7 @@ export const loadBook = (id) => async (dispatch) => {
     type: ACTION_TYPES.bookRequest,
   });
 
-  getBook(id)
+  return getBook(id)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.bookLoaded,
@@ -92,10 +93,13 @@ export const setRating = (data) => async (dispatch) => {
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.setRating,
-        payload: res.data.rate.toFixed(1),
+        // payload: res.data.rate.toFixed(1),
+        payload: res.data,
       });
     })
-    .catch((err) => {});
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 // load favorites
@@ -110,11 +114,23 @@ export const loadFavorites = () => async (dispatch) => {
     .catch((err) => {});
 };
 
+// load user favorites books
+export const loadUserFavoritesBooks = () => async (dispatch) => {
+  getUserFavoritesBooks()
+    .then((res) => {
+      dispatch({
+        type: ACTION_TYPES.loadUserFavoritesBooks,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {});
+};
+
 // set favorite
 export const setFavorite = (data) => async (dispatch) => {
   const body = JSON.stringify({ data });
 
-  addFavorite(body)
+  return addFavorite(body)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.setFavorite,

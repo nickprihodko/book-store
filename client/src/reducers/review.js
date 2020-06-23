@@ -3,7 +3,7 @@ import { ACTION_TYPES } from "../actions/types";
 const initialState = {
   data: [],
   review: "",
-  loading: false,
+  loading: true,
   error: {},
 };
 

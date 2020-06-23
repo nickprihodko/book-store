@@ -13,7 +13,7 @@ const HomePage = ({ location }) => {
       <ASide />
       <ContentContainer>
         <SortFilter />
-        <BookList queryParams={location.search} />
+        <BookList location={location} />
       </ContentContainer>
     </Main>
   );
