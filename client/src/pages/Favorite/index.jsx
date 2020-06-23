@@ -1,19 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import ASide from "./components/ASide";
 import SortFilter from "../../components/SortFilter";
 import BookList from "../../components/BookList";
 
-const HomePage = ({ location }) => {
+const FavoritesPage = () => {
   return (
     <Main>
-      <h1 className="visually-hidden">Main Page</h1>
-      <ASide />
+      <h1 className="visually-hidden">Favorite Page</h1>
       <ContentContainer>
         <SortFilter />
-        <BookList queryParams={location.search} />
+        <BookList queryParams={""} />
       </ContentContainer>
     </Main>
   );
@@ -32,8 +29,4 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 
-HomePage.propTypes = {
-  location: PropTypes.object.isRequired,
-};
-
-export default HomePage;
+export default FavoritesPage;

@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import bookCover from "../../../../assets/img/garry.jpg";
+import { setFavorite } from "../../actions/books";
 
-const BookListItem = ({ book }) => {
+import bookCover from "../../assets/img/garry.jpg";
+
+const BookListItem = ({ book, isFavorite, isAuthenticated, setFavorite }) => {
   const { id, title, author, price, rate } = book;
+
+  const [like, setLike] = useState(isFavorite);
+
+  const heartClick = () => {
+    setLike(!like);
+
+    const data = {
+      like: !like,
+      bookId: id,
+    };
+
+    setFavorite(data);
+  };
 
   return (
     <Item>
@@ -18,7 +34,18 @@ const BookListItem = ({ book }) => {
           <Author>{author}</Author>
         </Info>
       </BookLink>
-      <Price>{price} $</Price>
+      <Div>
+        <Price>{price} $</Price>
+
+        {isAuthenticated ? (
+          <Heart like={like} onClick={heartClick} viewBox="0 0 32 29.6">
+            <path
+              d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
+            />
+          </Heart>
+        ) : null}
+      </Div>
     </Item>
   );
 };
@@ -95,6 +122,12 @@ const Author = styled.span`
   color: #000000;
 `;
 
+const Div = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Price = styled.span`
   margin-top: auto;
   padding-left: 5px;
@@ -103,8 +136,23 @@ const Price = styled.span`
   font-size: 20px;
 `;
 
+const Heart = styled.svg`
+  padding-right: 10px;
+  width: 15px;
+
+  fill: lightgray;
+  cursor: pointer;
+
+  ${({ like }) => (like ? `fill: red;` : `fill: gray`)}
+`;
+
 BookListItem.propTypes = {
   book: PropTypes.object.isRequired,
+  setFavorite: PropTypes.func.isRequired,
 };
 
-export default BookListItem;
+const mapStateToProps = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setFavorite })(BookListItem);

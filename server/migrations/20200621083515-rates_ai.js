@@ -13,7 +13,7 @@ module.exports = {
       DECLARE
         total_rate FLOAT;
       BEGIN
-        SELECT sum(rate)/count(*) INTO total_rate FROM rates WHERE "bookId" = new."bookId";
+        SELECT round(cast(sum(rate)/count(*) as numeric), 1) INTO total_rate FROM rates WHERE "bookId" = new."bookId";
         UPDATE books SET rate = total_rate WHERE id = new."bookId";
 
         RETURN new;

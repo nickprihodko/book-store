@@ -19,3 +19,19 @@ export const createBook = async (body) => {
 export const getCategories = async () => {
   return await api.get("/api/categories");
 };
+
+export const getAuthors = async () => {
+  return await api.get("/api/authors");
+};
+
+export const createUpdateRating = async (body) => {
+  return await api.patch("/api/books/rating", body);
+};
+
+export const getFavorites = async () => {
+  return await api.get("/api/favorites");
+};
+
+export const addFavorite = async (body) => {
+  return await api.patch("/api/books/favorite", body);
+};

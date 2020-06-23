@@ -2,6 +2,7 @@ import { setAlert } from "./alert";
 import { ACTION_TYPES } from "./types";
 
 import { registerUser, loginUser, getUser, editUser } from "../api/auth";
+import { loadFavorites } from "./books";
 import setAuthToken from "../utils/setAuthToken";
 
 // Register User
@@ -48,6 +49,7 @@ export const login = ({ email, password }) => async (dispatch) => {
 
       dispatch(setAlert("Login success!", "success"));
       dispatch(loadUser()); // load User after login
+      dispatch(loadFavorites()); // load favorites after login
     })
     .catch((err) => {
       const errors = err.response.data.errors;

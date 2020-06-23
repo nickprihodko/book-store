@@ -24,9 +24,17 @@ export default function (state = initialState, action) {
     case ACTION_TYPES.bookError:
       return {
         ...state,
-        books: {},
+        book: {},
         loading: false,
         error: payload,
+      };
+
+    case ACTION_TYPES.setRating:
+      return {
+        ...state,
+        book: { ...state.book, rate: payload },
+        loading: false,
+        error: null,
       };
 
     default:

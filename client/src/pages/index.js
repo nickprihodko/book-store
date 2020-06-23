@@ -3,7 +3,7 @@ import LoginPage from "./Login";
 import RegisterPage from "./Register";
 import BookPage from "./Book";
 import BookAdd from "./BookAdd";
-import FavouritesPage from "./favourites-page";
+import FavoritesPage from "./Favorite";
 import UserPage from "./User";
 
 export {
@@ -12,6 +12,6 @@ export {
   RegisterPage,
   BookPage,
   BookAdd,
-  FavouritesPage,
+  FavoritesPage,
   UserPage,
 };

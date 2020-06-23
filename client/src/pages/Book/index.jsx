@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import Rating from "react-rating-stars-component";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadBook } from "../../actions/books";
+import { loadBook, setRating } from "../../actions/books";
 import { createReview } from "../../actions/reviews";
 
 import AddReview from "./components/AddReview";
@@ -19,6 +19,7 @@ const BookPage = ({
   loadBook,
   createReview,
   isAuthenticated,
+  setRating,
 }) => {
   const { id } = useParams();
 
@@ -37,8 +38,13 @@ const BookPage = ({
     createReview(newReview);
   };
 
-  const setRating = (rate) => {
-    console.log(rate);
+  const handleRating = (rate) => {
+    const data = {
+      rate,
+      bookId: id,
+    };
+
+    setRating(data);
   };
 
   return loading ? (
@@ -67,7 +73,7 @@ const BookPage = ({
             <StyledRating
               size={30}
               onChange={(newRating) => {
-                setRating(newRating);
+                handleRating(newRating);
               }}
             />
           ) : null}
@@ -126,10 +132,12 @@ const RateContainer = styled.div`
 const RateView = styled.div`
   margin-right: 10px;
   padding: 10px;
+  width: 20px;
+  height: 20px;
 
   font-family: "Oxygen Bold";
-  font-size: 15px;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 20px;
   text-align: center;
   color: #ffd740;
 
@@ -176,6 +184,7 @@ BookPage.propTypes = {
   book: PropTypes.object.isRequired,
   loadBook: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
+  setRating: PropTypes.func,
 };
 
 const mapStateToProps = ({ book, auth }) => ({
@@ -184,4 +193,6 @@ const mapStateToProps = ({ book, auth }) => ({
   isAuthenticated: auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { loadBook, createReview })(BookPage);
+export default connect(mapStateToProps, { loadBook, createReview, setRating })(
+  BookPage
+);

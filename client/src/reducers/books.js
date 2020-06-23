@@ -5,6 +5,8 @@ const initialState = {
   loading: true,
   error: null,
   categories: [],
+  authors: [],
+  favorites: [],
 };
 
 export default function (state = initialState, action) {
@@ -37,6 +39,19 @@ export default function (state = initialState, action) {
       return {
         ...state,
         categories: payload,
+      };
+
+    case ACTION_TYPES.loadAuthors:
+      return {
+        ...state,
+        authors: payload,
+      };
+
+    case ACTION_TYPES.loadFavorites:
+    case ACTION_TYPES.setFavorite:
+      return {
+        ...state,
+        favorites: payload,
       };
 
     default:

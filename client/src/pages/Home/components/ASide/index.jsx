@@ -1,39 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import qs from "qs";
+
+import { loadAuthors } from "../../../../actions/books";
 
 import InputRange from "react-input-range";
 import "react-input-range/lib/css/index.css";
 
 import SelectCategory from "../../../../components/SelectCategory";
+import AutoComplete from "../../../../components/UI/AutoComplete";
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+const ASide = ({ authors, loadAuthors }) => {
+  useEffect(() => {
+    loadAuthors();
+  }, [loadAuthors]);
 
-const ASide = () => {
-  const query = useQuery();
+  let listAutors = [];
+  for (let author of authors) {
+    listAutors.push(author.author);
+  }
 
-  // let query = qs.parse(useLocation().search, { ignoreQueryPrefix: true });
-
-  console.log("search:", useLocation().search);
-
-  const sort = query.get("sort");
-  const category = query.get("category");
-  const priceFrom = query.get("pricefrom");
-  const priceTo = query.get("priceto");
-  const rateFrom = query.get("ratefrom");
-  const rateTo = query.get("rateto");
+  let query = qs.parse(useLocation().search, { ignoreQueryPrefix: true });
 
   const [formData, setFormData] = useState({
     category: "",
+    author: "",
     price: { min: 0, max: 999 },
     rate: { min: 0, max: 5 },
   });
 
   const onCategoryChange = (e) => {
     setFormData({ ...formData, category: e.target.value });
+  };
+
+  const onAuthorChange = (value) => {
+    setFormData({ ...formData, author: value });
+  };
+
+  const onAuthorSelected = (value) => {
+    setFormData({ ...formData, author: value });
   };
 
   const onPriceChange = (value) => {
@@ -44,93 +52,29 @@ const ASide = () => {
   };
 
   const onRateChange = (value) => {
-    console.log(typeof value.value.min);
     setFormData({
       ...formData,
-
       rate: { ...formData.rate, min: value.value.min, max: value.value.max },
     });
   };
 
-  if (!formData.category && category) {
-    setFormData({ ...formData, category: category });
-  }
-
-  if (!formData.price.min && +priceFrom) {
-    setFormData({
-      ...formData,
-      price: { ...formData.price, min: +priceFrom, max: +priceTo },
-    });
-  }
-
-  if (!formData.rate.min && +rateFrom) {
-    setFormData({
-      ...formData,
-      rate: { ...formData.rate, min: +rateFrom, max: +rateTo },
-    });
-  }
-
-  let queryString = "";
-
-  if (sort) {
-    queryString = `?sort=${sort}`;
-  }
-
-  if (formData.category) {
-    if (formData.category !== "1") {
-      if (queryString) {
-        queryString += `&category=${formData.category}`;
-      } else {
-        queryString += `?category=${formData.category}`;
-      }
-    }
+  if (formData.category && +formData.category !== 1) {
+    query.category = formData.category;
   } else {
-    if (queryString) {
-      if (category) {
-        queryString += `&category=${category}`;
-      }
-    } else {
-      if (category) {
-        queryString += `?category=${category}`;
-      }
-    }
+    query.category = "";
   }
 
-  if (+priceFrom > 0 && +priceTo < 999) {
-    if (queryString) {
-      if (priceFrom) {
-        queryString += `&pricefrom=${priceFrom}&priceto=${priceTo}`;
-      }
-    } else {
-      if (priceFrom) {
-        queryString += `?pricefrom=${priceFrom}&priceto=${priceTo}`;
-      }
-    }
-  } else {
-    if (queryString) {
-      queryString += `&pricefrom=${formData.price.min}&priceto=${formData.price.max}`;
-    } else {
-      queryString += `?pricefrom=${formData.price.min}&priceto=${formData.price.max}`;
-    }
-  }
+  query.author = formData.author;
+  query.pricefrom = formData.price.min;
+  query.priceto = formData.price.max;
+  query.ratefrom = formData.rate.min;
+  query.rateto = formData.rate.max;
 
-  if (+rateFrom > 0 && +rateTo < 5) {
-    if (queryString) {
-      if (rateFrom) {
-        queryString += `&ratefrom=${rateFrom}&rateto=${rateTo}`;
-      }
-    } else {
-      if (rateFrom) {
-        queryString += `?ratefrom=${rateFrom}&rateto=${rateTo}`;
-      }
-    }
-  } else {
-    if (queryString) {
-      queryString += `&ratefrom=${formData.rate.min}&rateto=${formData.rate.max}`;
-    } else {
-      queryString += `?ratefrom=${rateFrom}&rateto=${rateTo}`;
-    }
-  }
+  const entries = Object.entries(query);
+  let queryString = entries.reduce((sum, cur) => {
+    return `${sum}${cur[0]}=${cur[1]}&`;
+  }, "?");
+  queryString = queryString.slice(0, queryString.length - 1);
 
   const handleClick = () => {
     //
@@ -138,7 +82,7 @@ const ASide = () => {
 
   return (
     <Aside>
-      <form>
+      <Form>
         <FilterLabel>FILTER:</FilterLabel>
         <FieldSet>
           <Legend>Category</Legend>
@@ -149,6 +93,11 @@ const ASide = () => {
         </FieldSet>
         <FieldSet>
           <Legend>Author</Legend>
+          <AutoComplete
+            items={listAutors}
+            onChange={onAuthorChange}
+            onSelected={onAuthorSelected}
+          />
         </FieldSet>
         <FieldSet>
           <Legend>Price</Legend>
@@ -178,13 +127,17 @@ const ASide = () => {
         <FilterLink to={`/${queryString}`} onClick={handleClick}>
           <span>Show</span>
         </FilterLink>
-      </form>
+      </Form>
     </Aside>
   );
 };
 
 const Aside = styled.aside`
   margin-right: 40px;
+`;
+
+const Form = styled.form`
+  width: 172px;
 `;
 
 const FilterLabel = styled.span`
@@ -252,4 +205,13 @@ const FilterLink = styled(Link)`
   }
 `;
 
-export default ASide;
+ASide.propTypes = {
+  authors: PropTypes.array.isRequired,
+  loadAuthors: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ books }) => ({
+  authors: books.authors,
+});
+
+export default connect(mapStateToProps, { loadAuthors })(ASide);

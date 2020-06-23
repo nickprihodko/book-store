@@ -14,10 +14,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(__dirname + "/public"));
 
 app.use("/api/reviews", require("./routes/api/reviews"));
-app.use("/api/categories", require("./routes/api/categories"));
 app.use("/api/books", require("./routes/api/books"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
+
+app.use("/api/categories", require("./routes/api/categories"));
+app.use("/api/authors", require("./routes/api/authors"));
+app.use("/api/favorites", require("./routes/api/favorites"));
 
 sequelize.authenticate().then(
   () => {

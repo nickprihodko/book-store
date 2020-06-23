@@ -1,8 +1,10 @@
 import React, { useEffect, Fragment } from "react";
+import { batch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
 import store from "./store";
 import { loadUser } from "./actions/auth";
+import { loadFavorites } from "./actions/books";
 
 import Alert from "./components/Alert";
 import Header from "./components/Header";
@@ -15,14 +17,17 @@ import {
   RegisterPage,
   BookPage,
   BookAdd,
-  FavouritesPage,
+  FavoritesPage,
   UserPage,
 } from "./pages";
 
 const App = () => {
   useEffect(() => {
     if (localStorage.token) {
-      store.dispatch(loadUser());
+      batch(() => {
+        store.dispatch(loadUser());
+        store.dispatch(loadFavorites());
+      });
     }
   }, []);
 
@@ -39,7 +44,7 @@ const App = () => {
         <PrivateRoute path="/user" component={UserPage}></PrivateRoute>
         <PrivateRoute
           path="/favourites"
-          component={FavouritesPage}
+          component={FavoritesPage}
         ></PrivateRoute>
       </Switch>
       <Footer />
