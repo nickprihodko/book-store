@@ -11,6 +11,7 @@ import {
   getUserFavoritesBooks,
   getFavorites,
   addFavorite,
+  setBookCover,
 } from "../api/books";
 
 // load books
@@ -59,6 +60,30 @@ export const addBook = (data) => async (dispatch) => {
       dispatch(setAlert("Book created"));
     })
     .catch((err) => {});
+};
+
+// set book cover
+export const addBookCover = (data) => async (dispatch) => {
+  const formData = new FormData();
+
+  formData.append("bookId", data.bookId);
+  if (data.cover) {
+    formData.append("cover", data.cover);
+  }
+
+  setBookCover(formData)
+    .then((res) => {
+      dispatch({
+        type: ACTION_TYPES.setBookCover,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      }
+    });
 };
 
 // get categories

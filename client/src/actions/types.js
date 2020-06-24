@@ -26,6 +26,7 @@ export const ACTION_TYPES = {
   loadUserFavoritesBooks: "FETCH_USER_FAVORITES_BOOKS/Books",
   loadFavorites: "FETCH_FAVORITES/Books",
   setFavorite: "SET_FAVORITE/Books",
+  setBookCover: "SET_BOOK_COVER/Books",
 
   reviewsRequest: "FETCH_REVIEW_REQUEST/Reviews",
   reviewsLoaded: "FETCH_REVIEWS/Reviews",

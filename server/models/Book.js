@@ -45,6 +45,11 @@ const Book = sequelize.define("books", {
     comment: "fragment of a book",
   },
 
+  cover: {
+    type: Sequelize.STRING,
+    comment: "book's cover",
+  },
+
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.fn("now"),

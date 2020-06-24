@@ -1,5 +1,3 @@
-const sequelize = require("../config/db");
-const { QueryTypes } = require("sequelize");
 const { Op } = require("sequelize");
 const Book = require("../models/Book");
 const Rate = require("../models/Rate");
@@ -32,7 +30,7 @@ exports.getBooks = async (req, res) => {
     const queryParams = {
       where: whereParams,
       order: [[req.query.sort ? req.query.sort : "id", "ASC"]],
-      attributes: ["id", "title", "author", "price", "rate"],
+      attributes: ["id", "title", "author", "price", "rate", "cover"],
     };
 
     const books = await Book.findAll(queryParams);
@@ -56,6 +54,7 @@ exports.getBook = async (req, res) => {
           "rate",
           "description",
           "fragment",
+          "cover",
         ],
         where: { id: req.params.id },
         include: [
@@ -79,6 +78,7 @@ exports.getBook = async (req, res) => {
           "rate",
           "description",
           "fragment",
+          "cover",
         ],
       };
       const book = await Book.findOne(queryParams);
@@ -97,17 +97,16 @@ exports.addBook = async (req, res) => {
     } = req.body;
 
     const newBook = new Book({
-      title: title,
-      author: author,
+      title,
+      author,
       categoryId: category,
-      description: description,
-      fragment: fragment,
-      price: price,
+      description,
+      fragment,
+      price,
       rate: 0,
     });
 
     await newBook.save();
-
     res.json(newBook);
   } catch (err) {
     console.log(err.message);
@@ -143,6 +142,7 @@ exports.setRating = async (req, res) => {
         "rate",
         "description",
         "fragment",
+        "cover",
       ],
       where: { id: bookId },
       include: [
@@ -155,25 +155,6 @@ exports.setRating = async (req, res) => {
       ],
     });
     res.json(book);
-    // const book = await sequelize.query(
-    //   `
-    //   SELECT b.rate, r.rate as userrate
-    //     FROM books b
-    //     LEFT JOIN rates r ON r."bookId" = b.id AND r."userId" = :userid
-    //   WHERE b.id = :bookid
-    //   `,
-    //   {
-    //     replacements: { userid: req.user.id, bookid: bookId },
-    //     type: QueryTypes.SELECT,
-    //   }
-    // );
-    // res.json(book);
-
-    // const book = await Book.findOne({
-    //   where: { id: bookId },
-    //   attributes: ["rate"],
-    // });
-    // res.json(book);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
@@ -187,12 +168,7 @@ exports.setFavorite = async (req, res) => {
     } = req.body;
 
     if (isFavorite) {
-      const newFavorite = new Favorite({
-        bookId,
-        userId: req.user.id,
-      });
-
-      await newFavorite.save();
+      await Favorite.create({ bookId, userId: req.user.id });
     } else {
       await Favorite.destroy({
         where: {
@@ -214,4 +190,70 @@ exports.setFavorite = async (req, res) => {
     console.log(err.message);
     res.status(500).send("Server Error");
   }
+};
+
+exports.setBookCover = async (req, res) => {
+  if (req.file) {
+    req.body.cover = `/images/uploads/${req.file.filename}`;
+  }
+
+  try {
+    let book = await Book.findOne({
+      where: {
+        id: req.body.bookId,
+      },
+    });
+
+    if (book) {
+      await Book.update(
+        { cover: req.body.cover },
+        { where: { id: req.body.bookId } }
+      ).then(async () => {
+        const book = await Book.findOne({
+          where: {
+            id: req.body.bookId,
+          },
+        });
+
+        res.json(book);
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// update user
+exports.updateUser = async (req, res) => {
+  try {
+    let user = await User.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+    if (user) {
+      await User.update(
+        { about: req.body.about, avatar: req.body.avatar },
+        { where: { id: req.user.id } }
+      ).then(async () => {
+        const user = await User.findOne({
+          where: {
+            id: req.user.id,
+          },
+        });
+
+        res.json(user);
+      });
+    } else {
+      user = new User({
+        id: req.user.id,
+        about: req.body.about,
+        avatar: req.body.avatar,
+      });
+      await user.save();
+    }
+
+    return res.json(user);
+  } catch (err) {}
 };

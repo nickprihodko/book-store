@@ -19,6 +19,8 @@ export default function (state = initialState, action) {
       };
 
     case ACTION_TYPES.bookLoaded:
+    case ACTION_TYPES.setRating:
+    case ACTION_TYPES.setBookCover:
       return {
         ...state,
         data: payload,
@@ -32,14 +34,6 @@ export default function (state = initialState, action) {
         data: {},
         loading: false,
         error: payload,
-      };
-
-    case ACTION_TYPES.setRating:
-      return {
-        ...state,
-        data: payload,
-        loading: false,
-        error: null,
       };
 
     default:

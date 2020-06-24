@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import Rating from "react-rating-stars-component";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadBook, setRating } from "../../actions/books";
+import { loadBook, setRating, addBookCover } from "../../actions/books";
 import { createReview } from "../../actions/reviews";
 
 import AddReview from "./components/AddReview";
 import Reviews from "./components/Reviews";
+import SelectFile from "../../components/SelectFile";
 
 import BookCover from "../../assets/img/garry.jpg";
 
@@ -20,6 +21,7 @@ const BookPage = ({
   createReview,
   isAuthenticated,
   setRating,
+  addBookCover,
 }) => {
   const { id } = useParams();
 
@@ -27,7 +29,19 @@ const BookPage = ({
     loadBook(id);
   }, [loadBook, id]);
 
-  const { title, author, rate, price, description, fragment, rates } = book;
+  const {
+    title,
+    author,
+    rate,
+    price,
+    description,
+    fragment,
+    rates,
+    cover,
+  } = book;
+
+  const [modal, setModal] = useState(false);
+  const [bookCover, setBookCover] = useState(cover || "");
 
   let userRate = 0;
   if (rates !== undefined) {
@@ -54,6 +68,36 @@ const BookPage = ({
     createReview(newReview);
   };
 
+  const onModalShow = () => {
+    setModal(true);
+  };
+
+  const onModalClose = () => {
+    setModal(false);
+  };
+
+  const onModalChange = (e) => {
+    switch (e.target.name) {
+      case "file":
+        setBookCover(e.target.files[0]);
+        break;
+
+      default:
+    }
+  };
+
+  const onModalSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      cover: bookCover,
+      bookId: id,
+    };
+
+    addBookCover(data);
+    setModal(false);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -61,10 +105,13 @@ const BookPage = ({
   return (
     <BookSection>
       <h2 className="visually-hidden">Book info</h2>
-
-      <BookImage src={BookCover} alt="book cover" width="460" height="500" />
-      <BookImageSelect className="select-file" />
-
+      <BookImage
+        src={cover ? cover : BookCover}
+        alt="book cover"
+        width="460"
+        height="500"
+      />
+      {isAuthenticated ? <BookImageSelect onClick={onModalShow} /> : null}
       <BookInfo>
         <RateContainer>
           <RateView title="book rating">{rate}</RateView>
@@ -87,6 +134,14 @@ const BookPage = ({
 
       {isAuthenticated ? <AddReview onSubmit={addReview}></AddReview> : null}
       <Reviews bookId={+id}></Reviews>
+      {modal ? (
+        <SelectFile
+          title="Select book cover!"
+          onModalClose={onModalClose}
+          onModalChange={onModalChange}
+          onSubmit={onModalSubmit}
+        />
+      ) : null}
     </BookSection>
   );
 };
@@ -101,15 +156,7 @@ const BookSection = styled.section`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  max-width: 960px;
-`;
-
-const BookImage = styled.img`
-  margin-right: 10px;
-
-  &:hover .select-file {
-    display: block;
-  }
+  width: 960px;
 `;
 
 const BookImageSelect = styled.div`
@@ -128,8 +175,23 @@ const BookImageSelect = styled.div`
   cursor: pointer;
   opacity: 0.5;
 
-  &:hover {
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+  }
+
+  &:active {
     opacity: 1;
+  }
+`;
+
+const BookImage = styled.img`
+  margin-right: 10px;
+
+  &:hover {
+    ${BookImageSelect} {
+      display: block;
+    }
   }
 `;
 
@@ -201,6 +263,7 @@ BookPage.propTypes = {
   loadBook: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
   setRating: PropTypes.func,
+  addBookCover: PropTypes.func,
 };
 
 const mapStateToProps = ({ book, auth }) => ({
@@ -209,6 +272,9 @@ const mapStateToProps = ({ book, auth }) => ({
   isAuthenticated: auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { loadBook, createReview, setRating })(
-  BookPage
-);
+export default connect(mapStateToProps, {
+  loadBook,
+  createReview,
+  setRating,
+  addBookCover,
+})(BookPage);
