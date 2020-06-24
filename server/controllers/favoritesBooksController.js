@@ -5,7 +5,7 @@ exports.getUserFavoritesBooks = async (req, res) => {
   try {
     const userFavoritesBooks = await sequelize.query(
       `
-      SELECT b.id, b.title, b.author, b.price, b.description, b.rate, b.fragment, b."categoryId"
+      SELECT b.id, b.title, b.author, b.price, b.description, b.rate, b.fragment, b."categoryId", b.cover
       FROM books b
       INNER JOIN favorites f ON f."bookId" = b.id
       WHERE f."userId" = :userid

@@ -6,10 +6,10 @@ import styled from "styled-components";
 
 import { setFavorite } from "../../actions/books";
 
-import bookCover from "../../assets/img/garry.jpg";
+import bookCover from "../../assets/img/book-cover.png";
 
 const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
-  const { id, title, author, price, rate } = book;
+  const { id, title, author, price, rate, cover } = book;
 
   const [loading, setLoading] = useState(false);
   const isFavorite = favorites.includes(book.id);
@@ -31,7 +31,7 @@ const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
     <Item>
       <Rating>{rate}</Rating>
       <BookLink to={`/book/${id}`}>
-        <Image src={bookCover} alt="" width="165" height="185" />
+        <Image src={cover || bookCover} alt="" width="165" height="185" />
         <Info>
           <Title>{title}</Title>
           <Author>{author}</Author>

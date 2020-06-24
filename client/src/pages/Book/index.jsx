@@ -12,7 +12,7 @@ import AddReview from "./components/AddReview";
 import Reviews from "./components/Reviews";
 import SelectFile from "../../components/SelectFile";
 
-import BookCover from "../../assets/img/garry.jpg";
+import BookCover from "../../assets/img/book-cover.png";
 
 const BookPage = ({
   loading,
@@ -106,7 +106,7 @@ const BookPage = ({
     <BookSection>
       <h2 className="visually-hidden">Book info</h2>
       <BookImage
-        src={cover ? cover : BookCover}
+        src={cover || BookCover}
         alt="book cover"
         width="460"
         height="500"
