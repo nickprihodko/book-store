@@ -11,7 +11,7 @@ const {
 // @route GET /
 // @desc Get reviews
 // @access Public
-router.get("/:id", [], getReviews);
+router.get("/:id", getReviews);
 
 // @route POST /
 // @desc Add review
@@ -21,6 +21,6 @@ router.post("/", auth, addReview);
 // @route DELETE /
 // @desc Delete review
 // @access Private
-router.delete("/:id", [], deleteReview);
+router.delete("/:id", auth, deleteReview);
 
 module.exports = router;

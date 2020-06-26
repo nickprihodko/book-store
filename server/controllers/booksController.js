@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const Book = require("../models/Book");
 const Rate = require("../models/Rate");
 const Favorite = require("../models/Favorite");
+const paginate = require("jw-paginate");
 
 exports.getBooks = async (req, res) => {
   try {
@@ -34,10 +35,16 @@ exports.getBooks = async (req, res) => {
     };
 
     const books = await Book.findAll(queryParams);
-    res.json(books);
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 4;
+    const pager = paginate(books.length, page, pageSize);
+    const pageOfItems = books.slice(pager.startIndex, pager.endIndex + 1);
+
+    return res.json({ pager, pageOfItems });
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getBooks:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -66,7 +73,7 @@ exports.getBook = async (req, res) => {
           },
         ],
       });
-      res.json(book);
+      return res.json(book);
     } else {
       const queryParams = {
         where: { id: req.params.id },
@@ -82,11 +89,11 @@ exports.getBook = async (req, res) => {
         ],
       };
       const book = await Book.findOne(queryParams);
-      res.json(book);
+      return res.json(book);
     }
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getBook:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -107,10 +114,10 @@ exports.addBook = async (req, res) => {
     });
 
     await newBook.save();
-    res.json(newBook);
+    return res.json(newBook);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("addBook:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -154,10 +161,10 @@ exports.setRating = async (req, res) => {
         },
       ],
     });
-    res.json(book);
+    return res.json(book);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("setRating:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -185,10 +192,10 @@ exports.setFavorite = async (req, res) => {
 
     const favorites = await Favorite.findAll(queryParams);
     const mappedFavorites = favorites.map((item) => item.bookId);
-    res.json(mappedFavorites);
+    return res.json(mappedFavorites);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("setFavorite:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -208,52 +215,16 @@ exports.setBookCover = async (req, res) => {
       await Book.update(
         { cover: req.body.cover },
         { where: { id: req.body.bookId } }
-      ).then(async () => {
-        const book = await Book.findOne({
-          where: {
-            id: req.body.bookId,
-          },
-        });
-
-        res.json(book);
+      );
+      const book = await Book.findOne({
+        where: {
+          id: req.body.bookId,
+        },
       });
+      return res.json(book);
     }
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getBookCover:", err.message);
+    res.status(500).json({ message: err });
   }
-};
-
-// update user
-exports.updateUser = async (req, res) => {
-  try {
-    let user = await User.findOne({
-      where: {
-        id: req.user.id,
-      },
-    });
-    if (user) {
-      await User.update(
-        { about: req.body.about, avatar: req.body.avatar },
-        { where: { id: req.user.id } }
-      ).then(async () => {
-        const user = await User.findOne({
-          where: {
-            id: req.user.id,
-          },
-        });
-
-        res.json(user);
-      });
-    } else {
-      user = new User({
-        id: req.user.id,
-        about: req.body.about,
-        avatar: req.body.avatar,
-      });
-      await user.save();
-    }
-
-    return res.json(user);
-  } catch (err) {}
 };

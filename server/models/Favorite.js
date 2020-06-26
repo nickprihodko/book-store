@@ -24,7 +24,6 @@ const Favorite = sequelize.define("favorites", {
   },
 });
 
-Favorite.belongsTo(Book);
 Favorite.belongsTo(User);
 
 module.exports = Favorite;

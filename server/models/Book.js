@@ -3,6 +3,7 @@ const Sequelize = require("sequelize");
 
 const Category = require("../models/Category");
 const Rate = require("../models/Rate");
+const Favorite = require("../models/Favorite");
 
 const Book = sequelize.define("books", {
   id: {
@@ -63,5 +64,6 @@ const Book = sequelize.define("books", {
 
 Book.belongsTo(Category);
 Book.hasMany(Rate);
+Book.hasMany(Favorite);
 
 module.exports = Book;

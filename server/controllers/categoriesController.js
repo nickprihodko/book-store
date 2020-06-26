@@ -8,9 +8,9 @@ exports.getCategories = async (req, res) => {
     };
 
     const category = await Category.findAll(queryParams);
-    res.json(category);
+    return res.json(category);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getCategories:", err.message);
+    res.status(500).json({ message: err });
   }
 };

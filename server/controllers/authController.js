@@ -9,10 +9,10 @@ exports.authenticateUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
 
-    res.json(user);
+    return res.json(user);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("authenticateUser error:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -43,10 +43,12 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
     }
 
+    console.log(123);
     // Return JWT
-    jwtSign(user, res);
+    const token = jwtSign(user);
+    res.json({ token });
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server error");
+    console.log("registerUser error:", err.message);
+    res.status(500).json({ message: err });
   }
 };

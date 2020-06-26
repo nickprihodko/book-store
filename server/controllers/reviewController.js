@@ -19,10 +19,10 @@ exports.getReviews = async (req, res) => {
         type: QueryTypes.SELECT,
       }
     );
-    res.json(reviews);
+    return res.json(reviews);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getReviews:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -39,10 +39,10 @@ exports.addReview = async (req, res) => {
 
     await newReview.save();
 
-    res.json(newReview);
+    return res.json(newReview);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("addReview:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -52,9 +52,9 @@ exports.deleteReview = async (req, res) => {
       where: { id: +req.params.id },
     };
     const review = await Review.destroy(queryParams);
-    res.json(review);
+    return res.json(review);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("deleteReview:", err.message);
+    res.status(500).json({ message: err });
   }
 };

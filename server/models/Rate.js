@@ -1,9 +1,6 @@
 const sequelize = require("../config/db");
 const Sequelize = require("sequelize");
 
-// const Book = require("./Book");
-// const User = require("./User");
-
 const Rate = sequelize.define("rates", {
   id: {
     type: Sequelize.BIGINT,
@@ -35,8 +32,5 @@ const Rate = sequelize.define("rates", {
     defaultValue: Sequelize.fn("now"),
   },
 });
-
-// Rate.belongsTo(Book);
-// Rate.belongsTo(User);
 
 module.exports = Rate;

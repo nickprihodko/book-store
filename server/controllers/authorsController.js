@@ -6,16 +6,15 @@ exports.getAuthors = async (req, res) => {
   try {
     const queryParams = {
       order: [["author", "ASC"]],
-
       attributes: [
         [Sequelize.fn("DISTINCT", Sequelize.col("author")), "author"],
       ],
     };
 
     const authors = await Book.findAll(queryParams);
-    res.json(authors);
+    return res.json(authors);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getAuthors:", err.message);
+    res.status(500).json({ message: err });
   }
 };

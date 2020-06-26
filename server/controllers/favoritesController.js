@@ -8,5 +8,5 @@ exports.getFavorites = async (req, res) => {
 
   const favorites = await Favorite.findAll(queryParams);
   const mappedFavorites = favorites.map((item) => item.bookId);
-  res.json(mappedFavorites);
+  return res.json(mappedFavorites);
 };

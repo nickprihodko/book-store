@@ -6,6 +6,6 @@ const { getAuthors } = require("../../controllers/authorsController");
 // @route GET /
 // @desc Get authors
 // @access Public
-router.get("/", [], getAuthors);
+router.get("/", getAuthors);
 
 module.exports = router;

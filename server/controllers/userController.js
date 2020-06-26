@@ -39,10 +39,11 @@ exports.registerUser = async (req, res) => {
     await user.save();
 
     // Return JWT
-    jwtSign(user, res);
+    const token = jwtSign(user);
+    res.json({ token });
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server error");
+    console.log("registerUser:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -59,9 +60,10 @@ exports.getUser = async (req, res) => {
       return res.status(400).json({ msg: "There is no user" });
     }
 
-    res.json(user);
+    return res.json(user);
   } catch (err) {
-    res.status(500).send("Server error");
+    console.log("getUser:", err.message);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -81,15 +83,11 @@ exports.updateUser = async (req, res) => {
       await User.update(
         { about: req.body.about, avatar: req.body.avatar },
         { where: { id: req.user.id } }
-      ).then(async () => {
-        const user = await User.findOne({
-          where: {
-            id: req.user.id,
-          },
-        });
-
-        res.json(user);
+      );
+      const user = await User.findOne({
+        where: { id: req.user.id },
       });
+      return res.json(user);
     } else {
       user = new User({
         id: req.user.id,
@@ -101,7 +99,7 @@ exports.updateUser = async (req, res) => {
 
     return res.json(user);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("updateUser:", err.message);
+    res.status(500).json({ message: err });
   }
 };

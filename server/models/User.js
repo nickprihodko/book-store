@@ -1,8 +1,6 @@
 const sequelize = require("../config/db");
 const Sequelize = require("sequelize");
 
-const Rate = require("../models/Rate");
-
 const User = sequelize.define("users", {
   id: {
     type: Sequelize.BIGINT,
@@ -51,7 +49,5 @@ const User = sequelize.define("users", {
     defaultValue: Sequelize.fn("now"),
   },
 });
-
-// User.hasMany(Rate);
 
 module.exports = User;

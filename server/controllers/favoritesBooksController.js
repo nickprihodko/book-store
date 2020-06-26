@@ -1,23 +1,32 @@
-const sequelize = require("../config/db");
-const { QueryTypes } = require("sequelize");
+const Book = require("../models/Book");
+const Favorite = require("../models/Favorite");
 
 exports.getUserFavoritesBooks = async (req, res) => {
   try {
-    const userFavoritesBooks = await sequelize.query(
-      `
-      SELECT b.id, b.title, b.author, b.price, b.description, b.rate, b.fragment, b."categoryId", b.cover
-      FROM books b
-      INNER JOIN favorites f ON f."bookId" = b.id
-      WHERE f."userId" = :userid
-      `,
-      {
-        replacements: { userid: req.user.id },
-        type: QueryTypes.SELECT,
-      }
-    );
-    res.json(userFavoritesBooks);
+    const userFavoritesBooks = await Book.findAll({
+      attributes: [
+        "id",
+        "title",
+        "author",
+        "price",
+        "rate",
+        "description",
+        "fragment",
+        "cover",
+        "categoryId",
+      ],
+      include: [
+        {
+          model: Favorite,
+          where: { userId: req.user.id },
+          attributes: [],
+          required: true,
+        },
+      ],
+    });
+    return res.json(userFavoritesBooks);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
+    console.log("getUserFavoritesBooks:", err.message);
+    res.status(500).json({ message: err.message });
   }
 };
