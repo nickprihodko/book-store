@@ -37,15 +37,12 @@ const App = () => {
       <Header />
       <Switch>
         <Route path="/" component={HomePage} exact />
-        <Route path="/book/:id" component={BookPage}></Route>
-        <Route path="/addbook" component={BookAdd}></Route>
-        <Route path="/login" component={LoginPage}></Route>
-        <Route path="/register" component={RegisterPage}></Route>
-        <PrivateRoute path="/user" component={UserPage}></PrivateRoute>
-        <PrivateRoute
-          path="/favorites"
-          component={FavoritesPage}
-        ></PrivateRoute>
+        <Route path="/book/:id" component={BookPage} />
+        <PrivateRoute path="/addbook" component={BookAdd} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/register" component={RegisterPage} />
+        <PrivateRoute path="/user" component={UserPage} />
+        <PrivateRoute path="/favorites" component={FavoritesPage} />
       </Switch>
       <Footer />
     </Fragment>

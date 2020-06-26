@@ -27,7 +27,7 @@ const AddReview = ({ onSubmit }) => {
           placeholder="type something..."
           value={review}
           onChange={handleChange}
-        ></Textarea>
+        />
       </FieldSet>
       <Button type="submit">Add review</Button>
     </Form>

@@ -20,6 +20,10 @@ export const booksLoaded = (queryParams) => async (dispatch) => {
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.booksLoaded,
+        payload: res.data.pageOfItems,
+      });
+      dispatch({
+        type: ACTION_TYPES.loadPages,
         payload: res.data,
       });
     })

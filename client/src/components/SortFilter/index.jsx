@@ -15,8 +15,13 @@ const SortFilter = () => {
   const priceTo = query.get("priceto");
   const rateFrom = query.get("ratefrom");
   const rateTo = query.get("rateto");
+  const page = query.get("page");
 
   let queryString = "";
+
+  if (page) {
+  }
+
   if (category) {
     queryString += `&category=${category}`;
   }

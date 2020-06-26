@@ -1,21 +1,10 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { booksLoaded, loadUserFavoritesBooks } from "../../actions/books";
-
 import BookListItem from "../BookListItem";
 
-const BookList = ({ location, books, booksLoaded, loadUserFavoritesBooks }) => {
-  useEffect(() => {
-    if (location.pathname === "/favorites") {
-      loadUserFavoritesBooks();
-    } else {
-      booksLoaded(location.search);
-    }
-  }, [booksLoaded, location.search]);
-
+const BookList = ({ books }) => {
   return (
     <List>
       {books.map((book) => {
@@ -31,17 +20,7 @@ const List = styled.ul`
 `;
 
 BookList.propTypes = {
-  location: PropTypes.object,
-  books: PropTypes.array,
-  booksLoaded: PropTypes.func,
-  loadUserFavoritesBooks: PropTypes.func,
+  books: PropTypes.array, // fix
 };
 
-const mapStateToProps = ({ books }) => ({
-  books: books.data,
-});
-
-export default connect(mapStateToProps, {
-  booksLoaded,
-  loadUserFavoritesBooks,
-})(BookList);
+export default BookList;

@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+import { booksLoaded } from "../../actions/books";
 
 import ASide from "./components/ASide";
 import SortFilter from "../../components/SortFilter";
 import BookList from "../../components/BookList";
+import Pagination from "../../components/Pagination";
 
-const HomePage = ({ location }) => {
+const HomePage = ({ location, loading, books, pager, booksLoaded }) => {
+  useEffect(() => {
+    booksLoaded(location.search);
+  }, [booksLoaded, location.search]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Main>
       <h1 className="visually-hidden">Main Page</h1>
       <ASide />
       <ContentContainer>
         <SortFilter />
-        <BookList location={location} />
+        <BookList books={books} />
+        {Object.keys(pager).length > 0 ? <Pagination pager={pager} /> : null}
       </ContentContainer>
     </Main>
   );
@@ -30,10 +43,17 @@ const Main = styled.main`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 HomePage.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export default HomePage;
+const mapStateToProps = ({ books, pages }) => ({
+  pager: pages.pager,
+  books: books.data,
+  loading: books.loading,
+});
+
+export default connect(mapStateToProps, { booksLoaded })(HomePage);

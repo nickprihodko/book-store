@@ -19,10 +19,17 @@ export default function (state = initialState, action) {
         data: [],
         loading: true,
         error: null,
+        favorites: [],
       };
 
     case ACTION_TYPES.booksLoaded:
-      return { ...state, data: payload, loading: false, error: null };
+    case ACTION_TYPES.loadUserFavoritesBooks:
+      return {
+        ...state,
+        data: payload,
+        loading: false,
+        error: null,
+      };
 
     case ACTION_TYPES.booksError:
       return {
@@ -52,14 +59,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         favorites: payload,
-      };
-
-    case ACTION_TYPES.loadUserFavoritesBooks:
-      return {
-        ...state,
-        data: payload,
-        loading: false,
-        error: null,
       };
 
     default:

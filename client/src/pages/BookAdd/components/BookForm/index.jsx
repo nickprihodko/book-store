@@ -105,7 +105,7 @@ const BookForm = ({ onSubmit, setAlert }) => {
           name="description"
           value={description}
           onChange={handleChange}
-        ></Textarea>
+        />
       </Label>
       <Label>
         <span>Fragment:</span>
@@ -114,7 +114,7 @@ const BookForm = ({ onSubmit, setAlert }) => {
           name="fragment"
           value={fragment}
           onChange={handleChange}
-        ></Textarea>
+        />
       </Label>
       <Label>
         <span>Price:</span>

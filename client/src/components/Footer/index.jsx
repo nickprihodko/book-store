@@ -8,12 +8,13 @@ const Footer = () => {
 const StyledFooter = styled.footer`
   margin: 10px;
   margin-top: auto;
+  padding: 0 10px;
 
   height: 60px;
 
   font-family: "Oxygen Bold";
   line-height: 60px;
-  text-align: center;
+  text-align: right;
   color: #ffffff;
 
   background-color: #1a237e;
