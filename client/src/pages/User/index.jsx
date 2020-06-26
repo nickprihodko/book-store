@@ -20,12 +20,14 @@ const UserPage = ({ auth: { user }, updateUser }) => {
     updateUser(data);
   };
 
+  const greeting = (user && user.name) || "bookworm";
+
   return user === null ? (
     <Spinner />
   ) : (
     <Container>
-      <Headline title="User Page" as="h2" />
-      <Paragraph>Welcome, {user && user.name}!</Paragraph>
+      <Headline as="h2">User Page</Headline>
+      <Paragraph>Welcome, {greeting}!</Paragraph>
       <UserForm onSubmit={onUserSubmit} user={user} />
     </Container>
   );

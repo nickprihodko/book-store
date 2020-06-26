@@ -23,7 +23,7 @@ const RegisterPage = ({ isAuthenticated, register }) => {
     <main>
       <h1 className="visually-hidden">Registration Page</h1>
       <Container>
-        <Headline title="Sign Up" as="h2" />
+        <Headline as="h2">Sign Up</Headline>
         <Paragraph>Create Your Account</Paragraph>
         <RegisterForm onSubmit={onRegisterSubmit} />
         <p>

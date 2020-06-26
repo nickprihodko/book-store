@@ -13,30 +13,13 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case ACTION_TYPES.booksRequested:
-      return {
-        ...state,
-        data: [],
-        loading: true,
-        error: null,
-        favorites: [],
-      };
-
-    case ACTION_TYPES.booksLoaded:
+    case ACTION_TYPES.loadBooks:
     case ACTION_TYPES.loadUserFavoritesBooks:
       return {
         ...state,
         data: payload,
         loading: false,
         error: null,
-      };
-
-    case ACTION_TYPES.booksError:
-      return {
-        ...state,
-        data: [],
-        loading: false,
-        error: payload,
       };
 
     case ACTION_TYPES.addBook:

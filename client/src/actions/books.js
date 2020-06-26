@@ -15,11 +15,11 @@ import {
 } from "../api/books";
 
 // load books
-export const booksLoaded = (queryParams) => async (dispatch) => {
+export const loadBooks = (queryParams) => async (dispatch) => {
   getBooks(queryParams)
     .then((res) => {
       dispatch({
-        type: ACTION_TYPES.booksLoaded,
+        type: ACTION_TYPES.loadBooks,
         payload: res.data.pageOfItems,
       });
       dispatch({
@@ -68,26 +68,25 @@ export const addBook = (data) => async (dispatch) => {
 
 // set book cover
 export const addBookCover = (data) => async (dispatch) => {
-  const formData = new FormData();
+  try {
+    const formData = new FormData();
+    formData.append("bookId", data.bookId);
+    if (data.cover) {
+      formData.append("cover", data.cover);
+    }
 
-  formData.append("bookId", data.bookId);
-  if (data.cover) {
-    formData.append("cover", data.cover);
-  }
-
-  setBookCover(formData)
-    .then((res) => {
-      dispatch({
-        type: ACTION_TYPES.setBookCover,
-        payload: res.data,
-      });
-    })
-    .catch((err) => {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-      }
+    const res = await setBookCover(formData);
+    dispatch({
+      type: ACTION_TYPES.setBookCover,
+      payload: res.data,
     });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+    return errors;
+  }
 };
 
 // get categories

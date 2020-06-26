@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const Headline = ({ title, as }) => {
-  return <StyledHeader as={as}>{title}</StyledHeader>;
+const Headline = ({ as, children }) => {
+  return <StyledHeader as={as}>{children}</StyledHeader>;
 };
 
 const StyledHeader = styled.h1`
@@ -15,9 +14,5 @@ const StyledHeader = styled.h1`
   text-align: center;
   color: #1a237e;
 `;
-
-Headline.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default Headline;

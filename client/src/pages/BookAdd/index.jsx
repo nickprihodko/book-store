@@ -18,7 +18,7 @@ const BookAdd = ({ addBook }) => {
     <main>
       <h1 className="visually-hidden">Add book page</h1>
       <Container>
-        <Headline title="Add book" as="h2" />
+        <Headline as="h2">Add book</Headline>
         <Paragraph>Add Your new book</Paragraph>
         <BookForm onSubmit={onBookSubmit}></BookForm>
       </Container>

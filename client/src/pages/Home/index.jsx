@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { booksLoaded } from "../../actions/books";
+import { loadBooks } from "../../actions/books";
 
-import ASide from "./components/ASide";
+import ASide from "./components/ASideFilter";
 import SortFilter from "../../components/SortFilter";
 import BookList from "../../components/BookList";
 import Pagination from "../../components/Pagination";
 
-const HomePage = ({ location, loading, books, pager, booksLoaded }) => {
+const HomePage = ({ location, loading, books, pager, loadBooks }) => {
   useEffect(() => {
-    booksLoaded(location.search);
-  }, [booksLoaded, location.search]);
+    loadBooks(location.search);
+  }, [loadBooks, location.search]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -26,7 +26,7 @@ const HomePage = ({ location, loading, books, pager, booksLoaded }) => {
       <ContentContainer>
         <SortFilter />
         <BookList books={books} />
-        {Object.keys(pager).length > 0 ? <Pagination pager={pager} /> : null}
+        {Object.keys(pager).length > 0 && <Pagination pager={pager} />}
       </ContentContainer>
     </Main>
   );
@@ -56,4 +56,4 @@ const mapStateToProps = ({ books, pages }) => ({
   loading: books.loading,
 });
 
-export default connect(mapStateToProps, { booksLoaded })(HomePage);
+export default connect(mapStateToProps, { loadBooks })(HomePage);

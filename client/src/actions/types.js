@@ -11,9 +11,7 @@ export const ACTION_TYPES = {
   userLoaded: "USER_LOADED/Auth",
   updateUser: "UPDATE_USER/Auth",
 
-  booksLoaded: "FETCH_BOOKS_SUCCESS/Books",
-  booksRequested: "FETCH_BOOKS_REQUEST/Books",
-  booksError: "FETCH_BOOKS_FAILURE/Books",
+  loadBooks: "FETCH_BOOKS_SUCCESS/Books",
   loadPages: "LOAD_PAGES/Books",
 
   bookRequest: "FETCH_BOOK_REQUEST/Books",

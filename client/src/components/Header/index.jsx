@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -63,7 +63,7 @@ const Header = ({ isAuthenticated, logout }) => {
         Book store
       </HeaderDescription>
       <Nav className="navigation">
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        {isAuthenticated ? authLinks : guestLinks}
       </Nav>
     </HeaderContainer>
   );

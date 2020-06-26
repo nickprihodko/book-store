@@ -21,7 +21,7 @@ const SelectFile = ({ title, onModalClose, onModalChange, onSubmit }) => {
   return (
     <Modal>
       <ModalClose onClick={handleModalClose}></ModalClose>
-      <Headline title={title} as="h2" />
+      <Headline as="h2">{title}</Headline>
       <FileInput
         type="file"
         name="file"

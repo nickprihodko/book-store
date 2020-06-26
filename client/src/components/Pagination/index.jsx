@@ -52,7 +52,7 @@ const Pagination = ({ pager }) => {
           to={{ search: `?page=${totalPages}` }}
           as={isDisabledLast ? "span" : Link}
         >
-          Last1
+          Last
         </PaginationLink>
       </PaginationItem>
     </PaginationList>

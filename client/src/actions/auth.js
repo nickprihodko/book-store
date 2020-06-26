@@ -3,7 +3,6 @@ import { ACTION_TYPES } from "./types";
 
 import { registerUser, loginUser, getUser, editUser } from "../api/auth";
 import { loadFavorites } from "./books";
-import setAuthToken from "../utils/setAuthToken";
 
 // Register User
 export const register = ({ name, email, password }) => async (dispatch) => {
@@ -66,8 +65,6 @@ export const login = ({ email, password }) => async (dispatch) => {
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-  setAuthToken(localStorage.token); // add token to headers
-
   getUser()
     .then((res) => {
       dispatch({

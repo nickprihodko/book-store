@@ -1,5 +1,5 @@
-import React, { useEffect, Fragment } from "react";
-import { batch } from "react-redux";
+import React, { useEffect } from "react";
+import { connect, batch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
 import store from "./store";
@@ -21,9 +21,9 @@ import {
   UserPage,
 } from "./pages";
 
-const App = () => {
+const App = ({ user }) => {
   useEffect(() => {
-    if (localStorage.token) {
+    if (localStorage.getItem("token")) {
       batch(() => {
         store.dispatch(loadUser());
         store.dispatch(loadFavorites());
@@ -32,7 +32,7 @@ const App = () => {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <Alert />
       <Header />
       <Switch>
@@ -42,11 +42,15 @@ const App = () => {
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <PrivateRoute path="/user" component={UserPage} />
-        <PrivateRoute path="/favorites" component={FavoritesPage} />
+        {user && <PrivateRoute path="/favorites" component={FavoritesPage} />}
       </Switch>
       <Footer />
-    </Fragment>
+    </>
   );
 };
 
-export default App;
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
+});
+
+export default connect(mapStateToProps)(App);

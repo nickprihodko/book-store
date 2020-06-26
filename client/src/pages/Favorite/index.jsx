@@ -10,13 +10,13 @@ import Headline from "../../components/UI/Headline";
 const FavoritesPage = ({ books, loadUserFavoritesBooks }) => {
   useEffect(() => {
     loadUserFavoritesBooks();
-  }, []);
+  }, [loadUserFavoritesBooks]);
 
   return (
     <Main>
       <h1 className="visually-hidden">Favorite Page</h1>
       <ContentContainer>
-        <Headline title="Favorites" as="h2" />
+        <Headline as="h2">Favorites</Headline>
         <BookList books={books} />
       </ContentContainer>
     </Main>
@@ -39,7 +39,6 @@ const ContentContainer = styled.div`
 `;
 
 // fix propTypes
-
 const mapStateToProps = ({ books }) => ({
   books: books.data,
 });

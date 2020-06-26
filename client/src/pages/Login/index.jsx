@@ -24,7 +24,7 @@ const LoginPage = ({ isAuthenticated, login }) => {
     <main>
       <h1 className="visually-hidden">Login Page</h1>
       <Container>
-        <Headline title="Sign In" as="h2" />
+        <Headline as="h2">Sign In</Headline>
         <Paragraph>Sign into Your Account</Paragraph>
         <LoginForm onSubmit={onLoginSubmit} />
         <p>

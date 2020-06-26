@@ -65,11 +65,11 @@ const Reviews = ({
                 <Moment format="YYYY/MM/DD">{review.createdAt}</Moment>
               </Date>
             </TextContainer>
-            {isAuthenticated && user.id === review.userId ? (
+            {isAuthenticated && user.id === review.userId && (
               <DeleteButton onClick={(e) => handleDelete(review.id)}>
                 delete
               </DeleteButton>
-            ) : null}
+            )}
           </ReviewItem>
         );
       })}

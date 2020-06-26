@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Textarea from "../../../../components/UI/Textarea";
@@ -27,7 +27,8 @@ const UserForm = ({ onSubmit, user }) => {
     setModal(false);
   };
 
-  const onModalShow = () => {
+  const onModalShow = (e) => {
+    e.preventDefault();
     setModal(true);
   };
 
@@ -36,7 +37,7 @@ const UserForm = ({ onSubmit, user }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit}>
         <AvatarContainer>
           <Avatar isAvatar={user.avatar} name="avatar" />
@@ -58,11 +59,11 @@ const UserForm = ({ onSubmit, user }) => {
           onSubmit={handleSubmit}
         />
       ) : null}
-    </Fragment>
+    </>
   );
 };
 
-const AvatarImageSelect = styled.div`
+const AvatarImageSelect = styled.button`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -74,6 +75,8 @@ const AvatarImageSelect = styled.div`
 
   background: url("/images/select-file.png") no-repeat center center;
   background-size: contain;
+  border: none;
+  outline: none;
   border-radius: 50%;
   cursor: pointer;
   opacity: 0.7;

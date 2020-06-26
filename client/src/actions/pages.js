@@ -15,13 +15,5 @@ export const loadPages = (location, currentPage) => async (dispatch) => {
         });
       })
       .catch((err) => {});
-
-    // -----------------------------------
-
-    // fetch(`/api/items?page=${page}`, { method: "GET" })
-    //   .then((response) => response.json())
-    //   .then(({ pager, pageOfItems }) => {
-    //     this.setState({ pager, pageOfItems });
-    //   });
   }
 };

@@ -44,10 +44,8 @@ const BookPage = ({
   const [bookCover, setBookCover] = useState(cover || "");
 
   let userRate = 0;
-  if (rates !== undefined) {
-    if (rates.length) {
-      userRate = rates[0].userrate;
-    }
+  if (rates !== undefined && rates.length > 0) {
+    userRate = rates[0].userrate;
   }
 
   const handleRating = (rate) => {
@@ -64,11 +62,11 @@ const BookPage = ({
       review: data,
       bookid: id,
     };
-
     createReview(newReview);
   };
 
-  const onModalShow = () => {
+  const onModalShow = (e) => {
+    e.preventDefault();
     setModal(true);
   };
 
@@ -83,18 +81,17 @@ const BookPage = ({
         break;
 
       default:
+        return;
     }
   };
 
-  const onModalSubmit = (e) => {
+  const onModalSubmit = async (e) => {
     e.preventDefault();
-
     const data = {
       cover: bookCover,
       bookId: id,
     };
-
-    addBookCover(data);
+    await addBookCover(data);
     setModal(false);
   };
 
@@ -111,11 +108,11 @@ const BookPage = ({
         width="460"
         height="500"
       />
-      {isAuthenticated ? <BookImageSelect onClick={onModalShow} /> : null}
+      {isAuthenticated && <BookImageSelect onClick={onModalShow} />}
       <BookInfo>
         <RateContainer>
           <RateView title="book rating">{rate}</RateView>
-          {isAuthenticated ? (
+          {isAuthenticated && (
             <StyledRating
               size={30}
               value={userRate}
@@ -123,7 +120,7 @@ const BookPage = ({
                 handleRating(newRating);
               }}
             />
-          ) : null}
+          )}
         </RateContainer>
         <BookTitle>{title}</BookTitle>
         <BookAuthor>{author}</BookAuthor>
@@ -132,16 +129,20 @@ const BookPage = ({
       </BookInfo>
       <BookFragment>{fragment}</BookFragment>
 
-      {isAuthenticated ? <AddReview onSubmit={addReview}></AddReview> : null}
+      {isAuthenticated && <AddReview onSubmit={addReview} />}
       <Reviews bookId={+id}></Reviews>
-      {modal ? (
+      {modal && (
+        // <Modal>
+        //   <SelectFile />
+        // </Modal>
+
         <SelectFile
           title="Select book cover!"
           onModalClose={onModalClose}
           onModalChange={onModalChange}
           onSubmit={onModalSubmit}
         />
-      ) : null}
+      )}
     </BookSection>
   );
 };
@@ -159,7 +160,7 @@ const BookSection = styled.section`
   width: 960px;
 `;
 
-const BookImageSelect = styled.div`
+const BookImageSelect = styled.button`
   position: absolute;
   top: 10px;
   left: 10px;
@@ -171,6 +172,7 @@ const BookImageSelect = styled.div`
   background-color: transparent;
   background: url("/images/select-file.png") no-repeat center center;
   border: 2px solid #1a237e;
+  outline: none;
   border-radius: 50%;
   cursor: pointer;
   opacity: 0.5;

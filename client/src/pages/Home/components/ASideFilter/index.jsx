@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -13,17 +13,17 @@ import "react-input-range/lib/css/index.css";
 import SelectCategory from "../../../../components/SelectCategory";
 import AutoComplete from "../../../../components/UI/AutoComplete";
 
-const ASide = ({ authors, loadAuthors }) => {
+const ASideFilter = ({ authors, loadAuthors }) => {
   useEffect(() => {
     loadAuthors();
   }, [loadAuthors]);
 
-  let listAutors = [];
-  for (let author of authors) {
-    listAutors.push(author.author);
-  }
+  const listAuthors = useMemo(() => authors.map((item) => item.author), [
+    authors,
+  ]);
 
-  let query = qs.parse(useLocation().search, { ignoreQueryPrefix: true });
+  const { search } = useLocation();
+  let query = qs.parse(search, { ignoreQueryPrefix: true });
 
   const [formData, setFormData] = useState({
     category: "",
@@ -94,7 +94,7 @@ const ASide = ({ authors, loadAuthors }) => {
         <FieldSet>
           <Legend>Author</Legend>
           <AutoComplete
-            items={listAutors}
+            items={listAuthors}
             onChange={onAuthorChange}
             onSelected={onAuthorSelected}
           />
@@ -205,7 +205,7 @@ const FilterLink = styled(Link)`
   }
 `;
 
-ASide.propTypes = {
+ASideFilter.propTypes = {
   authors: PropTypes.array.isRequired,
   loadAuthors: PropTypes.func.isRequired,
 };
@@ -214,4 +214,4 @@ const mapStateToProps = ({ books }) => ({
   authors: books.authors,
 });
 
-export default connect(mapStateToProps, { loadAuthors })(ASide);
+export default connect(mapStateToProps, { loadAuthors })(ASideFilter);

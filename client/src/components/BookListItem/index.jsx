@@ -31,7 +31,12 @@ const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
     <Item>
       <Rating>{rate}</Rating>
       <BookLink to={`/book/${id}`}>
-        <Image src={cover || bookCover} alt="" width="165" height="185" />
+        <Image
+          src={cover || bookCover}
+          alt="Book cover"
+          width="165"
+          height="185"
+        />
         <Info>
           <Title>{title}</Title>
           <Author>{author}</Author>
@@ -40,7 +45,7 @@ const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
       <Div>
         <Price>{price} $</Price>
 
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <Heart
             isFavorite={isFavorite}
             onClick={heartClick}
@@ -51,7 +56,7 @@ const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
             />
           </Heart>
-        ) : null}
+        )}
       </Div>
     </Item>
   );
