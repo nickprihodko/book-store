@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Textarea = styled.textarea`
@@ -18,5 +19,12 @@ const Textarea = styled.textarea`
     border-color: #3949ab;
   }
 `;
+
+Textarea.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default Textarea;

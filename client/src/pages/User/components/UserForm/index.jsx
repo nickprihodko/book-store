@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Textarea from "../../../../components/UI/Textarea";
 import Button from "../../../../components/UI/Button";
+import Modal from "../../../../components/Modal";
 import SelectFile from "../../../../components/SelectFile";
 
 const UserForm = ({ onSubmit, user }) => {
@@ -51,14 +53,16 @@ const UserForm = ({ onSubmit, user }) => {
         />
         <Button type="submit">Save</Button>
       </Form>
-      {modal ? (
-        <SelectFile
-          title="Select your terrific avatar!"
-          onModalClose={onModalClose}
-          onModalChange={handleChange}
-          onSubmit={handleSubmit}
-        />
-      ) : null}
+      {modal && (
+        <Modal>
+          <SelectFile
+            title="Select your terrific avatar!"
+            onModalClose={onModalClose}
+            onModalChange={handleChange}
+            onSubmit={handleSubmit}
+          />
+        </Modal>
+      )}
     </>
   );
 };
@@ -124,5 +128,17 @@ const Form = styled.form`
 
   text-align: center;
 `;
+
+UserForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    avatar: PropTypes.string,
+    about: PropTypes.string,
+  }).isRequired,
+};
 
 export default UserForm;

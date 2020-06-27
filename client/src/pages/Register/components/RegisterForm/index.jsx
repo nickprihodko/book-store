@@ -101,7 +101,7 @@ const Form = styled.form`
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  setAlert: PropTypes.func,
+  setAlert: PropTypes.func.isRequired,
 };
 
 export default connect(null, { setAlert })(RegisterForm);

@@ -13,7 +13,7 @@ import "react-input-range/lib/css/index.css";
 import SelectCategory from "../../../../components/SelectCategory";
 import AutoComplete from "../../../../components/UI/AutoComplete";
 
-const ASideFilter = ({ authors, loadAuthors }) => {
+const BooksFilter = ({ authors, loadAuthors }) => {
   useEffect(() => {
     loadAuthors();
   }, [loadAuthors]);
@@ -26,10 +26,10 @@ const ASideFilter = ({ authors, loadAuthors }) => {
   let query = qs.parse(search, { ignoreQueryPrefix: true });
 
   const [formData, setFormData] = useState({
-    category: "",
-    author: "",
-    price: { min: 0, max: 999 },
-    rate: { min: 0, max: 5 },
+    category: query.category || "",
+    author: query.author || "",
+    price: { min: query.pricefrom || 0, max: query.priceto || 999 },
+    rate: { min: query.ratefrom || 0, max: query.rateto || 5 },
   });
 
   const onCategoryChange = (e) => {
@@ -89,11 +89,12 @@ const ASideFilter = ({ authors, loadAuthors }) => {
           <SelectCategory
             value={formData.category}
             onCategoryChange={onCategoryChange}
-          ></SelectCategory>
+          />
         </FieldSet>
         <FieldSet>
           <Legend>Author</Legend>
           <AutoComplete
+            value={formData.author}
             items={listAuthors}
             onChange={onAuthorChange}
             onSelected={onAuthorSelected}
@@ -205,8 +206,12 @@ const FilterLink = styled(Link)`
   }
 `;
 
-ASideFilter.propTypes = {
-  authors: PropTypes.array.isRequired,
+BooksFilter.propTypes = {
+  authors: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string,
+    })
+  ).isRequired,
   loadAuthors: PropTypes.func.isRequired,
 };
 
@@ -214,4 +219,4 @@ const mapStateToProps = ({ books }) => ({
   authors: books.authors,
 });
 
-export default connect(mapStateToProps, { loadAuthors })(ASideFilter);
+export default connect(mapStateToProps, { loadAuthors })(BooksFilter);

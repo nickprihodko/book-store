@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 
-const AutoComplete = ({ items, onChange, onSelected }) => {
-  const [state, setState] = useState({ suggestions: [], text: "" });
+const AutoComplete = ({ value, items, onChange, onSelected }) => {
+  const [state, setState] = useState({ suggestions: [], text: value || "" });
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -45,7 +45,7 @@ const AutoComplete = ({ items, onChange, onSelected }) => {
         name="author"
         value={state.text}
         onChange={handleChange}
-      ></Input>
+      />
       {renderSuggestions()}
     </Div>
   );
@@ -90,6 +90,7 @@ const Li = styled.li`
 `;
 
 AutoComplete.propTypes = {
+  value: PropTypes.string,
   items: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   onSelected: PropTypes.func.isRequired,

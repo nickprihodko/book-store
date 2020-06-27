@@ -5,7 +5,7 @@ const Radio = ({ children }) => {
   return (
     <Label>
       <Input type="radio" name="radio-group" />
-      <RadioIndicator></RadioIndicator>
+      <RadioIndicator />
       <RadioDesc>{children}</RadioDesc>
     </Label>
   );

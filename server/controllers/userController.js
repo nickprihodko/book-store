@@ -51,6 +51,7 @@ exports.registerUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findOne({
+      attributes: ["id", "name", "email", "password", "avatar", "about"],
       where: {
         id: req.user.id,
       },

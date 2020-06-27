@@ -20,7 +20,7 @@ const BookAdd = ({ addBook }) => {
       <Container>
         <Headline as="h2">Add book</Headline>
         <Paragraph>Add Your new book</Paragraph>
-        <BookForm onSubmit={onBookSubmit}></BookForm>
+        <BookForm onSubmit={onBookSubmit} />
       </Container>
     </main>
   );

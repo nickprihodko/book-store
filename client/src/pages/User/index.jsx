@@ -35,6 +35,7 @@ const UserPage = ({ auth: { user }, updateUser }) => {
 
 UserPage.propTypes = {
   auth: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

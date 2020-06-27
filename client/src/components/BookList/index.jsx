@@ -8,7 +8,7 @@ const BookList = ({ books }) => {
   return (
     <List>
       {books.map((book) => {
-        return <BookListItem key={book.id} book={book}></BookListItem>;
+        return <BookListItem key={book.id} book={book} />;
       })}
     </List>
   );
@@ -20,7 +20,16 @@ const List = styled.ul`
 `;
 
 BookList.propTypes = {
-  books: PropTypes.array, // fix
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      price: PropTypes.number,
+      rate: PropTypes.number,
+      cover: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default BookList;

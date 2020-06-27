@@ -93,10 +93,7 @@ const BookForm = ({ onSubmit, setAlert }) => {
       </Label>
       <Label>
         <span>Category:</span>
-        <SelectCategory
-          value={category}
-          onCategoryChange={handleChange}
-        ></SelectCategory>
+        <SelectCategory value={category} onCategoryChange={handleChange} />
       </Label>
       <Label>
         <span>Description:</span>

@@ -50,8 +50,8 @@ const StyledSelect = styled.select`
 `;
 
 SelectCategory.propTypes = {
-  value: PropTypes.string,
-  onCategoryChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  onCategoryChange: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   loadCategories: PropTypes.func.isRequired,
 };

@@ -55,7 +55,7 @@ const Reviews = ({
                         backgroundImage: `url(${"/images/user.png"})`,
                       }
                 }
-              ></Avatar>
+              />
               <UserName>{review.username || username}</UserName>
             </UserContainer>
             <TextContainer>
@@ -154,6 +154,14 @@ const DeleteButton = styled.button`
 Reviews.propTypes = {
   bookId: PropTypes.number.isRequired,
   review: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    avatar: PropTypes.string,
+    about: PropTypes.string,
+  }),
   loadReviews: PropTypes.func.isRequired,
   deleteReview: PropTypes.func.isRequired,
 };

@@ -25,7 +25,6 @@ Number.defaultProps = {
 
 Number.propTypes = {
   type: PropTypes.string,
-  placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

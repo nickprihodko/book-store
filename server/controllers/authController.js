@@ -7,7 +7,10 @@ const jwtSign = require("../utils/jwtSign");
 
 exports.authenticateUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findOne({
+      attributes: ["id", "name", "email", "password", "avatar", "about"],
+      where: { id: req.user.id },
+    });
 
     return res.json(user);
   } catch (err) {
@@ -43,7 +46,6 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
     }
 
-    console.log(123);
     // Return JWT
     const token = jwtSign(user);
     res.json({ token });

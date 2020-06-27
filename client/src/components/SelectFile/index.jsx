@@ -19,8 +19,8 @@ const SelectFile = ({ title, onModalClose, onModalChange, onSubmit }) => {
   };
 
   return (
-    <Modal>
-      <ModalClose onClick={handleModalClose}></ModalClose>
+    <>
+      <ModalClose onClick={handleModalClose} />
       <Headline as="h2">{title}</Headline>
       <FileInput
         type="file"
@@ -29,30 +29,9 @@ const SelectFile = ({ title, onModalClose, onModalChange, onSubmit }) => {
         onChange={handleChange}
       />
       <Button onClick={handleSubmit}>Save</Button>
-    </Modal>
+    </>
   );
 };
-
-const Modal = styled.div`
-  position: fixed;
-  top: 130px;
-  left: 50%;
-  z-index: 1;
-
-  display: block;
-  width: 460px;
-  height: 502px;
-  margin-left: -230px;
-  padding: 50px 70px;
-  box-sizing: border-box;
-
-  text-align: center;
-
-  background-color: #ffffff;
-  box-shadow: 0 30px 50px;
-
-  animation: bounce 0.6s;
-`;
 
 const FileInput = styled.input`
   margin-bottom: 20px;
@@ -107,7 +86,7 @@ SelectFile.defaultProps = {
 };
 
 SelectFile.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   onModalClose: PropTypes.func.isRequired,
   onModalChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

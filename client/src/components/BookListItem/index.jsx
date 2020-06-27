@@ -163,10 +163,17 @@ BookListItem.defaultProps = {
 };
 
 BookListItem.propTypes = {
-  book: PropTypes.object.isRequired,
+  book: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    price: PropTypes.number,
+    rate: PropTypes.number,
+    cover: PropTypes.string,
+  }).isRequired,
   isAuthenticated: PropTypes.bool,
   favorites: PropTypes.array.isRequired,
-  setFavorite: PropTypes.func.isRequired,
+  setFavorite: PropTypes.func,
 };
 
 const mapStateToProps = ({ auth, books }) => ({

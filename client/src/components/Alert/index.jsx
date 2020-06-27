@@ -41,7 +41,13 @@ const AlertWrapper = styled.div`
 `;
 
 Alert.propTypes = {
-  alerts: PropTypes.array.isRequired,
+  alerts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      msg: PropTypes.string,
+      alertType: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -74,7 +74,7 @@ const Form = styled.form`
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  setAlert: PropTypes.func,
+  setAlert: PropTypes.func.isRequired,
 };
 
 export default connect(null, { setAlert })(LoginForm);

@@ -10,6 +10,7 @@ import { createReview } from "../../actions/reviews";
 
 import AddReview from "./components/AddReview";
 import Reviews from "./components/Reviews";
+import Modal from "../../components/Modal";
 import SelectFile from "../../components/SelectFile";
 
 import BookCover from "../../assets/img/book-cover.png";
@@ -130,18 +131,16 @@ const BookPage = ({
       <BookFragment>{fragment}</BookFragment>
 
       {isAuthenticated && <AddReview onSubmit={addReview} />}
-      <Reviews bookId={+id}></Reviews>
+      <Reviews bookId={+id} />
       {modal && (
-        // <Modal>
-        //   <SelectFile />
-        // </Modal>
-
-        <SelectFile
-          title="Select book cover!"
-          onModalClose={onModalClose}
-          onModalChange={onModalChange}
-          onSubmit={onModalSubmit}
-        />
+        <Modal>
+          <SelectFile
+            title="Select book cover!"
+            onModalClose={onModalClose}
+            onModalChange={onModalChange}
+            onSubmit={onModalSubmit}
+          />
+        </Modal>
       )}
     </BookSection>
   );
@@ -264,6 +263,7 @@ BookPage.propTypes = {
   book: PropTypes.object.isRequired,
   loadBook: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
   setRating: PropTypes.func,
   addBookCover: PropTypes.func,
 };

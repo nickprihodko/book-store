@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { loadBooks } from "../../actions/books";
 
-import ASide from "./components/ASideFilter";
+import BooksFilter from "./components/BooksFilter";
 import SortFilter from "../../components/SortFilter";
 import BookList from "../../components/BookList";
 import Pagination from "../../components/Pagination";
@@ -22,7 +22,7 @@ const HomePage = ({ location, loading, books, pager, loadBooks }) => {
   return (
     <Main>
       <h1 className="visually-hidden">Main Page</h1>
-      <ASide />
+      <BooksFilter />
       <ContentContainer>
         <SortFilter />
         <BookList books={books} />
@@ -48,6 +48,29 @@ const ContentContainer = styled.div`
 
 HomePage.propTypes = {
   location: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      price: PropTypes.number,
+      rate: PropTypes.number,
+      cover: PropTypes.string,
+    })
+  ).isRequired,
+  pager: PropTypes.shape({
+    totalItems: PropTypes.number,
+    currentPage: PropTypes.number,
+    pageSize: PropTypes.number,
+    totalPages: PropTypes.number,
+    startPage: PropTypes.number,
+    endPage: PropTypes.number,
+    startIndex: PropTypes.number,
+    endIndex: PropTypes.number,
+    pages: PropTypes.array,
+  }).isRequired,
+  loadBooks: PropTypes.func,
 };
 
 const mapStateToProps = ({ books, pages }) => ({

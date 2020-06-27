@@ -1,13 +1,42 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 const Pagination = ({ pager }) => {
+  let query = useQuery();
+  const sort = query.get("sort");
+  const category = query.get("category");
+  const priceFrom = query.get("pricefrom");
+  const priceTo = query.get("priceto");
+  const rateFrom = query.get("ratefrom");
+  const rateTo = query.get("rateto");
+
+  let queryString = "";
+
+  if (sort) {
+    queryString += `&sort=${sort}`;
+  }
+
+  if (category) {
+    queryString += `&category=${category}`;
+  }
+  if (priceFrom) {
+    queryString += `&pricefrom=${priceFrom}&priceto=${priceTo}`;
+  }
+  if (rateFrom) {
+    queryString += `&ratefrom=${rateFrom}&rateto=${rateTo}`;
+  }
+
   const { pages, currentPage, totalPages } = pager;
   const isDisabledPrev = currentPage === 1;
   const isDisabledLast = currentPage === totalPages;
 
-  if (totalPages === 1) {
+  if (totalPages === 1 || totalPages === 0) {
     return null;
   }
 
@@ -15,7 +44,7 @@ const Pagination = ({ pager }) => {
     <PaginationList>
       <PaginationItem>
         <PaginationLink
-          to={{ search: `?page=1` }}
+          to={{ search: `?page=1${queryString}` }}
           as={isDisabledPrev ? "span" : Link}
         >
           First
@@ -23,7 +52,7 @@ const Pagination = ({ pager }) => {
       </PaginationItem>
       <PaginationItem>
         <PaginationLink
-          to={{ search: `?page=${currentPage - 1}` }}
+          to={{ search: `?page=${currentPage - 1}${queryString}` }}
           as={isDisabledPrev ? "span" : Link}
         >
           Previous
@@ -32,7 +61,7 @@ const Pagination = ({ pager }) => {
       {pages.map((page) => (
         <PaginationItem key={page}>
           <PaginationLink
-            to={{ search: `?page=${page}` }}
+            to={{ search: `?page=${page}${queryString}` }}
             active={currentPage === page ? "true" : "false"}
           >
             {page}
@@ -41,7 +70,7 @@ const Pagination = ({ pager }) => {
       ))}
       <PaginationItem>
         <PaginationLink
-          to={{ search: `?page=${currentPage + 1}` }}
+          to={{ search: `?page=${currentPage + 1}${queryString}` }}
           as={isDisabledLast ? "span" : Link}
         >
           Next
@@ -49,7 +78,7 @@ const Pagination = ({ pager }) => {
       </PaginationItem>
       <PaginationItem>
         <PaginationLink
-          to={{ search: `?page=${totalPages}` }}
+          to={{ search: `?page=${totalPages}${queryString}` }}
           as={isDisabledLast ? "span" : Link}
         >
           Last
@@ -100,5 +129,19 @@ const PaginationItem = styled.li`
     border-right: 1px solid #c5cae9;
   }
 `;
+
+Pagination.propTypes = {
+  pager: PropTypes.shape({
+    totalItems: PropTypes.number,
+    currentPage: PropTypes.number,
+    pageSize: PropTypes.number,
+    totalPages: PropTypes.number,
+    startPage: PropTypes.number,
+    endPage: PropTypes.number,
+    startIndex: PropTypes.number,
+    endIndex: PropTypes.number,
+    pages: PropTypes.array,
+  }).isRequired,
+};
 
 export default Pagination;

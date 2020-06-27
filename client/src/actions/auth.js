@@ -5,7 +5,7 @@ import { registerUser, loginUser, getUser, editUser } from "../api/auth";
 import { loadFavorites } from "./books";
 
 // Register User
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = ({ name, email, password }) => (dispatch) => {
   const body = JSON.stringify({ name, email, password });
 
   registerUser(body)

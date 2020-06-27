@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
 import styled from "styled-components";
 
 function useQuery() {
@@ -20,6 +19,7 @@ const SortFilter = () => {
   let queryString = "";
 
   if (page) {
+    queryString += `&page=${page}`;
   }
 
   if (category) {

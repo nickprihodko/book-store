@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { loadUserFavoritesBooks } from "../../actions/books";
@@ -31,14 +32,26 @@ const Main = styled.main`
   width: 940px;
 `;
 
-// fix div -> section
-const ContentContainer = styled.div`
+const ContentContainer = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
 
-// fix propTypes
+FavoritesPage.propTypes = {
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      price: PropTypes.number,
+      rate: PropTypes.number,
+      cover: PropTypes.string,
+    })
+  ).isRequired,
+  loadUserFavoritesBooks: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = ({ books }) => ({
   books: books.data,
 });
