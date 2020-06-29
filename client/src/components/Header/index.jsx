@@ -10,61 +10,52 @@ import logo from "../../assets/img/logo.png";
 
 const Header = ({ isAuthenticated, logout }) => {
   const authLinks = (
-    <ul className="navigation__list">
-      <li>
+    <NavList>
+      <NavItem>
         <Link to="/addbook">
-          <div className="navigation__link">Add book</div>
+          <NavLink>Add book</NavLink>
         </Link>
-      </li>
-      <li>
+      </NavItem>
+      <NavItem>
         <Link to="/favorites">
-          <div className="navigation__link">Favorites</div>
+          <NavLink>Favorites</NavLink>
         </Link>
-      </li>
-      <li>
+      </NavItem>
+      <NavItem>
         <Link to="/user">
-          <div className="navigation__link">User</div>
+          <NavLink>User</NavLink>
         </Link>
-      </li>
-      <li>
+      </NavItem>
+      <NavItem>
         <Link to="/" onClick={logout}>
-          <div className="navigation__link">Logout</div>
+          <NavLink>Logout</NavLink>
         </Link>
-      </li>
-    </ul>
+      </NavItem>
+    </NavList>
   );
 
   const guestLinks = (
-    <ul className="navigation__list">
-      <li>
+    <NavList>
+      <NavItem>
         <Link to="/register">
-          <div className="navigation__link">Register</div>
+          <NavLink>Register</NavLink>
         </Link>
-      </li>
-      <li>
+      </NavItem>
+      <NavItem>
         <Link to="/login">
-          <div className="navigation__link">Log in</div>
+          <NavLink>Log in</NavLink>
         </Link>
-      </li>
-    </ul>
+      </NavItem>
+    </NavList>
   );
 
   return (
     <HeaderContainer>
       <Link to="/">
-        <HeaderLogo
-          src={logo}
-          alt="Logotype of Book Store"
-          width="50"
-          height="50"
-        />
+        <Logo src={logo} alt="Logotype of Book Store" width="50" height="50" />
       </Link>
-      <HeaderDescription className="header__description">
-        Book store
-      </HeaderDescription>
-      <Nav className="navigation">
-        {isAuthenticated ? authLinks : guestLinks}
-      </Nav>
+      <Description>Book store</Description>
+      <Nav>{isAuthenticated ? authLinks : guestLinks}</Nav>
     </HeaderContainer>
   );
 };
@@ -81,13 +72,13 @@ const HeaderContainer = styled.header`
   border-radius: 4px;
 `;
 
-const HeaderLogo = styled.img`
+const Logo = styled.img`
   padding: 0 10px;
 
   vertical-align: middle;
 `;
 
-const HeaderDescription = styled.span`
+const Description = styled.span`
   font-family: "Oxygen Bold";
   font-size: 28px;
   color: #ffffff;
@@ -95,36 +86,36 @@ const HeaderDescription = styled.span`
 
 const Nav = styled.nav`
   margin-left: auto;
+`;
 
-  .navigation {
-    &__list {
-      display: flex;
-      justify-content: space-between;
+const NavList = styled.ul`
+  display: flex;
+  justify-content: space-between;
+`;
 
-      & > li:first-child {
-        border-right: 2px solid #ffffff;
-      }
-    }
+const NavItem = styled.li`
+  &:first-child {
+    border-right: 2px solid #ffffff;
+  }
+`;
 
-    &__link {
-      padding: 18px 10px;
+const NavLink = styled.div`
+  padding: 18px 10px;
 
-      font-family: "Oxygen Bold";
-      font-size: 20px;
-      color: #ffffff;
+  font-family: "Oxygen Bold";
+  font-size: 20px;
+  color: #ffffff;
 
-      border-radius: 4px;
+  border-radius: 4px;
 
-      &:hover,
-      &:focus {
-        background-color: #303f9f;
-        color: rgba(0, 0, 0, 0.6);
-      }
+  &:hover,
+  &:focus {
+    background-color: #303f9f;
+    color: rgba(0, 0, 0, 0.6);
+  }
 
-      &:active {
-        color: rgba(0, 0, 0, 0.3);
-      }
-    }
+  &:active {
+    color: rgba(0, 0, 0, 0.3);
   }
 `;
 
