@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense, lazy } from "react";
 import { connect, batch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { loadUser } from "./actions/auth";
@@ -27,13 +27,13 @@ const App = ({ loadUser, loadFavorites }) => {
         loadFavorites();
       });
     }
-  }, []);
+  }, [loadUser, loadFavorites]);
 
   return (
     <>
       <Alert />
       <Header />
-      <Suspense fallback={<div>Загрузка...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route path="/" component={HomePage} exact />
           <Route path="/book/:id" component={BookPage} />
@@ -42,6 +42,7 @@ const App = ({ loadUser, loadFavorites }) => {
           <Route path="/register" component={RegisterPage} />
           <PrivateRoute path="/user" component={UserPage} />
           <PrivateRoute path="/favorites" component={FavoritesPage} />
+          <Redirect to="/" />
         </Switch>
       </Suspense>
       <Footer />

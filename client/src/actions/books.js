@@ -16,7 +16,7 @@ import {
 
 // load books
 export const loadBooks = (queryParams) => async (dispatch) => {
-  getBooks(queryParams)
+  return getBooks(queryParams)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.loadBooks,
