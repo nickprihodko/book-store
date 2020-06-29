@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect, batch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import store from "./store";
 import { loadUser } from "./actions/auth";
 import { loadFavorites } from "./actions/books";
 
@@ -21,12 +21,12 @@ import {
   UserPage,
 } from "./pages";
 
-const App = ({ user }) => {
+const App = ({ loadUser, loadFavorites }) => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       batch(() => {
-        store.dispatch(loadUser());
-        store.dispatch(loadFavorites());
+        loadUser();
+        loadFavorites();
       });
     }
   }, []);
@@ -42,15 +42,16 @@ const App = ({ user }) => {
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <PrivateRoute path="/user" component={UserPage} />
-        {user && <PrivateRoute path="/favorites" component={FavoritesPage} />}
+        <PrivateRoute path="/favorites" component={FavoritesPage} />
       </Switch>
       <Footer />
     </>
   );
 };
 
-const mapStateToProps = ({ auth }) => ({
-  user: auth.user,
-});
+App.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  loadFavorites: PropTypes.func.isRequired,
+};
 
-export default connect(mapStateToProps)(App);
+export default connect(null, { loadUser, loadFavorites })(App);

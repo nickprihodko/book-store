@@ -13,6 +13,30 @@ import "react-input-range/lib/css/index.css";
 import SelectCategory from "../../../../components/SelectCategory";
 import AutoComplete from "../../../../components/UI/AutoComplete";
 
+const setQueryString = (formData) => {
+  const query = {};
+
+  if (formData.category && +formData.category !== 1) {
+    query.category = formData.category;
+  } else {
+    query.category = "";
+  }
+
+  query.author = formData.author;
+  query.pricefrom = formData.price.min;
+  query.priceto = formData.price.max;
+  query.ratefrom = formData.rate.min;
+  query.rateto = formData.rate.max;
+
+  const entries = Object.entries(query);
+  let paramString = entries.reduce((sum, cur) => {
+    return `${sum}${cur[0]}=${cur[1]}&`;
+  }, "?");
+  paramString = paramString.slice(0, paramString.length - 1);
+
+  return paramString;
+};
+
 const BooksFilter = ({ authors, loadAuthors }) => {
   useEffect(() => {
     loadAuthors();
@@ -58,27 +82,7 @@ const BooksFilter = ({ authors, loadAuthors }) => {
     });
   };
 
-  if (formData.category && +formData.category !== 1) {
-    query.category = formData.category;
-  } else {
-    query.category = "";
-  }
-
-  query.author = formData.author;
-  query.pricefrom = formData.price.min;
-  query.priceto = formData.price.max;
-  query.ratefrom = formData.rate.min;
-  query.rateto = formData.rate.max;
-
-  const entries = Object.entries(query);
-  let queryString = entries.reduce((sum, cur) => {
-    return `${sum}${cur[0]}=${cur[1]}&`;
-  }, "?");
-  queryString = queryString.slice(0, queryString.length - 1);
-
-  const handleClick = () => {
-    //
-  };
+  const queryString = useMemo(() => setQueryString(formData), [formData]);
 
   return (
     <Aside>
@@ -125,7 +129,7 @@ const BooksFilter = ({ authors, loadAuthors }) => {
             />
           </InputRangeContainer>
         </FieldSet>
-        <FilterLink to={`/${queryString}`} onClick={handleClick}>
+        <FilterLink to={`/${queryString}`}>
           <span>Show</span>
         </FilterLink>
       </Form>

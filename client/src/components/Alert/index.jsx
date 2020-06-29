@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Alert = ({ alerts }) => {
-  if (alerts !== null && alerts.length > 0) {
+  if (alerts.length > 0) {
     return alerts.map((alert) => (
       <AlertWrapper key={alert.id}>
         <div className={`alert alert--${alert.alertType}`}>{alert.msg}</div>

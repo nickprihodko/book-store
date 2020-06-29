@@ -21,4 +21,4 @@ const StyledFooter = styled.footer`
   border-radius: 4px;
 `;
 
-export default Footer;
+export default React.memo(Footer);
