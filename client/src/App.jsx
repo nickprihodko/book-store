@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { connect, batch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -11,15 +11,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
-import {
-  HomePage,
-  LoginPage,
-  RegisterPage,
-  BookPage,
-  BookAdd,
-  FavoritesPage,
-  UserPage,
-} from "./pages";
+const HomePage = lazy(() => import("./pages/Home"));
+const LoginPage = lazy(() => import("./pages/Login"));
+const RegisterPage = lazy(() => import("./pages/Register"));
+const BookPage = lazy(() => import("./pages/Book"));
+const BookAdd = lazy(() => import("./pages/BookAdd"));
+const FavoritesPage = lazy(() => import("./pages/Favorite"));
+const UserPage = lazy(() => import("./pages/User"));
 
 const App = ({ loadUser, loadFavorites }) => {
   useEffect(() => {
@@ -35,15 +33,17 @@ const App = ({ loadUser, loadFavorites }) => {
     <>
       <Alert />
       <Header />
-      <Switch>
-        <Route path="/" component={HomePage} exact />
-        <Route path="/book/:id" component={BookPage} />
-        <PrivateRoute path="/addbook" component={BookAdd} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <PrivateRoute path="/user" component={UserPage} />
-        <PrivateRoute path="/favorites" component={FavoritesPage} />
-      </Switch>
+      <Suspense fallback={<div>Загрузка...</div>}>
+        <Switch>
+          <Route path="/" component={HomePage} exact />
+          <Route path="/book/:id" component={BookPage} />
+          <PrivateRoute path="/addbook" component={BookAdd} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/register" component={RegisterPage} />
+          <PrivateRoute path="/user" component={UserPage} />
+          <PrivateRoute path="/favorites" component={FavoritesPage} />
+        </Switch>
+      </Suspense>
       <Footer />
     </>
   );
