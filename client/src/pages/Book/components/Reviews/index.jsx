@@ -153,7 +153,23 @@ const DeleteButton = styled.button`
 
 Reviews.propTypes = {
   bookId: PropTypes.number.isRequired,
-  review: PropTypes.object.isRequired,
+  review: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        title: PropTypes.string,
+        author: PropTypes.string,
+        price: PropTypes.number,
+        rate: PropTypes.number,
+        description: PropTypes.string,
+        fragment: PropTypes.string,
+        cover: PropTypes.string,
+        rates: PropTypes.array,
+      })
+    ),
+    loading: PropTypes.bool,
+    error: PropTypes.object,
+  }).isRequired,
   user: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

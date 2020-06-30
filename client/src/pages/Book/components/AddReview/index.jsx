@@ -14,8 +14,11 @@ const AddReview = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setReview(""); // clear review field
-    onSubmit(review);
+
+    if (review.trim().length > 0) {
+      setReview(""); // clear review field
+      onSubmit(review);
+    }
   };
 
   return (

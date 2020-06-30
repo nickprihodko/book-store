@@ -260,7 +260,17 @@ const BookFragment = styled.div`
 
 BookPage.propTypes = {
   loading: PropTypes.bool.isRequired,
-  book: PropTypes.object.isRequired,
+  book: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    price: PropTypes.number,
+    rate: PropTypes.number,
+    description: PropTypes.string,
+    fragment: PropTypes.string,
+    cover: PropTypes.string,
+    rates: PropTypes.array,
+  }).isRequired,
   loadBook: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
