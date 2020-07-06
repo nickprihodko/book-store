@@ -15,7 +15,7 @@ import {
 } from "../api/books";
 
 // load books
-export const loadBooks = (queryParams) => async (dispatch) => {
+export const loadBooks = (queryParams) => (dispatch) => {
   return getBooks(queryParams)
     .then((res) => {
       dispatch({
@@ -31,7 +31,7 @@ export const loadBooks = (queryParams) => async (dispatch) => {
 };
 
 // load book
-export const loadBook = (id) => async (dispatch) => {
+export const loadBook = (id) => (dispatch) => {
   dispatch({
     type: ACTION_TYPES.bookRequest,
   });
@@ -51,10 +51,10 @@ export const loadBook = (id) => async (dispatch) => {
 };
 
 // add book
-export const addBook = (data) => async (dispatch) => {
+export const addBook = (data) => (dispatch) => {
   const body = JSON.stringify({ data });
 
-  createBook(body)
+  return createBook(body)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.bookAdd,
@@ -90,8 +90,8 @@ export const addBookCover = (data) => async (dispatch) => {
 };
 
 // get categories
-export const loadCategories = () => async (dispatch) => {
-  getCategories()
+export const loadCategories = () => (dispatch) => {
+  return getCategories()
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.loadCategories,
@@ -102,8 +102,8 @@ export const loadCategories = () => async (dispatch) => {
 };
 
 // load authors
-export const loadAuthors = () => async (dispatch) => {
-  getAuthors()
+export const loadAuthors = () => (dispatch) => {
+  return getAuthors()
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.loadAuthors,
@@ -114,10 +114,10 @@ export const loadAuthors = () => async (dispatch) => {
 };
 
 // set rating
-export const setRating = (data) => async (dispatch) => {
+export const setRating = (data) => (dispatch) => {
   const body = JSON.stringify({ data });
 
-  createUpdateRating(body)
+  return createUpdateRating(body)
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.setRating,
@@ -131,8 +131,8 @@ export const setRating = (data) => async (dispatch) => {
 };
 
 // load favorites
-export const loadFavorites = () => async (dispatch) => {
-  getFavorites()
+export const loadFavorites = () => (dispatch) => {
+  return getFavorites()
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.loadFavorites,
@@ -143,8 +143,8 @@ export const loadFavorites = () => async (dispatch) => {
 };
 
 // load user favorites books
-export const loadUserFavoritesBooks = () => async (dispatch) => {
-  getUserFavoritesBooks()
+export const loadUserFavoritesBooks = () => (dispatch) => {
+  return getUserFavoritesBooks()
     .then((res) => {
       dispatch({
         type: ACTION_TYPES.loadUserFavoritesBooks,
@@ -155,7 +155,7 @@ export const loadUserFavoritesBooks = () => async (dispatch) => {
 };
 
 // set favorite
-export const setFavorite = (data) => async (dispatch) => {
+export const setFavorite = (data) => (dispatch) => {
   const body = JSON.stringify({ data });
 
   return addFavorite(body)

@@ -10,7 +10,7 @@ import Paragraph from "components/UI/Paragraph";
 import Spinner from "components/Spinner";
 import UserForm from "./components/UserForm";
 
-const UserPage = ({ auth: { user }, updateUser }) => {
+const UserPage = ({ user, updateUser }) => {
   const onUserSubmit = (about, avatar) => {
     const data = {
       about,
@@ -34,12 +34,19 @@ const UserPage = ({ auth: { user }, updateUser }) => {
 };
 
 UserPage.propTypes = {
-  auth: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    avatar: PropTypes.string,
+    about: PropTypes.string,
+  }).isRequired,
   updateUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
 });
 
 export default connect(mapStateToProps, { updateUser })(UserPage);
