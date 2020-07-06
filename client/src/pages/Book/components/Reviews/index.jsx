@@ -4,7 +4,7 @@ import Moment from "react-moment";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadReviews, deleteReview } from "../../../../actions/reviews";
+import { loadReviews, deleteReview } from "actions/reviews";
 
 const Reviews = ({
   bookId,

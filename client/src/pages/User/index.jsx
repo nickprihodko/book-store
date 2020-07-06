@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { updateUser } from "../../actions/auth";
+import { updateUser } from "actions/auth";
 
-import Container from "../../components/UI/Container";
-import Headline from "../../components/UI/Headline";
-import Paragraph from "../../components/UI/Paragraph";
-import Spinner from "../../components/Spinner";
+import Container from "components/UI/Container";
+import Headline from "components/UI/Headline";
+import Paragraph from "components/UI/Paragraph";
+import Spinner from "components/Spinner";
 import UserForm from "./components/UserForm";
 
 const UserPage = ({ auth: { user }, updateUser }) => {

@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import qs from "qs";
 
-import { loadAuthors } from "../../../../actions/books";
+import { loadAuthors } from "actions/books";
 
 import InputRange from "react-input-range";
 import "react-input-range/lib/css/index.css";
 
-import SelectCategory from "../../../../components/SelectCategory";
-import AutoComplete from "../../../../components/UI/AutoComplete";
+import SelectCategory from "components/SelectCategory";
+import AutoComplete from "components/UI/AutoComplete";
 
 const setQueryString = (formData) => {
   const query = {};

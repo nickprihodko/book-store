@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadCategories } from "../../actions/books";
+import { loadCategories } from "actions/books";
 
 const SelectCategory = ({
   value,

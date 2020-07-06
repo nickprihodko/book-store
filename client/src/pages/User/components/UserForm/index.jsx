@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Textarea from "../../../../components/UI/Textarea";
-import Button from "../../../../components/UI/Button";
-import Modal from "../../../../components/Modal";
-import SelectFile from "../../../../components/SelectFile";
+import Textarea from "components/UI/Textarea";
+import Button from "components/UI/Button";
+import Modal from "components/Modal";
+import SelectFile from "components/SelectFile";
 
 const UserForm = ({ onSubmit, user }) => {
   const [about, setAbout] = useState(user.about || "");
@@ -115,10 +115,8 @@ const Avatar = styled.div`
   border: 2px solid #1a237e;
   border-radius: 50%;
 
-  ${({ isAvatar }) =>
-    isAvatar
-      ? `background-image: url(${isAvatar});`
-      : `background-image: url("/images/user.png")`}
+  background-image: ${({ isAvatar }) =>
+    isAvatar ? `url(${isAvatar})` : `url("/images/user.png")`};
 `;
 
 const Form = styled.form`

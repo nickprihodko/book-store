@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadBooks } from "../../actions/books";
+import { loadBooks } from "actions/books";
 
 import BooksFilter from "./components/BooksFilter";
-import SortFilter from "../../components/SortFilter";
-import BookList from "../../components/BookList";
-import Pagination from "../../components/Pagination";
+import SortFilter from "components/SortFilter";
+import BookList from "components/BookList";
+import Pagination from "components/Pagination";
 
 const HomePage = ({ location, loading, books, pager, loadBooks }) => {
   useEffect(() => {

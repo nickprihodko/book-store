@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { setAlert } from "../../../../actions/alert";
+import { setAlert } from "actions/alert";
 
-import Input from "../../../../components/UI/Input";
-import Textarea from "../../../../components/UI/Textarea";
-import SelectCategory from "../../../../components/SelectCategory";
-import Number from "../../../../components/UI/Number";
-import Button from "../../../../components/UI/Button";
+import Input from "components/UI/Input";
+import Textarea from "components/UI/Textarea";
+import SelectCategory from "components/SelectCategory";
+import Number from "components/UI/Number";
+import Button from "components/UI/Button";
 
 const BookForm = ({ onSubmit, setAlert }) => {
   const [formData, setFormData] = useState({

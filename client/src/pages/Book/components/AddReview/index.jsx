@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Textarea from "../../../../components/UI/Textarea";
-import Button from "../../../../components/UI/Button";
+import Textarea from "components/UI/Textarea";
+import Button from "components/UI/Button";
 
 const AddReview = ({ onSubmit }) => {
   const [review, setReview] = React.useState("");

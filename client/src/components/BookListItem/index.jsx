@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { setFavorite } from "../../actions/books";
+import { setFavorite } from "actions/books";
 
-import bookCover from "../../assets/img/book-cover.png";
+import bookCover from "assets/img/book-cover.png";
 
 const BookListItem = ({ book, isAuthenticated, favorites, setFavorite }) => {
   const { id, title, author, price, rate, cover } = book;
@@ -155,7 +155,7 @@ const Heart = styled.svg`
   fill: lightgray;
   cursor: pointer;
 
-  ${({ isFavorite }) => (isFavorite ? `fill: red;` : `fill: gray`)}
+  fill: ${({ isFavorite }) => (isFavorite ? "red" : "gray")};
 `;
 
 BookListItem.defaultProps = {

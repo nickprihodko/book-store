@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { login } from "../../actions/auth";
+import { login } from "actions/auth";
 
-import Container from "../../components/UI/Container";
-import Headline from "../../components/UI/Headline";
-import Paragraph from "../../components/UI/Paragraph";
+import Container from "components/UI/Container";
+import Headline from "components/UI/Headline";
+import Paragraph from "components/UI/Paragraph";
+import RouteStyledLink from "components/UI/RouteStyledLink";
 import LoginForm from "./components/LoginForm";
-import RouteStyledLink from "../../components/UI/RouteStyledLink";
 
 const LoginPage = ({ isAuthenticated, login }) => {
   if (isAuthenticated) {

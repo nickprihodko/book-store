@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { addBook } from "../../actions/books";
+import { addBook } from "actions/books";
 
-import Container from "../../components/UI/Container";
-import Headline from "../../components/UI/Headline";
-import Paragraph from "../../components/UI/Paragraph";
+import Container from "components/UI/Container";
+import Headline from "components/UI/Headline";
+import Paragraph from "components/UI/Paragraph";
 import BookForm from "./components/BookForm";
 
 const BookAdd = ({ addBook }) => {

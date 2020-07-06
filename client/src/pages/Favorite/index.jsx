@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadUserFavoritesBooks } from "../../actions/books";
+import { loadUserFavoritesBooks } from "actions/books";
 
-import BookList from "../../components/BookList";
-import Headline from "../../components/UI/Headline";
+import BookList from "components/BookList";
+import Headline from "components/UI/Headline";
 
 const FavoritesPage = ({ books, loadUserFavoritesBooks }) => {
   useEffect(() => {

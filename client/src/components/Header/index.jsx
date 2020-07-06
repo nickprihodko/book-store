@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { logout } from "../../actions/auth";
+import { logout } from "actions/auth";
 
-import logo from "../../assets/img/logo.png";
+import logo from "assets/img/logo.png";
 
 const Header = ({ isAuthenticated, logout }) => {
   const authLinks = (

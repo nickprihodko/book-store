@@ -5,15 +5,15 @@ import Rating from "react-rating-stars-component";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { loadBook, setRating, addBookCover } from "../../actions/books";
-import { createReview } from "../../actions/reviews";
+import { loadBook, setRating, addBookCover } from "actions/books";
+import { createReview } from "actions/reviews";
 
 import AddReview from "./components/AddReview";
 import Reviews from "./components/Reviews";
-import Modal from "../../components/Modal";
-import SelectFile from "../../components/SelectFile";
+import Modal from "components/Modal";
+import SelectFile from "components/SelectFile";
 
-import BookCover from "../../assets/img/book-cover.png";
+import BookCover from "assets/img/book-cover.png";
 
 const BookPage = ({
   loading,

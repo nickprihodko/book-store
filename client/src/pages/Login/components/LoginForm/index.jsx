@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { setAlert } from "../../../../actions/alert";
+import { setAlert } from "actions/alert";
 
-import Input from "../../../../components/UI/Input";
-import Button from "../../../../components/UI/Button";
+import Input from "components/UI/Input";
+import Button from "components/UI/Button";
 
 const LoginForm = ({ onSubmit, setAlert }) => {
   const [formData, setFormData] = useState({
