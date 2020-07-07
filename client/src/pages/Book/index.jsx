@@ -66,13 +66,9 @@ const BookPage = ({
     createReview(newReview);
   };
 
-  const onModalShow = (e) => {
+  const handleModalShow = (e) => {
     e.preventDefault();
-    setModal(true);
-  };
-
-  const onModalClose = () => {
-    setModal(false);
+    setModal(!modal);
   };
 
   const onModalChange = (e) => {
@@ -109,7 +105,7 @@ const BookPage = ({
         width="460"
         height="500"
       />
-      {isAuthenticated && <BookImageSelect onClick={onModalShow} />}
+      {isAuthenticated && <BookImageSelect onClick={handleModalShow} />}
       <BookInfo>
         <RateContainer>
           <RateView title="book rating">{rate}</RateView>
@@ -136,7 +132,7 @@ const BookPage = ({
         <Modal>
           <SelectFile
             title="Select book cover!"
-            onModalClose={onModalClose}
+            onModalClose={handleModalShow}
             onModalChange={onModalChange}
             onSubmit={onModalSubmit}
           />

@@ -29,13 +29,9 @@ const UserForm = ({ onSubmit, user }) => {
     setModal(false);
   };
 
-  const onModalShow = (e) => {
+  const handleModalShow = (e) => {
     e.preventDefault();
-    setModal(true);
-  };
-
-  const onModalClose = () => {
-    setModal(false);
+    setModal(!modal);
   };
 
   return (
@@ -43,7 +39,7 @@ const UserForm = ({ onSubmit, user }) => {
       <Form onSubmit={handleSubmit}>
         <AvatarContainer>
           <Avatar isAvatar={user.avatar} name="avatar" />
-          <AvatarImageSelect onClick={onModalShow} />
+          <AvatarImageSelect onClick={handleModalShow} />
         </AvatarContainer>
         <Textarea
           name="about"
@@ -57,7 +53,7 @@ const UserForm = ({ onSubmit, user }) => {
         <Modal>
           <SelectFile
             title="Select your terrific avatar!"
-            onModalClose={onModalClose}
+            onModalClose={handleModalShow}
             onModalChange={handleChange}
             onSubmit={handleSubmit}
           />

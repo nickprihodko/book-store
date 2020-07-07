@@ -6,8 +6,8 @@ import Headline from "../UI/Headline";
 import Button from "../UI/Button";
 
 const SelectFile = ({ title, onModalClose, onModalChange, onSubmit }) => {
-  const handleModalClose = () => {
-    onModalClose();
+  const handleModalClose = (e) => {
+    onModalClose(e);
   };
 
   const handleChange = (e) => {
