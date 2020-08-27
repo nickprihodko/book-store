@@ -27,12 +27,14 @@ sequelize.authenticate().then(
   () => {
     console.log("Connection to Database has been established successfully.");
 
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server started on port ${PORT}`);
-    });
+    // const PORT = process.env.PORT || 5000;
+    // app.listen(PORT, () => {
+    //   console.log(`Server started on port ${PORT}`);
+    // });
   },
   (err) => {
     console.log("Unable to connect to the database:", err);
   }
 );
+
+module.exports = app;
