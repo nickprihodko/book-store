@@ -1,0 +1,22 @@
+[
+  {
+    "createdAt": "2020-08-27T07:41:01.168Z",
+    "id": "3",
+    "text": "First Review",
+    "user": {
+      "avatar": null,
+      "userId": "1",
+      "username": "Alex Smith"
+    }
+  },
+  {
+    "createdAt": "2020-08-27T07:41:01.168Z",
+    "id": "4",
+    "text": "Second Review",
+    "user": {
+      "avatar": null,
+      "userId": "1",
+      "username": "Alex Smith"
+    }
+  }
+]

@@ -56,7 +56,11 @@ exports.deleteReview = async (req, res) => {
       where: { id: +req.params.id },
     };
     const review = await Review.destroy(queryParams);
-    return res.status(200).json(review);
+    if (review) {
+      return res.status(200).json(review);
+    } else {
+      return res.status(404).send();
+    }
   } catch (err) {
     console.log("deleteReview:", err.message);
     res.status(500).json({ message: err });
