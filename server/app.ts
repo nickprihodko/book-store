@@ -1,13 +1,15 @@
-const express = require("express");
-const sequelize = require("./config/db");
+import express, { Application, Request, Response } from 'express';
+import sequelize from './config/db';
+
+// const sequelize = require("./config/db");
 var path = require("path");
 
-const app = express();
+const app: Application = express();
 
 // Init Middleware
-app.use(express.json({ extended: false }));
+// app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) => res.send("API Running"));
+app.get("/", (req: Request, res: Response) => res.send("API Running"));
 
 // Define routes
 app.use(express.static(path.join(__dirname, "public")));

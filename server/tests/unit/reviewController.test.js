@@ -49,7 +49,7 @@ describe('ReviewController.getReviews', () => {
   });
 
   it('should return response code 200 and all reviews', async () => {
-    ReviewModel.findAll.mockReturnValue(allReviews);
+    ReviewModel.findAll.mockReturnValue(allReviews); // ???
     await ReviewController.getReviews(req, res, next);
     expect(res.statusCode).toBe(200);
     expect(res._isEndCalled()).toBeTruthy();
