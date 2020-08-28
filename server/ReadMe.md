@@ -7,5 +7,7 @@ add TypeScript to the project
    npm install -D @types/node
 4. install
    npm install -D ts-node @types/express
-5. add...
+5. install
+   npm install reflect-metadata
+6. add...
 

@@ -1,7 +1,7 @@
 // const Sequelize = require("sequelize");
 // const config = require("config");
 
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import config from 'config';
 
 const sequelize = new Sequelize(
@@ -17,4 +17,6 @@ const sequelize = new Sequelize(
   }
 );
 
-module.exports = sequelize;
+export default sequelize;
+
+// module.exports = sequelize;
