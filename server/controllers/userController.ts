@@ -1,11 +1,11 @@
-const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
+import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwtSign from '../utils/jwtSign';
 
-const User = require("../models/User");
+import User from '../models/User';
 
-const jwtSign = require("../utils/jwtSign");
-
-exports.registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -16,11 +16,9 @@ exports.registerUser = async (req, res) => {
   try {
     // See if user exists
     let user = await User.findOne({
-      email,
       where: {
         email,
-      },
-      attributes: ["id"],
+      }
     });
 
     if (user) {
@@ -43,17 +41,17 @@ exports.registerUser = async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.log("registerUser:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
 // get user
-exports.getUser = async (req, res) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({
       attributes: ["id", "name", "email", "password", "avatar", "about"],
       where: {
-        id: req.user.id,
+        id: (req['user'] as any).id,
       },
     });
 
@@ -64,34 +62,34 @@ exports.getUser = async (req, res) => {
     return res.json(user);
   } catch (err) {
     console.log("getUser:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
 // update user
-exports.updateUser = async (req, res) => {
-  if (req.file) {
-    req.body.avatar = `/images/uploads/${req.file.filename}`;
+export const updateUser = async (req: Request, res: Response) => {
+  if (req['file']) {
+    req.body.avatar = `/images/uploads/${(req['file'] as any).filename}`;
   }
 
   try {
     let user = await User.findOne({
       where: {
-        id: req.user.id,
+        id: (req['user'] as any).id,
       },
     });
     if (user) {
       await User.update(
         { about: req.body.about, avatar: req.body.avatar },
-        { where: { id: req.user.id } }
+        { where: { id: (req['user'] as any).id } }
       );
       const user = await User.findOne({
-        where: { id: req.user.id },
+        where: { id: (req['user'] as any).id },
       });
       return res.json(user);
     } else {
       user = new User({
-        id: req.user.id,
+        id: (req['user'] as any).id,
         about: req.body.about,
         avatar: req.body.avatar,
       });
@@ -101,6 +99,6 @@ exports.updateUser = async (req, res) => {
     return res.json(user);
   } catch (err) {
     console.log("updateUser:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };

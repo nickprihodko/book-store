@@ -1,11 +1,11 @@
-import { Sequelize, Table, Column, Model, DataType, BelongsTo, HasMany } from 'sequelize-typescript';
+import { Sequelize, Table, Column, Model, DataType, BelongsTo, HasMany, ForeignKey } from 'sequelize-typescript';
 
 import Category from '../models/Category';
 import Rate from '../models/Rate';
 import Favorite from '../models/Favorite';
 
 @Table
-class Book extends Model<Book> {
+class book extends Model<book> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -71,8 +71,11 @@ class Book extends Model<Book> {
   })
   updatedAt: Date;
  
+  @ForeignKey(() => Category)
+  categoryId: number
+
   @BelongsTo(() => Category)
-  categoryId: Category;
+  category: Category;
 
   @HasMany(() => Rate)
   rates: Rate[];
@@ -81,4 +84,4 @@ class Book extends Model<Book> {
   favorites: Favorite[];
 }
 
-export default Book;
+export default book;

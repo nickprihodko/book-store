@@ -1,42 +1,43 @@
 import express, { Application, Request, Response } from 'express';
 import sequelize from './config/db';
+import path from 'path';
 
-// const sequelize = require("./config/db");
-var path = require("path");
+import { books,
+  categories,
+  authors,
+  reviews,
+  users,
+  auth,
+  favorites,
+  userfavoritesbooks
+} from './routes/api/index';
 
 const app: Application = express();
 
 // Init Middleware
 // app.use(express.json({ extended: false }));
-
-app.get("/", (req: Request, res: Response) => res.send("API Running"));
+// app.get("/", (req: Request, res: Response) => res.send("API Running"));
 
 // Define routes
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(__dirname + "/public"));
 
-app.use("/api/reviews", require("./routes/api/reviews"));
-app.use("/api/books", require("./routes/api/books"));
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/auth", require("./routes/api/auth"));
-
-app.use("/api/categories", require("./routes/api/categories"));
-app.use("/api/authors", require("./routes/api/authors"));
-app.use("/api/favorites", require("./routes/api/favorites"));
-app.use("/api/userfavoritesbooks", require("./routes/api/userfavoritesbooks"));
+app.use("/api/books", books);
+app.use("/api/categories", categories);
+app.use("/api/authors", authors);
+app.use("/api/reviews", reviews);
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+app.use("/api/favorites", favorites);
+app.use("/api/userfavoritesbooks", userfavoritesbooks);
 
 sequelize.authenticate().then(
   () => {
     console.log("Connection to Database has been established successfully.");
-
-    // const PORT = process.env.PORT || 5000;
-    // app.listen(PORT, () => {
-    //   console.log(`Server started on port ${PORT}`);
-    // });
   },
   (err) => {
     console.log("Unable to connect to the database:", err);
   }
 );
 
-module.exports = app;
+export default app;

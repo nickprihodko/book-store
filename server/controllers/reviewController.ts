@@ -1,9 +1,9 @@
-const sequelize = require("../config/db");
-const { QueryTypes } = require("sequelize");
-const Review = require("../models/Review");
-const User = require("../models/User");
+import { Request, Response } from 'express';
 
-exports.getReviews = async (req, res) => {
+import Review from '../models/Review';
+import User from '../models/User';
+
+export const getReviews = async (req: Request, res: Response) => {
   try {
     const reviews = await Review.findAll({
       attributes: [
@@ -31,10 +31,10 @@ exports.getReviews = async (req, res) => {
   }
 };
 
-exports.addReview = async (req, res) => {
+export const addReview = async (req: Request, res: Response) => {
   try {
     const { review, bookid } = req.body;
-    const userId = req.user.id;
+    const userId = (req['user'] as any).id;
 
     const createdReview = await Review.create({
       text: review,
@@ -50,7 +50,7 @@ exports.addReview = async (req, res) => {
   }
 };
 
-exports.deleteReview = async (req, res) => {
+export const deleteReview = async (req: Request, res: Response) => {
   try {
     const queryParams = {
       where: { id: +req.params.id },

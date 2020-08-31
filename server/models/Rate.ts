@@ -1,4 +1,6 @@
-import { Sequelize, Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Sequelize, Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+
+import Book from './Book';
 
 @Table
 class Rate extends Model<Rate> {
@@ -35,6 +37,9 @@ class Rate extends Model<Rate> {
     defaultValue: Sequelize.fn('now')
   })
   updatedAt: Date;
+
+  @ForeignKey(() => Book)
+  bookId: number
 }
 
 export default Rate;

@@ -1,25 +1,25 @@
-const { validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
+import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
+import jwtSign from '../utils/jwtSign';
 
-const User = require("../models/User");
+import User from '../models/User';
 
-const jwtSign = require("../utils/jwtSign");
-
-exports.authenticateUser = async (req, res) => {
+export const authenticateUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({
       attributes: ["id", "name", "email", "password", "avatar", "about"],
-      where: { id: req.user.id },
+      where: { id: (req['user'] as any).id },
     });
 
     return res.json(user);
   } catch (err) {
     console.log("authenticateUser error:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
-exports.registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -30,7 +30,6 @@ exports.registerUser = async (req, res) => {
   try {
     // See if user exists
     let user = await User.findOne({
-      email,
       where: {
         email,
       },
@@ -51,6 +50,6 @@ exports.registerUser = async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.log("registerUser error:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };

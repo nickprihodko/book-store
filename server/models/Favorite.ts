@@ -1,6 +1,7 @@
-import { Sequelize, Table, Column, Model, DataType, BelongsTo } from 'sequelize-typescript';
+import { Sequelize, Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
 
-const User = require("./User");
+import User from './User';
+import Book from './Book';
 
 @Table
 class Favorite extends Model<Favorite> {
@@ -24,9 +25,15 @@ class Favorite extends Model<Favorite> {
     defaultValue: Sequelize.fn('now')
   })
   updatedAt: Date;
- 
+
+  @ForeignKey(() => Book)
+  bookId: number;
+
+  @ForeignKey(() => User)
+  userId: number
+
   @BelongsTo(() => User)
-  userId: BigInt;
+  user: BigInt;
 }
 
 export default Favorite;

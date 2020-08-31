@@ -1,8 +1,10 @@
-const Favorite = require("../models/Favorite");
+import { Request, Response } from 'express';
 
-exports.getFavorites = async (req, res) => {
+import Favorite from '../models/Favorite';
+
+export const getFavorites = async (req: Request, res: Response) => {
   const queryParams = {
-    where: { userId: req.user.id },
+    where: { userId: (req['user'] as any).id },
     attributes: ["bookId"],
   };
 

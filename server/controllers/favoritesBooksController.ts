@@ -1,7 +1,9 @@
-const Book = require("../models/Book");
-const Favorite = require("../models/Favorite");
+import { Request, Response } from 'express';
 
-exports.getUserFavoritesBooks = async (req, res) => {
+import Book from '../models/Book';
+import Favorite from '../models/Favorite';
+
+export const getUserFavoritesBooks = async (req: Request, res: Response) => {
   try {
     const userFavoritesBooks = await Book.findAll({
       attributes: [
@@ -18,7 +20,7 @@ exports.getUserFavoritesBooks = async (req, res) => {
       include: [
         {
           model: Favorite,
-          where: { userId: req.user.id },
+          where: { userId: req['user'].id },
           attributes: [],
           required: true,
         },

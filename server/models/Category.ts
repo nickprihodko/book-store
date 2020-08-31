@@ -1,7 +1,7 @@
 import { Sequelize, Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table
-class Category extends Model<Category> {
+class category extends Model<category> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -30,4 +30,4 @@ class Category extends Model<Category> {
   updatedAt: Date;
 }
 
-export default Category;
+export default category;

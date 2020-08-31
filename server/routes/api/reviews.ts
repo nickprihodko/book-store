@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const auth = require("../../middleware/auth");
+import { Router } from 'express';
+import auth from '../../middleware/auth';
 
-const {
-  getReviews,
+const router = Router();
+
+import { getReviews, 
   addReview,
-  deleteReview,
-} = require("../../controllers/reviewController");
+  deleteReview
+} from '../../controllers/reviewController';
 
 // @route GET /
 // @desc Get reviews
@@ -23,4 +23,4 @@ router.post("/", auth, addReview);
 // @access Private
 router.delete("/:id", auth, deleteReview);
 
-module.exports = router;
+export default router;

@@ -1,8 +1,11 @@
-// const Sequelize = require("sequelize");
-// const config = require("config");
-
 import { Sequelize } from 'sequelize-typescript';
 import config from 'config';
+
+import User from '../models/User';
+import Book from '../models/Book';
+import Category from '../models/Category';
+import Rate from '../models/Rate';
+import Favorite from '../models/Favorite';
 
 const sequelize = new Sequelize(
   config.get("database"),
@@ -14,9 +17,13 @@ const sequelize = new Sequelize(
     define: {
       timestamps: false,
     },
+    models: [__dirname + '../models/**/*.ts'],
+    modelMatch: (filename, member) => {
+    return filename.substring(0, filename.indexOf('.ts')) === member.toLowerCase();
+  },
   }
 );
 
-export default sequelize;
+sequelize.addModels([User, Book, Category, Rate, Favorite]);
 
-// module.exports = sequelize;
+export default sequelize;

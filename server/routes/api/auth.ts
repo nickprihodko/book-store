@@ -1,14 +1,13 @@
-const express = require("express");
-const router = express.Router();
+import express, { Router } from 'express';
+const router = Router();
+import { check } from 'express-validator';
 
-const { check } = require("express-validator");
+import auth from '../../middleware/auth';
 
-const auth = require("../../middleware/auth");
-
-const {
+import {
   authenticateUser,
   registerUser,
-} = require("../../controllers/authController");
+} from '../../controllers/authController';
 
 // @route GET api/auth
 // @desc Authenticate user & get token
@@ -27,4 +26,4 @@ router.post(
   registerUser
 );
 
-module.exports = router;
+export default router;

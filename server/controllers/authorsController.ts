@@ -1,10 +1,11 @@
-const Sequelize = require("sequelize");
+import { Request, Response } from 'express';
+import Sequelize, { FindOptions } from 'sequelize';
 
-const Book = require("../models/Book");
+import Book from '../models/Book';
 
-exports.getAuthors = async (req, res) => {
+export const getAuthors = async (req: Request, res: Response) => {
   try {
-    const queryParams = {
+    const queryParams: FindOptions = {
       order: [["author", "ASC"]],
       attributes: [
         [Sequelize.fn("DISTINCT", Sequelize.col("author")), "author"],

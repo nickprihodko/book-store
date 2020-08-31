@@ -1,15 +1,15 @@
-const express = require("express");
+import express, { Router } from 'express';
+import { check } from 'express-validator';
 const router = express.Router();
-const { check } = require("express-validator");
 
-const auth = require("../../middleware/auth");
-const upload = require("../../utils/uploadPictures");
+import auth from '../../middleware/auth';
+import upload from '../../utils/uploadPictures';
 
-const {
+import {
   registerUser,
   getUser,
   updateUser,
-} = require("../../controllers/userController");
+} from '../../controllers/userController';
 
 // @route POST api/users
 // @desc Register user
@@ -37,4 +37,4 @@ router.get("/", auth, getUser);
 // @access Public
 router.patch("/", auth, upload.single("avatar"), updateUser);
 
-module.exports = router;
+export default router;
