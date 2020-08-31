@@ -9,7 +9,7 @@ export const authenticateUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({
       attributes: ["id", "name", "email", "password", "avatar", "about"],
-      where: { id: (req['user'] as any).id },
+      where: { id: req['user'].id },
     });
 
     return res.json(user);
@@ -25,6 +25,7 @@ export const registerUser = async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
+  console.log('registerUser -> req.body:', req.body);
   const { email, password } = req.body;
 
   try {

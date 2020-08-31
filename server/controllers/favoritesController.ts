@@ -4,7 +4,7 @@ import Favorite from '../models/Favorite';
 
 export const getFavorites = async (req: Request, res: Response) => {
   const queryParams = {
-    where: { userId: (req['user'] as any).id },
+    where: { userId: req['user'].id },
     attributes: ["bookId"],
   };
 

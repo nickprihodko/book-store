@@ -1,7 +1,7 @@
 import { Sequelize, Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table
-class User extends Model<User> {
+class user extends Model<user> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -59,4 +59,4 @@ class User extends Model<User> {
   updatedAt: Date;
 }
 
-export default User;
+export default user;

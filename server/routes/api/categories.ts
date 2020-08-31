@@ -1,9 +1,5 @@
-import express from 'express';
-
-// const express = require("express");
-const router = express.Router();
-
-// const { getCategories } = require("../../controllers/categoriesController");
+import { Router } from 'express';
+const router = Router();
 
 import { getCategories } from '../../controllers/categoriesController';
 
@@ -13,5 +9,3 @@ import { getCategories } from '../../controllers/categoriesController';
 router.get("/", getCategories);
 
 export default router;
-
-// module.exports = router;

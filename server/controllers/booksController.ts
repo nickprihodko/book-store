@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { Op, FindOptions } from 'sequelize';
+import paginate from 'jw-paginate';
+
 import Book from '../models/Book';
 import Rate from '../models/Rate';
 import Favorite from '../models/Favorite';
-import paginate from 'jw-paginate';
 
 export const getBooks = async (req: Request, res: Response) => {
   try {
@@ -68,7 +69,7 @@ export const getBook = async (req: Request, res: Response) => {
         include: [
           {
             model: Rate,
-            where: { userId: (req['user'] as any).id },
+            where: { userId: req['user'].id },
             attributes: [["rate", "userrate"]],
             required: false,
           },
@@ -94,138 +95,138 @@ export const getBook = async (req: Request, res: Response) => {
     }
   } catch (err) {
     console.log("getBook:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
-// exports.addBook = async (req: Request, res: Response) => {
-//   try {
-//     const {
-//       data: { title, author, category, description, fragment, price },
-//     } = req.body;
+export const addBook = async (req: Request, res: Response) => {
+  try {
+    const {
+      data: { title, author, category, description, fragment, price },
+    } = req.body;
 
-//     const newBook = new Book({
-//       title,
-//       author,
-//       categoryId: category,
-//       description,
-//       fragment,
-//       price,
-//       rate: 0,
-//     });
+    const newBook = new Book({
+      title,
+      author,
+      categoryId: category,
+      description,
+      fragment,
+      price,
+      rate: 0,
+    });
 
-//     await newBook.save();
-//     return res.json(newBook);
-//   } catch (err) {
-//     console.log("addBook:", err.message);
-//     res.status(500).json({ message: err });
-//   }
-// };
+    await newBook.save();
+    return res.json(newBook);
+  } catch (err) {
+    console.log("addBook:", err.message);
+    res.status(500).json({ message: err.message });
+  }
+};
 
-// exports.setRating = async (req: Request, res: Response) => {
-//   try {
-//     const {
-//       data: { rate, bookId },
-//     } = req.body;
+export const setRating = async (req: Request, res: Response) => {
+  try {
+    const {
+      data: { rate, bookId },
+    } = req.body;
 
-//     // see if rate for this book and user exists
-//     const rating = await Rate.findOne({
-//       where: { bookId, userId: req.user.id },
-//       attributes: ["id"],
-//     });
+    // see if rate for this book and user exists
+    const rating = await Rate.findOne({
+      where: { bookId, userId: req['user'].id },
+      attributes: ["id"],
+    });
 
-//     if (rating) {
-//       await Rate.update({ rate }, { where: { bookId, userId: req.user.id } });
-//     } else {
-//       await Rate.create({ rate, bookId, userId: req.user.id });
-//     }
+    if (rating) {
+      await Rate.update({ rate }, { where: { bookId, userId: req['user'].id } });
+    } else {
+      await Rate.create({ rate, bookId, userId: req['user'].id });
+    }
 
-//     // find rate from book and user's rate
-//     const book = await Book.findOne({
-//       attributes: [
-//         "id",
-//         "title",
-//         "author",
-//         "price",
-//         "rate",
-//         "description",
-//         "fragment",
-//         "cover",
-//       ],
-//       where: { id: bookId },
-//       include: [
-//         {
-//           model: Rate,
-//           where: { userId: req.user.id },
-//           attributes: [["rate", "userrate"]],
-//           required: false,
-//         },
-//       ],
-//     });
-//     return res.json(book);
-//   } catch (err) {
-//     console.log("setRating:", err.message);
-//     res.status(500).json({ message: err });
-//   }
-// };
+    // find rate from book and user's rate
+    const book = await Book.findOne({
+      attributes: [
+        "id",
+        "title",
+        "author",
+        "price",
+        "rate",
+        "description",
+        "fragment",
+        "cover",
+      ],
+      where: { id: bookId },
+      include: [
+        {
+          model: Rate,
+          where: { userId: req['user'].id },
+          attributes: [["rate", "userrate"]],
+          required: false,
+        },
+      ],
+    });
+    return res.json(book);
+  } catch (err) {
+    console.log("setRating:", err.message);
+    res.status(500).json({ message: err.message });
+  }
+};
 
-// exports.setFavorite = async (req: Request, res: Response) => {
-//   try {
-//     const {
-//       data: { isFavorite, bookId, userId },
-//     } = req.body;
+export const setFavorite = async (req: Request, res: Response) => {
+  try {
+    const {
+      data: { isFavorite, bookId, userId },
+    } = req.body;
 
-//     if (isFavorite) {
-//       await Favorite.create({ bookId, userId: req.user.id });
-//     } else {
-//       await Favorite.destroy({
-//         where: {
-//           bookId,
-//           userId: req.user.id,
-//         },
-//       });
-//     }
+    if (isFavorite) {
+      await Favorite.create({ bookId, userId: req['user'].id });
+    } else {
+      await Favorite.destroy({
+        where: {
+          bookId,
+          userId: req['user'].id,
+        },
+      });
+    }
 
-//     const queryParams = {
-//       where: { userId: req.user.id },
-//       attributes: ["bookId"],
-//     };
+    const queryParams = {
+      where: { userId: req['user'].id },
+      attributes: ["bookId"],
+    };
 
-//     const favorites = await Favorite.findAll(queryParams);
-//     const mappedFavorites = favorites.map((item) => item.bookId);
-//     return res.json(mappedFavorites);
-//   } catch (err) {
-//     console.log("setFavorite:", err.message);
-//     res.status(500).json({ message: err });
-//   }
-// };
+    const favorites = await Favorite.findAll(queryParams);
+    const mappedFavorites = favorites.map((item) => item.bookId);
+    return res.json(mappedFavorites);
+  } catch (err) {
+    console.log("setFavorite:", err.message);
+    res.status(500).json({ message: err.message });
+  }
+};
 
-// exports.setBookCover = async (req: Request, res: Response) => {
-//   if (req.file) {
-//     req.body.cover = `/images/uploads/${req.file.filename}`;
-//   }
+export const setBookCover = async (req: Request, res: Response) => {
+  if (req['file']) {
+    req.body.cover = `/images/uploads/${req['file'].filename}`;
+  }
 
-//   try {
-//     let book = await Book.findOne({
-//       where: {
-//         id: req.body.bookId,
-//       },
-//     });
+  try {
+    let book = await Book.findOne({
+      where: {
+        id: req.body.bookId,
+      },
+    });
 
-//     if (book) {
-//       await Book.update(
-//         { cover: req.body.cover },
-//         { where: { id: req.body.bookId } }
-//       );
-//       const book = await Book.findOne({
-//         where: {
-//           id: req.body.bookId,
-//         },
-//       });
-//       return res.json(book);
-//     }
-//   } catch (err) {
-//     console.log("getBookCover:", err.message);
-//     res.status(500).json({ message: err });
-//   }
-// };
+    if (book) {
+      await Book.update(
+        { cover: req.body.cover },
+        { where: { id: req.body.bookId } }
+      );
+      const book = await Book.findOne({
+        where: {
+          id: req.body.bookId,
+        },
+      });
+      return res.json(book);
+    }
+  } catch (err) {
+    console.log("getBookCover:", err.message);
+    res.status(500).json({ message: err.message });
+  }
+};

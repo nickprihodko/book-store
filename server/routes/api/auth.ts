@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 const router = Router();
 import { check } from 'express-validator';
 
@@ -19,10 +19,7 @@ router.get("/", auth, authenticateUser);
 // @access Public
 router.post(
   "/",
-  [
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists(),
-  ],
+  [],
   registerUser
 );
 

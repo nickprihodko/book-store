@@ -1,6 +1,6 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import { check } from 'express-validator';
-const router = express.Router();
+const router = Router();
 
 import auth from '../../middleware/auth';
 import upload from '../../utils/uploadPictures';

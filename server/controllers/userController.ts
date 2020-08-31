@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import jwtSign from '../utils/jwtSign';
 
 import User from '../models/User';
@@ -51,7 +51,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findOne({
       attributes: ["id", "name", "email", "password", "avatar", "about"],
       where: {
-        id: (req['user'] as any).id,
+        id: req['user'].id,
       },
     });
 
@@ -69,27 +69,27 @@ export const getUser = async (req: Request, res: Response) => {
 // update user
 export const updateUser = async (req: Request, res: Response) => {
   if (req['file']) {
-    req.body.avatar = `/images/uploads/${(req['file'] as any).filename}`;
+    req.body.avatar = `/images/uploads/${req['file'].filename}`;
   }
 
   try {
     let user = await User.findOne({
       where: {
-        id: (req['user'] as any).id,
+        id: req['user'].id,
       },
     });
     if (user) {
       await User.update(
         { about: req.body.about, avatar: req.body.avatar },
-        { where: { id: (req['user'] as any).id } }
+        { where: { id: req['user'].id } }
       );
       const user = await User.findOne({
-        where: { id: (req['user'] as any).id },
+        where: { id: req['user'].id },
       });
       return res.json(user);
     } else {
       user = new User({
-        id: (req['user'] as any).id,
+        id: req['user'].id,
         about: req.body.about,
         avatar: req.body.avatar,
       });

@@ -1,11 +1,11 @@
 
-import { Sequelize, Table, Column, Model, DataType, BelongsTo, HasMany } from 'sequelize-typescript';
+import { Sequelize, Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
 
 import Book from './Book';
 import User from './User';
 
 @Table
-class Review extends Model<Review> {
+class review extends Model<review> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -33,12 +33,18 @@ class Review extends Model<Review> {
     defaultValue: Sequelize.fn('now')
   })
   updatedAt: Date;
- 
+
+  @ForeignKey(() => Book)
+  bookId: number;
+
+  @ForeignKey(() => User)
+  userId: number;
+
   @BelongsTo(() => Book)
-  bookId: Book;
+  book: Book;
 
   @BelongsTo(() => User)
-  userId: User;
+  user: User;
 }
 
-export default Review;
+export default review;

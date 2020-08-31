@@ -6,6 +6,7 @@ import Book from '../models/Book';
 import Category from '../models/Category';
 import Rate from '../models/Rate';
 import Favorite from '../models/Favorite';
+import Review from '../models/Review';
 
 const sequelize = new Sequelize(
   config.get("database"),
@@ -24,6 +25,6 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize.addModels([User, Book, Category, Rate, Favorite]);
+sequelize.addModels([User, Book, Category, Rate, Favorite, Review]);
 
 export default sequelize;

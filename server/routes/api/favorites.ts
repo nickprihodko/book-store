@@ -2,7 +2,6 @@ import { Router } from 'express';
 const router = Router();
 
 import auth from '../../middleware/auth';
-
 import { getFavorites } from '../../controllers/favoritesController';
 
 // @route GET /

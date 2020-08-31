@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const config = require("config");
+import jwt from 'jsonwebtoken';
+import config from 'config';
 
 const jwtSign = (user) => {
   const payload = {
@@ -15,4 +15,4 @@ const jwtSign = (user) => {
   return token;
 };
 
-module.exports = jwtSign;
+export default jwtSign;

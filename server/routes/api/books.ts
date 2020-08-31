@@ -1,22 +1,17 @@
-import express, { Router } from 'express';
-
+import { Router } from 'express';
 const router = Router();
 
-// const auth = require("../../middleware/auth");
-// const setUser = require("../../middleware/setUser");
+import auth from '../../middleware/auth';
 import setUser from '../../middleware/setUser';
-// const upload = require("../../utils/uploadPictures");
+import upload from '../../utils/uploadPictures';
 
-// const {
-//   getBooks,
-//   getBook,
-//   addBook,
-//   setRating,
-//   setFavorite,
-//   setBookCover,
-// } = require("../../controllers/booksController");
-
-import { getBooks, getBook } from '../../controllers/booksController';
+import { getBooks,
+  getBook,
+  addBook,
+  setRating,
+  setFavorite,
+  setBookCover
+} from '../../controllers/booksController';
 
 // @route GET /
 // @desc Get all books
@@ -31,21 +26,21 @@ router.get("/:id", setUser, getBook);
 // @route POST /
 // @desc Add new book
 // @access Private
-// router.post("/", auth, addBook);
+router.post("/", auth, addBook);
 
 // @route PATCH /
 // @desc Create update rating
 // @access Private
-// router.patch("/rating", auth, setRating);
+router.patch("/rating", auth, setRating);
 
 // @route PATCH /
 // @desc Set favorite
 // @access Private
-// router.patch("/favorite", auth, setFavorite);
+router.patch("/favorite", auth, setFavorite);
 
 // @route PATCH /
 // @desc Set book cover
 // @access Private
-// router.patch("/cover", upload.single("cover"), setBookCover);
+router.patch("/cover", upload.single("cover"), setBookCover);
 
 export default router;

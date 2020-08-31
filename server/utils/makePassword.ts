@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
+import bcrypt from 'bcryptjs';
 
-exports.makePassword = (pw) => {
+export const makePassword = (pw) => {
   return new Promise(async (res) => {
     let salt, hash;
     salt = await bcrypt.genSalt(10);

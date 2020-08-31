@@ -27,14 +27,14 @@ export const getReviews = async (req: Request, res: Response) => {
     return res.status(200).json(reviews);
   } catch (err) {
     console.log("getReviews:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
 export const addReview = async (req: Request, res: Response) => {
   try {
     const { review, bookid } = req.body;
-    const userId = (req['user'] as any).id;
+    const userId = req['user'].id;
 
     const createdReview = await Review.create({
       text: review,
@@ -46,7 +46,7 @@ export const addReview = async (req: Request, res: Response) => {
 
   } catch (err) {
     console.log("addReview:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -63,6 +63,6 @@ export const deleteReview = async (req: Request, res: Response) => {
     }
   } catch (err) {
     console.log("deleteReview:", err.message);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
