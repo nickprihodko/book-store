@@ -1,8 +1,8 @@
 import { Sequelize, Table, Column, Model, DataType, BelongsTo, HasMany, ForeignKey } from 'sequelize-typescript';
 
-import Category from '../models/Category';
-import Rate from '../models/Rate';
-import Favorite from '../models/Favorite';
+import Category from './Category';
+import Rate from './Rate';
+import Favorite from './Favorite';
 
 @Table
 class book extends Model<book> {
