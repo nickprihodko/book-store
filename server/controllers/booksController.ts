@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
-import { Op, FindOptions } from 'sequelize';
+import { Op, FindOptions, WhereOptions } from 'sequelize';
 import paginate from 'jw-paginate';
+
+import { IRequest } from '../interfaces';
 
 import Book from '../models/Book';
 import Rate from '../models/Rate';
 import Favorite from '../models/Favorite';
 
-export const getBooks = async (req: Request, res: Response) => {
+export const getBooks = async (req: IRequest, res: Response) => {
   try {
     const whereParams = {};
 
@@ -32,45 +34,45 @@ export const getBooks = async (req: Request, res: Response) => {
 
     const queryParams: FindOptions = {
       where: whereParams,
-      order: [[(req.query as any).sort ? (req.query as any).sort : "id", "ASC"]],
-      attributes: ["id", "title", "author", "price", "rate", "cover"],
+      order: [[req.query.sort ? req.query.sort : 'id', 'ASC']],
+      attributes: ['id', 'title', 'author', 'price', 'rate', 'cover'],
     };
 
     const books = await Book.findAll(queryParams);
 
-    const page = parseInt((req.query as any).page) || 1;
+    const page = parseInt(req.query.page) || 1;
     const pageSize = 4;
     const pager = paginate(books.length, page, pageSize);
     const pageOfItems = books.slice(pager.startIndex, pager.endIndex + 1);
 
     return res.json({ pager, pageOfItems });
   } catch (err) {
-    console.log("getBooks:", err.message);
+    console.log('getBooks:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
-export const getBook = async (req: Request, res: Response) => {
+export const getBook = async (req: IRequest, res: Response) => {
   try {
     // if authenticated then return book with user rate
     if (req['user']) {
       const book = await Book.findOne({
         attributes: [
-          "id",
-          "title",
-          "author",
-          "price",
-          "rate",
-          "description",
-          "fragment",
-          "cover",
+          'id',
+          'title',
+          'author',
+          'price',
+          'rate',
+          'description',
+          'fragment',
+          'cover',
         ],
         where: { id: req.params.id },
         include: [
           {
             model: Rate,
-            where: { userId: req['user'].id },
-            attributes: [["rate", "userrate"]],
+            where: { userId: req.user.id },
+            attributes: [['rate', 'userrate']],
             required: false,
           },
         ],
@@ -80,21 +82,21 @@ export const getBook = async (req: Request, res: Response) => {
       const queryParams = {
         where: { id: req.params.id },
         attributes: [
-          "id",
-          "title",
-          "author",
-          "price",
-          "rate",
-          "description",
-          "fragment",
-          "cover",
+          'id',
+          'title',
+          'author',
+          'price',
+          'rate',
+          'description',
+          'fragment',
+          'cover',
         ],
       };
       const book = await Book.findOne(queryParams);
       return res.json(book);
     }
   } catch (err) {
-    console.log("getBook:", err.message);
+    console.log('getBook:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
@@ -118,12 +120,12 @@ export const addBook = async (req: Request, res: Response) => {
     await newBook.save();
     return res.json(newBook);
   } catch (err) {
-    console.log("addBook:", err.message);
+    console.log('addBook:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
-export const setRating = async (req: Request, res: Response) => {
+export const setRating = async (req: IRequest, res: Response) => {
   try {
     const {
       data: { rate, bookId },
@@ -131,79 +133,79 @@ export const setRating = async (req: Request, res: Response) => {
 
     // see if rate for this book and user exists
     const rating = await Rate.findOne({
-      where: { bookId, userId: req['user'].id },
-      attributes: ["id"],
+      where: { bookId, userId: req.user.id },
+      attributes: ['id'],
     });
 
     if (rating) {
-      await Rate.update({ rate }, { where: { bookId, userId: req['user'].id } });
+      await Rate.update({ rate }, { where: { bookId, userId: req.user.id } });
     } else {
-      await Rate.create({ rate, bookId, userId: req['user'].id });
+      await Rate.create({ rate, bookId, userId: req.user.id });
     }
 
     // find rate from book and user's rate
     const book = await Book.findOne({
       attributes: [
-        "id",
-        "title",
-        "author",
-        "price",
-        "rate",
-        "description",
-        "fragment",
-        "cover",
+        'id',
+        'title',
+        'author',
+        'price',
+        'rate',
+        'description',
+        'fragment',
+        'cover',
       ],
       where: { id: bookId },
       include: [
         {
           model: Rate,
-          where: { userId: req['user'].id },
-          attributes: [["rate", "userrate"]],
+          where: { userId: req.user.id },
+          attributes: [['rate', 'userrate']],
           required: false,
         },
       ],
     });
     return res.json(book);
   } catch (err) {
-    console.log("setRating:", err.message);
+    console.log('setRating:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
-export const setFavorite = async (req: Request, res: Response) => {
+export const setFavorite = async (req: IRequest, res: Response) => {
   try {
     const {
       data: { isFavorite, bookId, userId },
     } = req.body;
 
     if (isFavorite) {
-      await Favorite.create({ bookId, userId: req['user'].id });
+      await Favorite.create({ bookId, userId: req.user.id });
     } else {
       await Favorite.destroy({
         where: {
           bookId,
-          userId: req['user'].id,
+          userId: req.user.id,
         },
       });
     }
 
     const queryParams = {
-      where: { userId: req['user'].id },
-      attributes: ["bookId"],
+      where: { userId: req.user.id },
+      attributes: ['bookId'],
     };
 
     const favorites = await Favorite.findAll(queryParams);
     const mappedFavorites = favorites.map((item) => item.bookId);
     return res.json(mappedFavorites);
   } catch (err) {
-    console.log("setFavorite:", err.message);
+    console.log('setFavorite:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
-export const setBookCover = async (req: Request, res: Response) => {
-  if (req['file']) {
-    req.body.cover = `/images/uploads/${req['file'].filename}`;
+export const setBookCover = async (req: IRequest, res: Response) => {
+  if (req.file) {
+    req.body.cover = `/images/uploads/${req.file.filename}`;
   }
 
   try {
@@ -226,7 +228,7 @@ export const setBookCover = async (req: Request, res: Response) => {
       return res.json(book);
     }
   } catch (err) {
-    console.log("getBookCover:", err.message);
+    console.log('getBookCover:', err.message);
     res.status(500).json({ message: err.message });
   }
 };

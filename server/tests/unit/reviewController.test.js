@@ -26,19 +26,19 @@ describe('ReviewController.getReviews', () => {
   it('should call ReviewModel.findAll', async () => {
     const findAllObj = {
       attributes: [
-        "id",
-        "text",
-        "createdAt"
+        'id',
+        'text',
+        'createdAt'
       ],
       where: { bookId : req.params.id },
-      order: [["createdAt", "DESC"]],
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: UserModel,
           attributes: [
-            "avatar",
-            ["id", "userId"],
-            ["name", "username"]
+            'avatar',
+            ['id', 'userId'],
+            ['name', 'username']
           ],
         },
       ],
@@ -115,9 +115,9 @@ describe('ReviewController.deleteReview', () => {
   });
 
   it('should call destroy', async () => {
-    req.params.id = "1";
+    req.params.id = '1';
     await ReviewController.deleteReview(req, res, next);
-    expect(ReviewModel.destroy).toBeCalledWith({"where": {"id": 1}});
+    expect(ReviewModel.destroy).toBeCalledWith({'where': {'id': 1}});
   });
 
   it('should return response code 200 and delete review', async () => {

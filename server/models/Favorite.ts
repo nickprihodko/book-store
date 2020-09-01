@@ -4,7 +4,7 @@ import User from './User';
 import Book from './Book';
 
 @Table
-class Favorite extends Model<Favorite> {
+class favorite extends Model<favorite> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -36,4 +36,4 @@ class Favorite extends Model<Favorite> {
   user: BigInt;
 }
 
-export default Favorite;
+export default favorite;

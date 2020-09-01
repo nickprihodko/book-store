@@ -1,30 +1,30 @@
-"use strict";
+'use strict';
 
-const { makePassword } = require("../utils/makePassword");
+const { makePassword } = require('../utils/makePassword');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    let password = await makePassword("123456");
+    let password = await makePassword('123456');
     queryInterface.bulkInsert(
-      "users",
+      'users',
       [
         {
-          name: "Alex Smith",
-          email: "alex@gmail.com",
+          name: 'Alex Smith',
+          email: 'alex@gmail.com',
           password,
-          about: "This is Alex Smith",
+          about: 'This is Alex Smith',
         },
         {
-          name: "Sara Smith",
-          email: "sara@gmail.com",
+          name: 'Sara Smith',
+          email: 'sara@gmail.com',
           password,
-          about: "This is Sara Smith",
+          about: 'This is Sara Smith',
         },
         {
-          name: "Joe Doe",
-          email: "joe@gmail.com",
+          name: 'Joe Doe',
+          email: 'joe@gmail.com',
           password,
-          about: "This is Joe Doe",
+          about: 'This is Joe Doe',
         },
       ],
       {}
@@ -32,6 +32,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("users", null, {});
+    return queryInterface.bulkDelete('users', null, {});
   },
 };

@@ -3,18 +3,19 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwtSign from '../utils/jwtSign';
 
+import { IRequest } from '../interfaces';
 import User from '../models/User';
 
-export const authenticateUser = async (req: Request, res: Response) => {
+export const authenticateUser = async (req: IRequest, res: Response) => {
   try {
     const user = await User.findOne({
-      attributes: ["id", "name", "email", "password", "avatar", "about"],
-      where: { id: req['user'].id },
+      attributes: ['id', 'name', 'email', 'password', 'avatar', 'about'],
+      where: { id: req.user.id },
     });
 
     return res.json(user);
   } catch (err) {
-    console.log("authenticateUser error:", err.message);
+    console.log('authenticateUser error:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
@@ -25,7 +26,6 @@ export const registerUser = async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  console.log('registerUser -> req.body:', req.body);
   const { email, password } = req.body;
 
   try {
@@ -37,20 +37,20 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
+      return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
+      return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
     }
 
     // Return JWT
     const token = jwtSign(user);
     res.json({ token });
   } catch (err) {
-    console.log("registerUser error:", err.message);
+    console.log('registerUser error:', err.message);
     res.status(500).json({ message: err.message });
   }
 };

@@ -1,41 +1,41 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("categories", [
+    return queryInterface.bulkInsert('categories', [
       {
-        name: "---",
+        name: '---',
       },
       {
-        name: "Action and adventure",
+        name: 'Action and adventure',
       },
       {
-        name: "Classic ",
+        name: 'Classic ',
       },
       {
-        name: "Comic Book",
+        name: 'Comic Book',
       },
       {
-        name: "Crime",
+        name: 'Crime',
       },
       {
-        name: "Fantasy",
+        name: 'Fantasy',
       },
       {
-        name: "Poetry",
+        name: 'Poetry',
       },
       {
-        name: "Science fiction",
+        name: 'Science fiction',
       },
       {
-        name: "Suspense",
+        name: 'Suspense',
       },
       {
-        name: "Western",
+        name: 'Western',
       },
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("categories", null, {});
+    return queryInterface.bulkDelete('categories', null, {});
   },
 };

@@ -1,34 +1,34 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("categories", {
+    return queryInterface.createTable('categories', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        comment: "id",
+        comment: 'id',
       },
 
       name: {
         type: Sequelize.STRING,
-        comment: "categories name",
+        comment: 'categories name',
       },
 
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
 
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("categories");
+    return queryInterface.dropTable('categories');
   },
 };

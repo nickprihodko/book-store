@@ -10,6 +10,6 @@ import {
 // @route GET /
 // @desc Get favorites
 // @access Private
-router.get("/", auth, getUserFavoritesBooks);
+router.get('/', auth, getUserFavoritesBooks);
 
 export default router;

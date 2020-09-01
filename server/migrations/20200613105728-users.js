@@ -1,58 +1,58 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("users", {
+    return queryInterface.createTable('users', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        comment: "id",
+        comment: 'id',
       },
 
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        comment: "user's name",
+        comment: 'user name',
       },
 
       email: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
-        comment: "user's email",
+        comment: 'user email',
       },
 
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-        comment: "password",
+        comment: 'password',
       },
 
       avatar: {
         type: Sequelize.STRING,
-        comment: "user's avatar",
+        comment: 'user avatar',
       },
 
       about: {
         type: Sequelize.TEXT,
-        comment: "about",
+        comment: 'about',
       },
 
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
 
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("users");
+    return queryInterface.dropTable('users');
   },
 };

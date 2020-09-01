@@ -1,73 +1,73 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("books", {
+    return queryInterface.createTable('books', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        comment: "id",
+        comment: 'id',
       },
 
       title: {
         type: Sequelize.STRING,
         allowNull: false,
-        comment: "book's title",
+        comment: 'book title',
       },
 
       author: {
         type: Sequelize.STRING,
         allowNull: false,
-        comment: "author",
+        comment: 'author',
       },
 
       price: {
         type: Sequelize.FLOAT,
-        comment: "book's price",
+        comment: 'book price',
       },
 
       description: {
         type: Sequelize.TEXT,
-        comment: "description",
+        comment: 'description',
       },
 
       rate: {
         type: Sequelize.FLOAT,
-        comment: "books's rating",
+        comment: 'books rating',
       },
 
       fragment: {
         type: Sequelize.TEXT,
-        comment: "fragment of a book",
+        comment: 'fragment of a book',
       },
 
       categoryId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        comment: "categories.id",
+        comment: 'categories.id',
         references: {
           model: {
-            tableName: "books",
+            tableName: 'books',
           },
-          key: "id",
+          key: 'id',
         },
       },
 
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
 
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("books");
+    return queryInterface.dropTable('books');
   },
 };

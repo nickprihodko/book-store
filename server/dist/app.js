@@ -4,32 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const db_1 = __importDefault(require("./config/db"));
-// const sequelize = require("./config/db");
-var path = require("path");
+// import sequelize from './config/db';
+const path_1 = __importDefault(require("path"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const index_1 = require("./routes/api/index");
 const app = express_1.default();
 // Init Middleware
 // app.use(express.json({ extended: false }));
-app.get("/", (req, res) => res.send("API Running"));
+// app.get("/", (req: Request, res: Response) => res.send("API Running"));
 // Define routes
-app.use(express_1.default.static(path.join(__dirname, "public")));
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.json());
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use("/images", express_1.default.static(__dirname + "/public"));
-app.use("/api/reviews", require("./routes/api/reviews"));
-app.use("/api/books", require("./routes/api/books"));
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/categories", require("./routes/api/categories"));
-app.use("/api/authors", require("./routes/api/authors"));
-app.use("/api/favorites", require("./routes/api/favorites"));
-app.use("/api/userfavoritesbooks", require("./routes/api/userfavoritesbooks"));
-db_1.default.authenticate().then(() => {
-    console.log("Connection to Database has been established successfully.");
-    // const PORT = process.env.PORT || 5000;
-    // app.listen(PORT, () => {
-    //   console.log(`Server started on port ${PORT}`);
-    // });
-}, (err) => {
-    console.log("Unable to connect to the database:", err);
-});
-module.exports = app;
+app.use("/api/books", index_1.books);
+app.use("/api/categories", index_1.categories);
+app.use("/api/authors", index_1.authors);
+app.use("/api/reviews", index_1.reviews);
+app.use("/api/users", index_1.users);
+app.use("/api/auth", index_1.auth);
+app.use("/api/favorites", index_1.favorites);
+app.use("/api/userfavoritesbooks", index_1.userfavoritesbooks);
+exports.default = app;
 //# sourceMappingURL=app.js.map

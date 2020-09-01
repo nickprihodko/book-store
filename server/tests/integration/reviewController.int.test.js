@@ -3,7 +3,7 @@ const app = require('../../app');
 const newReview = require('../mock-data/new-review.json');
 const newUser = require('../mock-data/new-review.json');
 const UserModel = require('../../models/User');
-const jwtSign = require("../../utils/jwtSign");
+const jwtSign = require('../../utils/jwtSign');
 
 const endpointUrl = '/api/reviews/';
 const endpointUrlUser = '/api/users/';
@@ -27,7 +27,7 @@ describe('endpointUrl', () => {
   it(`POST ${endpointUrl}`, async () => {
     let response;
     const user = await UserModel.findOne({
-      attributes: ["id", "name", "email", "password"],
+      attributes: ['id', 'name', 'email', 'password'],
       where: { email: 'test@gmail.com' }, // ???
     });
 

@@ -7,6 +7,6 @@ import { getFavorites } from '../../controllers/favoritesController';
 // @route GET /
 // @desc Get favorites
 // @access Private
-router.get("/", auth, getFavorites);
+router.get('/', auth, getFavorites);
 
 export default router;

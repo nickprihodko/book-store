@@ -9,12 +9,12 @@ import Favorite from '../models/Favorite';
 import Review from '../models/Review';
 
 const sequelize = new Sequelize(
-  config.get("database"),
-  config.get("login"),
-  config.get("password"),
+  config.get('database'),
+  config.get('login'),
+  config.get('password'),
   {
-    dialect: "postgres",
-    host: "localhost",
+    dialect: 'postgres',
+    host: 'localhost',
     define: {
       timestamps: false,
     },

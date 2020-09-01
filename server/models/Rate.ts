@@ -3,7 +3,7 @@ import { Sequelize, Table, Column, Model, DataType, ForeignKey } from 'sequelize
 import Book from './Book';
 
 @Table
-class Rate extends Model<Rate> {
+class rate extends Model<rate> {
   @Column({
     type: DataType.BIGINT,
     autoIncrement: true,
@@ -22,7 +22,7 @@ class Rate extends Model<Rate> {
   @Column({
     type: DataType.BIGINT,
     allowNull: false,
-    comment: "users.id",
+    comment: 'users.id',
   })
   userId: BigInt;
 
@@ -42,4 +42,4 @@ class Rate extends Model<Rate> {
   bookId: number
 }
 
-export default Rate;
+export default rate;

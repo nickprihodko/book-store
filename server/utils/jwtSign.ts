@@ -8,7 +8,7 @@ const jwtSign = (user) => {
     },
   };
 
-  const token = jwt.sign(payload, config.get("jwtSecret"), {
+  const token = jwt.sign(payload, config.get('jwtSecret'), {
     expiresIn: 36000,
   });
 

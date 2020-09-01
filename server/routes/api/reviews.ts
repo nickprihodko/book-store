@@ -11,16 +11,16 @@ import { getReviews,
 // @route GET /
 // @desc Get reviews
 // @access Public
-router.get("/:id", getReviews);
+router.get('/:id', getReviews);
 
 // @route POST /
 // @desc Add review
 // @access Private
-router.post("/", auth, addReview);
+router.post('/', auth, addReview);
 
 // @route DELETE /
 // @desc Delete review
 // @access Private
-router.delete("/:id", auth, deleteReview);
+router.delete('/:id', auth, deleteReview);
 
 export default router;

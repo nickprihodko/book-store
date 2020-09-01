@@ -1,19 +1,19 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up(queryInterface, Sequelize) {
     return Promise.all([
       queryInterface.addColumn(
-        "rates", // table name
-        "userId", // new field name
+        'rates', // table name
+        'userId', // new field name
         {
           type: Sequelize.BIGINT,
           allowNull: false,
           references: {
             model: {
-              tableName: "users",
+              tableName: 'users',
             },
-            key: "id",
+            key: 'id',
           },
         }
       ),
@@ -22,6 +22,6 @@ module.exports = {
 
   down(queryInterface, Sequelize) {
     // logic for reverting the changes
-    return Promise.all([queryInterface.removeColumn("rates", "userId")]);
+    return Promise.all([queryInterface.removeColumn('rates', 'userId')]);
   },
 };

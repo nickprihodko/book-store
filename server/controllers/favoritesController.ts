@@ -1,11 +1,13 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+
+import { IRequest } from '../interfaces';
 
 import Favorite from '../models/Favorite';
 
-export const getFavorites = async (req: Request, res: Response) => {
+export const getFavorites = async (req: IRequest, res: Response) => {
   const queryParams = {
-    where: { userId: req['user'].id },
-    attributes: ["bookId"],
+    where: { userId: req.user.id },
+    attributes: ['bookId'],
   };
 
   const favorites = await Favorite.findAll(queryParams);

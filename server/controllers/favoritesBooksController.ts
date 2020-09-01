@@ -1,26 +1,28 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+
+import { IRequest } from '../interfaces';
 
 import Book from '../models/Book';
 import Favorite from '../models/Favorite';
 
-export const getUserFavoritesBooks = async (req: Request, res: Response) => {
+export const getUserFavoritesBooks = async (req: IRequest, res: Response) => {
   try {
     const userFavoritesBooks = await Book.findAll({
       attributes: [
-        "id",
-        "title",
-        "author",
-        "price",
-        "rate",
-        "description",
-        "fragment",
-        "cover",
-        "categoryId",
+        'id',
+        'title',
+        'author',
+        'price',
+        'rate',
+        'description',
+        'fragment',
+        'cover',
+        'categoryId',
       ],
       include: [
         {
           model: Favorite,
-          where: { userId: req['user'].id },
+          where: { userId: req.user.id },
           attributes: [],
           required: true,
         },
@@ -28,7 +30,7 @@ export const getUserFavoritesBooks = async (req: Request, res: Response) => {
     });
     return res.json(userFavoritesBooks);
   } catch (err) {
-    console.log("getUserFavoritesBooks:", err.message);
+    console.log('getUserFavoritesBooks:', err.message);
     res.status(500).json({ message: err.message });
   }
 };

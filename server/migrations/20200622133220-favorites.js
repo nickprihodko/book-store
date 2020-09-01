@@ -1,53 +1,53 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("favorites", {
+    return queryInterface.createTable('favorites', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        comment: "id",
+        comment: 'id',
       },
 
       userId: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        comment: "users.id",
+        comment: 'users.id',
         references: {
           model: {
-            tableName: "users",
+            tableName: 'users',
           },
-          key: "id",
+          key: 'id',
         },
       },
 
       bookId: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        comment: "books.id",
+        comment: 'books.id',
         references: {
           model: {
-            tableName: "books",
+            tableName: 'books',
           },
-          key: "id",
+          key: 'id',
         },
       },
 
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
 
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("favorites");
+    return queryInterface.dropTable('favorites');
   },
 };

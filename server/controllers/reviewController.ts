@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { IRequest } from '../interfaces';
+
 import Review from '../models/Review';
 import User from '../models/User';
 
@@ -7,34 +9,34 @@ export const getReviews = async (req: Request, res: Response) => {
   try {
     const reviews = await Review.findAll({
       attributes: [
-        "id",
-        "text",
-        "createdAt"
+        'id',
+        'text',
+        'createdAt'
       ],
       where: { bookId : req.params.id },
-      order: [["createdAt", "DESC"]],
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: User,
           attributes: [
-            "avatar",
-            ["id", "userId"],
-            ["name", "username"]
+            'avatar',
+            ['id', 'userId'],
+            ['name', 'username']
           ],
         },
       ],
     })
     return res.status(200).json(reviews);
   } catch (err) {
-    console.log("getReviews:", err.message);
+    console.log('getReviews:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
-export const addReview = async (req: Request, res: Response) => {
+export const addReview = async (req: IRequest, res: Response) => {
   try {
     const { review, bookid } = req.body;
-    const userId = req['user'].id;
+    const userId = req.user.id;
 
     const createdReview = await Review.create({
       text: review,
@@ -45,7 +47,7 @@ export const addReview = async (req: Request, res: Response) => {
     return res.status(201).json(createdReview);
 
   } catch (err) {
-    console.log("addReview:", err.message);
+    console.log('addReview:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
@@ -62,7 +64,7 @@ export const deleteReview = async (req: Request, res: Response) => {
       return res.status(404).send();
     }
   } catch (err) {
-    console.log("deleteReview:", err.message);
+    console.log('deleteReview:', err.message);
     res.status(500).json({ message: err.message });
   }
 };

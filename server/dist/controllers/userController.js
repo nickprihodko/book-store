@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,53 +8,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
-const User = require("../models/User");
-const jwtSign = require("../utils/jwtSign");
-exports.registerUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const errors = validationResult(req);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateUser = exports.getUser = exports.registerUser = void 0;
+const express_validator_1 = require("express-validator");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jwtSign_1 = __importDefault(require("../utils/jwtSign"));
+const User_1 = __importDefault(require("../models/User"));
+exports.registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = express_validator_1.validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
     const { name, email, password } = req.body;
     try {
         // See if user exists
-        let user = yield User.findOne({
-            email,
+        let user = yield User_1.default.findOne({
             where: {
                 email,
-            },
-            attributes: ["id"],
+            }
         });
         if (user) {
             return res.status(400).json({ errors: [{ msg: "User already exists" }] });
         }
-        user = new User({
+        user = new User_1.default({
             name,
             email,
             password,
         });
         // Encrypt password
-        const salt = yield bcrypt.genSalt(10);
-        user.password = yield bcrypt.hash(password, salt);
+        const salt = yield bcryptjs_1.default.genSalt(10);
+        user.password = yield bcryptjs_1.default.hash(password, salt);
         yield user.save();
         // Return JWT
-        const token = jwtSign(user);
+        const token = jwtSign_1.default(user);
         res.json({ token });
     }
     catch (err) {
         console.log("registerUser:", err.message);
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: err.message });
     }
 });
 // get user
-exports.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User.findOne({
+        const user = yield User_1.default.findOne({
             attributes: ["id", "name", "email", "password", "avatar", "about"],
             where: {
-                id: req.user.id,
+                id: req['user'].id,
             },
         });
         if (!user) {
@@ -63,30 +67,30 @@ exports.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
     }
     catch (err) {
         console.log("getUser:", err.message);
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: err.message });
     }
 });
 // update user
-exports.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-    if (req.file) {
-        req.body.avatar = `/images/uploads/${req.file.filename}`;
+exports.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req['file']) {
+        req.body.avatar = `/images/uploads/${req['file'].filename}`;
     }
     try {
-        let user = yield User.findOne({
+        let user = yield User_1.default.findOne({
             where: {
-                id: req.user.id,
+                id: req['user'].id,
             },
         });
         if (user) {
-            yield User.update({ about: req.body.about, avatar: req.body.avatar }, { where: { id: req.user.id } });
-            const user = yield User.findOne({
-                where: { id: req.user.id },
+            yield User_1.default.update({ about: req.body.about, avatar: req.body.avatar }, { where: { id: req['user'].id } });
+            const user = yield User_1.default.findOne({
+                where: { id: req['user'].id },
             });
             return res.json(user);
         }
         else {
-            user = new User({
-                id: req.user.id,
+            user = new User_1.default({
+                id: req['user'].id,
                 about: req.body.about,
                 avatar: req.body.avatar,
             });
@@ -96,7 +100,7 @@ exports.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () 
     }
     catch (err) {
         console.log("updateUser:", err.message);
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: err.message });
     }
 });
 //# sourceMappingURL=userController.js.map
