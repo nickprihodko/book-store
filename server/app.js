@@ -1,13 +1,58 @@
 const express = require("express");
 const sequelize = require("./config/db");
 var path = require("path");
+const fetch = require('node-fetch');
+const redis = require('redis');
 
 const app = express();
+const REDIS_PORT = process.env.PORT || 6379;
+
+const client = redis.createClient(REDIS_PORT);
 
 // Init Middleware
 app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => res.send("API Running"));
+
+// Github redis
+function setResponse(username, repos){
+  return `<h2>${username} has ${repos} Github repos</h2>`;
+};
+
+async function getRepos(req, res, next) {
+  try {
+    console.log('Fetching data...');
+    const { username } = req.params;
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    const data = await response.json();
+    const repos = data.public_repos;
+
+    // set data to Redis
+    client.setex(username, 3600, repos);
+
+    res.send(setResponse(username, repos));
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+};
+
+// cache middleware
+function cache(req, res, next){
+  const { username } = req.params;
+
+  client.get(username, (err, data) => {
+    if (err) throw err;
+
+    if (data !== null) {
+      res.send(setResponse(username, data))
+    } else {
+      next();
+    }
+  })
+}
+
+app.get('/repos/:username', cache, getRepos);
 
 // Define routes
 app.use(express.static(path.join(__dirname, "public")));
@@ -26,11 +71,6 @@ app.use("/api/userfavoritesbooks", require("./routes/api/userfavoritesbooks"));
 sequelize.authenticate().then(
   () => {
     console.log("Connection to Database has been established successfully.");
-
-    // const PORT = process.env.PORT || 5000;
-    // app.listen(PORT, () => {
-    //   console.log(`Server started on port ${PORT}`);
-    // });
   },
   (err) => {
     console.log("Unable to connect to the database:", err);
